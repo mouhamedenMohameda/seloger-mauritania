@@ -10,20 +10,18 @@ interface PhotoCarouselProps {
 
 export default function PhotoCarousel({ photos, listingType, title }: PhotoCarouselProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalIndex, setModalIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Auto-advance slides (optional) - pause when modal is open
+    // Auto-advance slides (optional)
     useEffect(() => {
-        if (photos.length <= 1 || isModalOpen) return;
+        if (photos.length <= 1) return;
         
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % photos.length);
         }, 5000); // Change slide every 5 seconds
 
         return () => clearInterval(interval);
-    }, [photos.length, isModalOpen]);
+    }, [photos.length]);
 
     const goToPrevious = () => {
         setCurrentIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
@@ -37,63 +35,14 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
         setCurrentIndex(index);
     };
 
-    const openModal = (index: number) => {
-        console.log('Opening modal with index:', index);
-        setModalIndex(index);
-        setIsModalOpen(true);
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    };
-
-    // Update modal index when carousel index changes (if modal is closed)
-    useEffect(() => {
-        if (!isModalOpen) {
-            setModalIndex(currentIndex);
-        }
-    }, [currentIndex, isModalOpen]);
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        document.body.style.overflow = 'unset';
-    };
-
-    const goToModalPrevious = () => {
-        setModalIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
-    };
-
-    const goToModalNext = () => {
-        setModalIndex((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
-    };
-
     useEffect(() => {
         const handleKeyPress = (e: KeyboardEvent) => {
-            if (isModalOpen) {
-                if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    goToModalPrevious();
-                }
-                if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    goToModalNext();
-                }
-                if (e.key === 'Escape') {
-                    e.preventDefault();
-                    closeModal();
-                }
-            } else {
-                if (e.key === 'ArrowLeft') goToPrevious();
-                if (e.key === 'ArrowRight') goToNext();
-            }
+            if (e.key === 'ArrowLeft') goToPrevious();
+            if (e.key === 'ArrowRight') goToNext();
         };
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [isModalOpen, photos.length]);
-
-    // Cleanup on unmount
-    useEffect(() => {
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
     }, []);
 
     if (!photos || photos.length === 0) {
@@ -127,21 +76,15 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                 {photos.map((url, index) => (
                     <div
                         key={index}
-                        className={`absolute inset-0 transition-opacity duration-500 cursor-zoom-in ${
-                            index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                        className={`absolute inset-0 transition-opacity duration-500 ${
+                            index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
                         }`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            console.log('Image clicked, opening modal');
-                            openModal(index);
-                        }}
                     >
                         <img
                             src={url}
                             alt={`${title} - Photo ${index + 1}`}
-                            className="w-full h-full object-cover pointer-events-none"
+                            className="w-full h-full object-cover"
                             loading={index === 0 ? 'eager' : 'lazy'}
-                            draggable={false}
                             onError={(e) => {
                                 console.error(`Failed to load photo ${index + 1}:`, url);
                                 const target = e.target as HTMLImageElement;
@@ -176,11 +119,8 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
             {photos.length > 1 && (
                 <>
                     <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            goToPrevious();
-                        }}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-30"
+                        onClick={goToPrevious}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-20"
                         aria-label="Previous photo"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,11 +128,8 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                         </svg>
                     </button>
                     <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            goToNext();
-                        }}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-30"
+                        onClick={goToNext}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-20"
                         aria-label="Next photo"
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,93 +154,6 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                             aria-label={`Go to photo ${index + 1}`}
                         />
                     ))}
-                </div>
-            )}
-
-            {/* Fullscreen Modal */}
-            {isModalOpen && (
-                <div 
-                    className="fixed inset-0 bg-black/95 z-[9999] flex items-center justify-center"
-                    onClick={closeModal}
-                    style={{ zIndex: 9999 }}
-                >
-                    {/* Close Button */}
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            closeModal();
-                        }}
-                        className="absolute top-4 right-4 z-[10000] bg-black/70 hover:bg-black/90 text-white p-3 rounded-full backdrop-blur-sm transition-opacity"
-                        aria-label="Close"
-                    >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-
-                    {/* Image Container */}
-                    <div 
-                        className="relative w-full h-full flex items-center justify-center p-4 md:p-8"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {photos.map((url, index) => (
-                            <div
-                                key={index}
-                                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-                                    index === modalIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                                }`}
-                            >
-                                <img
-                                    src={url}
-                                    alt={`${title} - Photo ${index + 1}`}
-                                    className="max-w-full max-h-full object-contain"
-                                    loading="eager"
-                                    onError={(e) => {
-                                        console.error(`Failed to load photo ${index + 1} in modal:`, url);
-                                    }}
-                                />
-                            </div>
-                        ))}
-
-                        {/* Navigation Arrows */}
-                        {photos.length > 1 && (
-                            <>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        goToModalPrevious();
-                                    }}
-                                    className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white p-4 rounded-full backdrop-blur-sm transition-opacity z-[10000]"
-                                    aria-label="Previous photo"
-                                >
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        goToModalNext();
-                                    }}
-                                    className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white p-4 rounded-full backdrop-blur-sm transition-opacity z-[10000]"
-                                    aria-label="Next photo"
-                                >
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            </>
-                        )}
-
-                        {/* Photo Counter */}
-                        {photos.length > 1 && (
-                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[10000]">
-                                <span className="px-4 py-2 rounded-md text-sm font-semibold bg-black/70 text-white backdrop-blur-sm">
-                                    {modalIndex + 1} / {photos.length}
-                                </span>
-                            </div>
-                        )}
-                    </div>
                 </div>
             )}
         </div>
