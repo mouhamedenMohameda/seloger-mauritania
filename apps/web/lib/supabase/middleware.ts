@@ -39,6 +39,7 @@ export async function updateSession(request: NextRequest) {
 
     // refreshing the auth token
     try {
+        // @ts-ignore
         await supabase.auth.getUser()
     } catch (error) {
         console.error('Supabase auth error in middleware:', error)
