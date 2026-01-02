@@ -2,8 +2,14 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 
 export default async function NavBar() {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    let user = null
+    try {
+        const supabase = await createClient()
+        const { data } = await supabase.auth.getUser()
+        user = data?.user || null
+    } catch (error) {
+        console.error('NavBar: Failed to fetch user:', error)
+    }
 
     return (
         <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-200">

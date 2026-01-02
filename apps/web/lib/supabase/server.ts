@@ -4,9 +4,18 @@ import { cookies } from 'next/headers'
 export async function createClient() {
     const cookieStore = await cookies()
 
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+        // Return a mock or handle it gracefully to avoid force-unwrap crash
+        // Note: This will result in Supabase calls failing later, but prevents an immediate 500 crash during SSR
+        console.warn('Supabase environment variables are missing in createClient (server)')
+    }
+
     return createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        supabaseUrl || '',
+        supabaseAnonKey || '',
         {
             cookies: {
                 getAll() {
