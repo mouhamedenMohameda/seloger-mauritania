@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from 'react';
 
 interface GeocodeResult {
-    lat: number;
-    lon: number;
+    lat: string;
+    lon: string;
     display_name: string;
 }
 
@@ -62,7 +62,7 @@ export function MapSearch() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setQuery(value);
-        
+
         // Debounce search
         const timeoutId = setTimeout(() => {
             searchLocation(value);
@@ -74,7 +74,7 @@ export function MapSearch() {
     const handleSelectResult = (result: GeocodeResult) => {
         setQuery(result.display_name);
         setShowResults(false);
-        
+
         // Fly map to location
         if (typeof window !== 'undefined' && (window as any).__mapFlyTo) {
             (window as any).__mapFlyTo(parseFloat(result.lon), parseFloat(result.lat), 14);
@@ -82,10 +82,10 @@ export function MapSearch() {
     };
 
     return (
-        <div 
-            ref={searchRef} 
+        <div
+            ref={searchRef}
             className="absolute top-4 left-4 w-[calc(100%-2rem)] max-w-md md:max-w-lg"
-            style={{ 
+            style={{
                 zIndex: 10000,
                 position: 'absolute',
                 top: '1rem',
@@ -102,7 +102,7 @@ export function MapSearch() {
                         onFocus={() => results.length > 0 && setShowResults(true)}
                         placeholder="🔍 Search location (e.g. Nouakchott, Tevragh Zeina...)"
                         className="w-full pl-12 pr-10 py-3.5 rounded-xl border-2 border-blue-500 bg-white shadow-2xl focus:border-blue-600 focus:ring-4 focus:ring-blue-500/20 focus:outline-none text-sm font-medium text-gray-900 placeholder:text-gray-500"
-                        style={{ 
+                        style={{
                             backgroundColor: '#ffffff',
                             zIndex: 10001,
                             boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'

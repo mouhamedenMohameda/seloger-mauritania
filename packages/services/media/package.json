@@ -4,7 +4,8 @@
     "main": "src/index.ts",
     "types": "src/index.ts",
     "dependencies": {
-        "zod": "^3.0.0",
-        "@seloger/core": "workspace:*"
+        "@seloger/core": "workspace:*",
+        "@supabase/supabase-js": "^2.89.0",
+        "zod": "^3.0.0"
     }
 }

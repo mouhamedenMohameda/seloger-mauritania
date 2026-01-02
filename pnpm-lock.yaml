@@ -99,6 +99,9 @@ importers:
       '@seloger/core':
         specifier: workspace:*
         version: link:../core
+      '@supabase/supabase-js':
+        specifier: ^2.89.0
+        version: 2.89.0
       zod:
         specifier: ^3.0.0
         version: 3.25.76
@@ -117,6 +120,9 @@ importers:
       '@seloger/core':
         specifier: workspace:*
         version: link:../core
+      '@supabase/supabase-js':
+        specifier: ^2.89.0
+        version: 2.89.0
       zod:
         specifier: ^3.0.0
         version: 3.25.76
@@ -126,6 +132,9 @@ importers:
       '@seloger/core':
         specifier: workspace:*
         version: link:../core
+      '@supabase/supabase-js':
+        specifier: ^2.89.0
+        version: 2.89.0
       zod:
         specifier: ^3.0.0
         version: 3.25.76
@@ -135,6 +144,9 @@ importers:
       '@seloger/core':
         specifier: workspace:*
         version: link:../core
+      '@supabase/supabase-js':
+        specifier: ^2.89.0
+        version: 2.89.0
       zod:
         specifier: ^3.0.0
         version: 3.25.76
