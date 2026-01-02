@@ -1,0 +1,10 @@
+{
+    "name": "@seloger/moderation",
+    "version": "0.0.0",
+    "main": "src/index.ts",
+    "types": "src/index.ts",
+    "dependencies": {
+        "zod": "^3.0.0",
+        "@seloger/core": "workspace:*"
+    }
+}
