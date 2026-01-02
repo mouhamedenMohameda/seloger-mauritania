@@ -19,9 +19,14 @@ export default async function NavBar() {
                         Post Ad
                     </Link>
                     {user ? (
-                        <Link href="/account" className="text-sm font-medium text-gray-700 hover:text-gray-900">
-                            Account
-                        </Link>
+                        <>
+                            <Link href="/my-listings" className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                                My Listings
+                            </Link>
+                            <Link href="/account" className="text-sm font-medium text-gray-700 hover:text-gray-900">
+                                Account
+                            </Link>
+                        </>
                     ) : (
                         <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-900">
                             Log in

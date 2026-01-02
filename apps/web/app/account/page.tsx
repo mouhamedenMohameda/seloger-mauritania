@@ -194,6 +194,25 @@ export default function AccountPage() {
                         </form>
                     </div>
 
+                    {/* Quick Links */}
+                    <div className="pt-6 border-t border-gray-200">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Links</h2>
+                        <div className="space-y-3">
+                            <Link
+                                href="/my-listings"
+                                className="block w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center"
+                            >
+                                My Listings
+                            </Link>
+                            <Link
+                                href="/post"
+                                className="block w-full px-4 py-2 text-sm font-semibold text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center"
+                            >
+                                Post New Listing
+                            </Link>
+                        </div>
+                    </div>
+
                     {/* Account Actions */}
                     <div className="pt-6 border-t border-gray-200">
                         <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Actions</h2>

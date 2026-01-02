@@ -15,6 +15,8 @@ export type CreateListingInput = z.infer<typeof CreateListingSchema>;
 
 export const UpdateListingSchema = CreateListingSchema.partial().extend({
     status: z.enum(['draft', 'published', 'archived']).optional(),
+    lat: z.number().optional(),
+    lng: z.number().optional(),
 });
 
 // Service Methods

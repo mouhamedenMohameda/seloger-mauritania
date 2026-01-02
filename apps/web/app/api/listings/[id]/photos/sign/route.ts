@@ -40,8 +40,8 @@ export async function POST(
         storedFileName
     )
 
-    if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+    if (error || !data) {
+        return NextResponse.json({ error: error?.message || 'Upload failed' }, { status: 500 })
     }
 
     return NextResponse.json({ signedUrl: data.signedUrl, path: data.path })
