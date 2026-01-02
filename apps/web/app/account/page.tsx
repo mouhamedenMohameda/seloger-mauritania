@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 interface Profile {
@@ -34,7 +35,7 @@ export default function AccountPage() {
         const fetchData = async () => {
             const supabase = createClient();
             const { data: { user: authUser } } = await supabase.auth.getUser();
-            
+
             if (!authUser) {
                 router.push('/login?redirect=/account');
                 return;
