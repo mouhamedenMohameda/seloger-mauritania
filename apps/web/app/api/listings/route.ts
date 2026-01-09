@@ -21,15 +21,15 @@ export async function GET(request: Request) {
         request,
         RATE_LIMITS.READ,
         async (req, context) => {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+            const supabase = await createClient()
+            const { data: { user } } = await supabase.auth.getUser()
 
-    if (!user) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+            if (!user) {
+                return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+            }
 
             const { searchParams } = new URL(req.url)
-            
+
             // Pagination - REQUIRED
             const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 100); // Max 100
             const offset = Math.max(parseInt(searchParams.get('offset') || '0'), 0);
@@ -80,9 +80,9 @@ export async function POST(request: Request) {
             }
 
             // Validate with Zod schema
-    const validation = CreateListingSchema.safeParse(json)
+            const validation = CreateListingSchema.safeParse(json)
 
-    if (!validation.success) {
+            if (!validation.success) {
                 // Return validation errors without exposing internal details
                 const errors = validation.error.errors.map(err => ({
                     field: err.path.join('.'),
@@ -109,23 +109,26 @@ export async function POST(request: Request) {
                     { error: 'Invalid coordinates' },
                     { status: 400 }
                 )
-    }
+            }
 
             // Extract lat/lng from sanitized data (they're not part of the DB schema)
             const { lat, lng, ...dbData } = sanitizedData
 
-    const { data, error } = await supabase
-        .from('listings')
-        .insert({
-                    ...dbData,
-            status: 'published', // Force publish for MVP simplicity
-                    location, // Use secure PostGIS point
-                    owner_id: userId
-        })
-        .select()
-        .single()
+            // Insert listing with location using PostGIS function
+            const { data, error } = await supabase.rpc('create_listing_with_location', {
+                p_title: dbData.title,
+                p_op_type: dbData.op_type,
+                p_price: dbData.price,
+                p_rooms: dbData.rooms ?? null,
+                p_surface: dbData.surface ?? null,
+                p_description: dbData.description ?? null,
+                p_lat: lat,
+                p_lng: lng,
+                p_owner_id: userId,
+                p_status: 'published'
+            })
 
-    if (error) {
+            if (error) {
                 // Don't expose internal error messages
                 const { logger } = await import('@/lib/logger')
                 logger.error('Database error creating listing', error, { userId })
@@ -133,9 +136,9 @@ export async function POST(request: Request) {
                     { error: 'Failed to create listing' },
                     { status: 500 }
                 )
-    }
+            }
 
-    return NextResponse.json(data)
+            return NextResponse.json(data)
         }
     )
 }

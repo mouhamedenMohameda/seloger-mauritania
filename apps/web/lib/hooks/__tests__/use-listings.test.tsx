@@ -14,7 +14,7 @@ const createWrapper = () => {
         },
     });
     return ({ children }: { children: React.ReactNode }) => (
-        <QueryClientProvider client= { queryClient } > { children } </QueryClientProvider>
+        <QueryClientProvider client={queryClient} > {children} </QueryClientProvider>
     );
 };
 
@@ -25,7 +25,7 @@ describe('Listing Hooks', () => {
 
     it('useMyListings should fetch user listings', async () => {
         const mockData = { data: [{ id: '1', title: 'Test' }], pagination: { limit: 20, offset: 0, count: 1 } };
-        (global.fetch as any).mockResolvedValue({
+        (global.fetch as vi.Mock).mockResolvedValue({
             ok: true,
             json: async () => mockData,
         });
@@ -39,7 +39,7 @@ describe('Listing Hooks', () => {
 
     it('useListing should fetch single listing', async () => {
         const mockData = { id: '123', title: 'Single' };
-        (global.fetch as any).mockResolvedValue({
+        (global.fetch as vi.Mock).mockResolvedValue({
             ok: true,
             json: async () => mockData,
         });
@@ -52,7 +52,7 @@ describe('Listing Hooks', () => {
     });
 
     it('useListing should handle 404', async () => {
-        (global.fetch as any).mockResolvedValue({
+        (global.fetch as vi.Mock).mockResolvedValue({
             ok: false,
             status: 404,
         });
