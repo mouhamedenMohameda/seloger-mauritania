@@ -31,7 +31,7 @@ describe('Validation Utilities', () => {
     describe('sanitizeText', () => {
         it('should strip all html tags', () => {
             const input = 'Hello <strong>World</strong> <script>alert(1)</script>';
-            const output = 'Hello World ';
+            const output = 'Hello World';
             expect(sanitizeText(input)).toBe(output);
         });
     });
