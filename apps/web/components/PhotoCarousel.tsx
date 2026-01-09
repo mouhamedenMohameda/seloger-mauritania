@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 interface PhotoCarouselProps {
     photos: string[];
@@ -9,13 +11,14 @@ interface PhotoCarouselProps {
 }
 
 export default function PhotoCarousel({ photos, listingType, title }: PhotoCarouselProps) {
+    const { t } = useLanguage();
     const [currentIndex, setCurrentIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Auto-advance slides (optional)
     useEffect(() => {
         if (photos.length <= 1) return;
-        
+
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % photos.length);
         }, 5000); // Change slide every 5 seconds
@@ -53,16 +56,15 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                         <svg className="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <p className="text-sm text-gray-500">No image available</p>
+                        <p className="text-sm text-gray-500">{t('noImageAvailable')}</p>
                     </div>
                 </div>
                 <div className="absolute top-4 left-4 z-10">
-                    <span className={`px-3 py-1.5 rounded-md text-sm font-semibold ${
-                        listingType === 'rent' 
-                            ? 'bg-indigo-600 text-white' 
-                            : 'bg-green-600 text-white'
-                    }`}>
-                        {listingType === 'rent' ? 'For Rent' : 'For Sale'}
+                    <span className={`px-3 py-1.5 rounded-md text-sm font-semibold ${listingType === 'rent'
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-green-600 text-white'
+                        }`}>
+                        {listingType === 'rent' ? t('forRent') : t('forSale')}
                     </span>
                 </div>
             </div>
@@ -76,33 +78,47 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                 {photos.map((url, index) => (
                     <div
                         key={index}
-                        className={`absolute inset-0 transition-opacity duration-500 ${
-                            index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                        }`}
+                        className={`absolute inset-0 transition-opacity duration-500 ${index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                            }`}
                     >
-                        <img
-                            src={url}
-                            alt={`${title} - Photo ${index + 1}`}
-                            className="w-full h-full object-cover"
-                            loading={index === 0 ? 'eager' : 'lazy'}
-                            onError={(e) => {
-                                console.error(`Failed to load photo ${index + 1}:`, url);
-                                const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
-                            }}
-                        />
+                        {/* Use next/image for remote URLs, regular img for blob URLs */}
+                        {url.startsWith('blob:') || url.startsWith('data:') ? (
+                            <img
+                                src={url}
+                                alt={`${title} - Photo ${index + 1}`}
+                                className="w-full h-full object-cover"
+                                loading={index === 0 ? 'eager' : 'lazy'}
+                                onError={(e) => {
+                                    console.error(`Failed to load photo ${index + 1}:`, url);
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                }}
+                            />
+                        ) : (
+                            <Image
+                                src={url}
+                                alt={`${title} - Photo ${index + 1}`}
+                                fill
+                                className="object-cover"
+                                priority={index === 0}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
+                                unoptimized={url.includes('supabase.co')} // Supabase URLs may need unoptimized
+                                onError={(e) => {
+                                    console.error(`Failed to load photo ${index + 1}:`, url);
+                                }}
+                            />
+                        )}
                     </div>
                 ))}
             </div>
 
             {/* Badge */}
             <div className="absolute top-4 left-4 z-20">
-                <span className={`px-3 py-1.5 rounded-md text-sm font-semibold ${
-                    listingType === 'rent' 
-                        ? 'bg-indigo-600 text-white' 
-                        : 'bg-green-600 text-white'
-                }`}>
-                    {listingType === 'rent' ? 'For Rent' : 'For Sale'}
+                <span className={`px-3 py-1.5 rounded-md text-sm font-semibold ${listingType === 'rent'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-green-600 text-white'
+                    }`}>
+                    {listingType === 'rent' ? t('forRent') : t('forSale')}
                 </span>
             </div>
 
@@ -146,11 +162,10 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`h-2 rounded-full transition-all ${
-                                index === currentIndex
-                                    ? 'w-8 bg-white'
-                                    : 'w-2 bg-white/50 hover:bg-white/75'
-                            }`}
+                            className={`h-2 rounded-full transition-all ${index === currentIndex
+                                ? 'w-8 bg-white'
+                                : 'w-2 bg-white/50 hover:bg-white/75'
+                                }`}
                             aria-label={`Go to photo ${index + 1}`}
                         />
                     ))}

@@ -2,12 +2,14 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import NavBar from '@/components/NavBar'
+import Providers from '@/components/Providers'
+import { ToastContainer } from '@/lib/toast'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
-  title: 'SeLoger Mauritania',
-  description: 'Real Estate Marketplace for Mauritania',
+  title: 'raDar',
+  description: 'Trouvez votre futur foyer en Mauritanie / اعثر على منزلك المستقبلي في موريتانيا',
 }
 
 export default function RootLayout({
@@ -16,12 +18,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="fr" suppressHydrationWarning>
       <body className={inter.className}>
-        <NavBar />
-        <main className="pt-14 min-h-screen bg-gray-50">
-          {children}
-        </main>
+        <Providers>
+          <NavBar />
+          <main className="pt-14 min-h-screen bg-gray-50">
+            {children}
+          </main>
+          <ToastContainer />
+        </Providers>
       </body>
     </html>
   )

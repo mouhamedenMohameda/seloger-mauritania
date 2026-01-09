@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 interface Profile {
     id: string;
@@ -20,6 +21,7 @@ interface User {
 
 export default function AccountPage() {
     const router = useRouter();
+    const { t } = useLanguage();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -108,7 +110,7 @@ export default function AccountPage() {
             <div className="min-h-screen bg-white flex items-center justify-center">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-600 border-t-transparent mx-auto mb-2"></div>
-                    <p className="text-sm text-gray-500">Loading...</p>
+                    <p className="text-sm text-gray-500">{t('loading')}</p>
                 </div>
             </div>
         );
@@ -118,8 +120,8 @@ export default function AccountPage() {
         <div className="min-h-screen bg-white">
             <div className="max-w-3xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
                 <div className="mb-10">
-                    <h1 className="text-2xl font-bold text-gray-900">Account Settings</h1>
-                    <p className="mt-1 text-sm text-gray-500">Manage your profile and account information</p>
+                    <h1 className="text-2xl font-bold text-gray-900">{t('accountSettings')}</h1>
+                    <p className="mt-1 text-sm text-gray-500">{t('manageProfile')}</p>
                 </div>
 
                 {error && (
@@ -137,11 +139,11 @@ export default function AccountPage() {
                 <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-6">
                     {/* Profile Information */}
                     <div>
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Profile Information</h2>
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('profileInfo')}</h2>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Email
+                                    {t('email')}
                                 </label>
                                 <input
                                     id="email"
@@ -150,12 +152,12 @@ export default function AccountPage() {
                                     disabled
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-500 text-sm cursor-not-allowed"
                                 />
-                                <p className="mt-1 text-xs text-gray-500">Email cannot be changed</p>
+                                <p className="mt-1 text-xs text-gray-500">{t('emailCantChange')}</p>
                             </div>
 
                             <div>
                                 <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Full Name
+                                    {t('fullName')}
                                 </label>
                                 <input
                                     id="full_name"
@@ -164,13 +166,13 @@ export default function AccountPage() {
                                     value={formData.full_name}
                                     onChange={handleChange}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-900 bg-white"
-                                    placeholder="Enter your full name"
+                                    placeholder={t('fullNamePlaceholder')}
                                 />
                             </div>
 
                             <div>
                                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Phone Number
+                                    {t('phone')}
                                 </label>
                                 <input
                                     id="phone"
@@ -179,7 +181,7 @@ export default function AccountPage() {
                                     value={formData.phone}
                                     onChange={handleChange}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-900 bg-white"
-                                    placeholder="e.g. +222 12 34 56 78"
+                                    placeholder={t('phonePlaceholder')}
                                 />
                             </div>
 
@@ -189,7 +191,7 @@ export default function AccountPage() {
                                     disabled={saving}
                                     className="px-6 py-2.5 text-sm font-semibold text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
-                                    {saving ? 'Saving...' : 'Save Changes'}
+                                    {saving ? t('saving') : t('saveChanges')}
                                 </button>
                             </div>
                         </form>
@@ -197,32 +199,32 @@ export default function AccountPage() {
 
                     {/* Quick Links */}
                     <div className="pt-6 border-t border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Links</h2>
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('quickLinks')}</h2>
                         <div className="space-y-3">
                             <Link
                                 href="/my-listings"
                                 className="block w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center"
                             >
-                                My Listings
+                                {t('myListings')}
                             </Link>
                             <Link
                                 href="/post"
                                 className="block w-full px-4 py-2 text-sm font-semibold text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center"
                             >
-                                Post New Listing
+                                {t('postNewListing')}
                             </Link>
                         </div>
                     </div>
 
                     {/* Account Actions */}
                     <div className="pt-6 border-t border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Actions</h2>
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('accountActions')}</h2>
                         <div className="space-y-3">
                             <button
                                 onClick={handleLogout}
                                 className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
-                                Sign Out
+                                {t('signOut')}
                             </button>
                         </div>
                     </div>

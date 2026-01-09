@@ -1,13 +1,33 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { UpdateListingSchema, updateListing } from '@seloger/listings'
+import { sanitizeHtml, sanitizeText, stripUnknownFields } from '@/lib/validation'
+import { withAuthAndRateLimit, withRateLimit, RATE_LIMITS } from '@/lib/api-middleware'
+
+// Allowed fields for listing update
+const ALLOWED_UPDATE_FIELDS = [
+    'title',
+    'op_type',
+    'price',
+    'rooms',
+    'surface',
+    'description',
+    'status',
+    'lat',
+    'lng',
+] as const
 
 export async function GET(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const supabase = await createClient()
     const { id } = await params
+    
+    return withRateLimit(
+        request,
+        RATE_LIMITS.READ,
+        async (req, context) => {
+            const supabase = await createClient()
 
     const { data, error } = await supabase
         .from('listings')
@@ -20,25 +40,37 @@ export async function GET(
     }
 
     return NextResponse.json(data)
+        }
+    )
 }
 
 export async function PATCH(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-
-    if (!user) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const { id } = await params
-    const json = await request.json()
+    
+    return withAuthAndRateLimit(
+        request,
+        RATE_LIMITS.WRITE,
+        async (req, userId) => {
+            const supabase = await createClient()
+            
+            let json: unknown
+            try {
+                json = await req.json()
+            } catch (error) {
+                return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+            }
+
+            // Strip unknown fields to prevent injection
+            if (typeof json === 'object' && json !== null) {
+                json = stripUnknownFields(json as Record<string, unknown>, ALLOWED_UPDATE_FIELDS)
+            }
 
     // Extract lat/lng if present for location update
-    const { lat, lng, ...rest } = json
-    const updateData = { ...rest }
+            const { lat, lng, ...rest } = json as Record<string, unknown>
+            const updateData = { ...rest } as Record<string, unknown>
     if (lat !== undefined && lng !== undefined) {
         updateData.lat = lat
         updateData.lng = lng
@@ -47,14 +79,82 @@ export async function PATCH(
     const validation = UpdateListingSchema.safeParse(updateData)
 
     if (!validation.success) {
-        return NextResponse.json({ error: validation.error }, { status: 400 })
+                // Return validation errors without exposing internal details
+                const errors = validation.error.errors.map(err => ({
+                    field: err.path.join('.'),
+                    message: err.message,
+                }))
+                return NextResponse.json({ error: 'Validation failed', errors }, { status: 400 })
     }
 
-    const { data, error } = await updateListing(supabase, id, user.id, validation.data)
+            // Sanitize text fields if present
+            const sanitizedData = {
+                ...validation.data,
+                ...(validation.data.title && { title: sanitizeText(validation.data.title) }),
+                ...(validation.data.description && {
+                    description: sanitizeHtml(validation.data.description)
+                }),
+            }
+
+            const { data, error } = await updateListing(supabase, id, userId, sanitizedData)
 
     if (error) {
-        return NextResponse.json({ error: error.message || 'Failed to update listing' }, { status: 403 })
+                // Don't expose internal error messages
+                const { logger } = await import('@/lib/logger')
+                logger.error('Database error updating listing', error, { userId, listingId: id })
+                
+                // Check if it's a forbidden error (ownership check)
+                if (error.message === 'Forbidden') {
+                    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+                }
+                
+                return NextResponse.json(
+                    { error: 'Failed to update listing' },
+                    { status: 500 }
+                )
     }
 
     return NextResponse.json(data)
+        }
+    )
+}
+
+export async function DELETE(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    const { id } = await params
+    
+    return withAuthAndRateLimit(
+        request,
+        RATE_LIMITS.WRITE,
+        async (req, userId) => {
+            const supabase = await createClient()
+
+            // Verify ownership before delete
+            const { data: listing } = await supabase
+                .from('listings')
+                .select('owner_id')
+                .eq('id', id)
+                .single()
+
+            if (!listing || listing.owner_id !== userId) {
+                return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+            }
+
+            // Soft delete: set deleted_at instead of actual delete
+            const { error } = await supabase
+                .from('listings')
+                .update({ deleted_at: new Date().toISOString() })
+                .eq('id', id)
+
+            if (error) {
+                const { logger } = await import('@/lib/logger')
+                logger.error('Delete listing error', error, { userId, listingId: id })
+                return NextResponse.json({ error: 'Failed to delete listing' }, { status: 500 })
+            }
+
+            return NextResponse.json({ success: true })
+        }
+    )
 }

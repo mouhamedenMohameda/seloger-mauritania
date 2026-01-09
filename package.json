@@ -7,13 +7,24 @@
         "dev": "pnpm -r dev",
         "build": "pnpm -r build",
         "test": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "test:phase0": "tsx scripts/test-phase0.ts",
+        "test:phase1": "tsx scripts/test-phase1.ts",
+        "test:phase2-1": "tsx scripts/test-phase2-1.ts",
+        "test:phase2-2": "tsx scripts/test-phase2-2.ts",
+        "test:phase2-3": "tsx scripts/test-phase2-3.ts",
+        "test:phase3-1": "tsx scripts/test-phase3-1.ts",
+        "check:migration-phase2-1": "tsx scripts/check-migration-phase2-1.ts",
         "lint": "pnpm -r lint",
         "format": "prettier --write ."
     },
     "devDependencies": {
-        "prettier": "^3.0.0",
+        "@supabase/supabase-js": "^2.89.0",
+        "@types/node": "^20",
         "eslint": "^8.50.0",
-        "vitest": "^1.0.0",
-        "typescript": "^5.0.0"
+        "prettier": "^3.0.0",
+        "tsx": "^4.21.0",
+        "typescript": "^5.0.0",
+        "vitest": "^1.0.0"
     }
 }

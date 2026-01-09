@@ -13,7 +13,9 @@ export async function GET() {
     const { data: profile, error } = await getProfile(supabase, user.id)
 
     if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        const { logger } = await import('@/lib/logger')
+        logger.error('Profile fetch error', error, { userId: user.id })
+        return NextResponse.json({ error: 'Failed to fetch profile' }, { status: 500 })
     }
 
     return NextResponse.json({ user, profile })
@@ -32,7 +34,9 @@ export async function PATCH(request: Request) {
     const { data, error } = await updateProfile(supabase, user.id, updates)
 
     if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        const { logger } = await import('@/lib/logger')
+        logger.error('Profile update error', error, { userId: user.id })
+        return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 })
     }
 
     return NextResponse.json(data)

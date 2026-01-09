@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 interface LocationPickerProps {
     initialLat?: number;
@@ -11,6 +12,7 @@ interface LocationPickerProps {
 }
 
 export default function LocationPicker({ initialLat = 18.07, initialLng = -15.95, onLocationChange }: LocationPickerProps) {
+    const { t } = useLanguage();
     const mapContainer = useRef<HTMLDivElement>(null);
     const map = useRef<maplibregl.Map | null>(null);
     const marker = useRef<maplibregl.Marker | null>(null);
@@ -66,7 +68,7 @@ export default function LocationPicker({ initialLat = 18.07, initialLng = -15.95
 
             map.current.on('load', () => {
                 setLoaded(true);
-                
+
                 // Initialize marker after map loads
                 if (!marker.current) {
                     marker.current = new maplibregl.Marker({
@@ -94,7 +96,7 @@ export default function LocationPicker({ initialLat = 18.07, initialLng = -15.95
 
             map.current.on('error', (e) => {
                 console.error('Map error:', e);
-                setError('Failed to load map');
+                setError(t('mapError'));
                 setLoaded(false);
             });
 
@@ -114,7 +116,7 @@ export default function LocationPicker({ initialLat = 18.07, initialLng = -15.95
             };
         } catch (err) {
             console.error('Error initializing location picker map:', err);
-            setError('Failed to initialize map');
+            setError(t('mapError'));
             initializedRef.current = false;
         }
 
@@ -125,7 +127,7 @@ export default function LocationPicker({ initialLat = 18.07, initialLng = -15.95
                 marker.current = null;
             }
         };
-    }, [initialLat, initialLng]);
+    }, [initialLat, initialLng, t]);
 
     // Cleanup map on unmount
     useEffect(() => {
@@ -151,7 +153,7 @@ export default function LocationPicker({ initialLat = 18.07, initialLng = -15.95
                             <svg className="w-12 h-12 text-red-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
-                            <p className="text-sm text-gray-700 font-medium mb-1">Map Error</p>
+                            <p className="text-sm text-gray-700 font-medium mb-1">{t('mapError')}</p>
                             <p className="text-xs text-gray-500">{error}</p>
                         </div>
                     </div>
@@ -159,7 +161,7 @@ export default function LocationPicker({ initialLat = 18.07, initialLng = -15.95
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
                         <div className="text-center">
                             <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-600 border-t-transparent mx-auto mb-2"></div>
-                            <p className="text-sm text-gray-500">Loading map...</p>
+                            <p className="text-sm text-gray-500">{t('loadingMap')}</p>
                         </div>
                     </div>
                 ) : null}
@@ -171,7 +173,7 @@ export default function LocationPicker({ initialLat = 18.07, initialLng = -15.95
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            Drag pin or click map to set location
+                            {t('dragPinToSetLocation')}
                         </span>
                     </div>
                 )}

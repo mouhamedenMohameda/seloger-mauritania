@@ -4,8 +4,13 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
+import LoadingState from '@/components/ui/LoadingState';
+import { useToast } from '@/lib/toast';
+import { useUpdateListing } from '@/lib/hooks/use-listings';
 
-const LocationPicker = dynamic(() => import('@/components/LocationPicker'), { 
+const LocationPicker = dynamic(() => import('@/components/LocationPicker'), {
     ssr: false,
     loading: () => (
         <div className="h-80 w-full rounded-lg bg-gray-100 animate-pulse" />
@@ -16,13 +21,17 @@ export default function EditListingPage() {
     const router = useRouter();
     const params = useParams();
     const listingId = params.id as string;
-    
+    const { t } = useLanguage();
+    const toast = useToast();
+    const updateListing = useUpdateListing();
+
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [photos, setPhotos] = useState<File[]>([]);
     const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
     const [existingPhotos, setExistingPhotos] = useState<Array<{ id: string; url: string }>>([]);
+    const [deletePhotoConfirm, setDeletePhotoConfirm] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [formData, setFormData] = useState({
@@ -40,7 +49,7 @@ export default function EditListingPage() {
         const fetchListing = async () => {
             const supabase = createClient();
             const { data: { user } } = await supabase.auth.getUser();
-            
+
             if (!user) {
                 router.push('/login?redirect=/listings/' + listingId + '/edit');
                 return;
@@ -50,7 +59,7 @@ export default function EditListingPage() {
                 // Fetch listing
                 const res = await fetch(`/api/listings/${listingId}`);
                 if (!res.ok) {
-                    throw new Error('Failed to fetch listing');
+                    throw new Error(t('error'));
                 }
                 const listing = await res.json();
 
@@ -99,7 +108,7 @@ export default function EditListingPage() {
                     setExistingPhotos(photoUrls);
                 }
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to load listing');
+                setError(err instanceof Error ? err.message : t('error'));
             } finally {
                 setLoading(false);
             }
@@ -143,8 +152,12 @@ export default function EditListingPage() {
         setPhotoPreviews(newPreviews);
     };
 
+    const handleRemovePhotoClick = (photoId: string) => {
+        setDeletePhotoConfirm(photoId);
+    };
+
     const removeExistingPhoto = async (photoId: string) => {
-        if (!confirm('Are you sure you want to remove this photo?')) return;
+        if (!photoId) return;
 
         try {
             const supabase = createClient();
@@ -155,8 +168,10 @@ export default function EditListingPage() {
 
             if (error) throw error;
             setExistingPhotos(existingPhotos.filter(p => p.id !== photoId));
+            toast.success(t('photoRemoved') || 'Photo supprimée avec succès');
+            setDeletePhotoConfirm(null);
         } catch (err) {
-            alert('Failed to remove photo');
+            toast.error(err instanceof Error ? err.message : t('error') || 'Erreur');
         }
     };
 
@@ -196,11 +211,9 @@ export default function EditListingPage() {
         setError(null);
 
         try {
-            const res = await fetch(`/api/listings/${listingId}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({
+            await updateListing.mutateAsync({
+                id: listingId,
+                data: {
                     title: formData.title,
                     price: formData.price ? Number(formData.price) : undefined,
                     rooms: formData.rooms ? Number(formData.rooms) : undefined,
@@ -209,44 +222,41 @@ export default function EditListingPage() {
                     description: formData.description,
                     lat: formData.lat,
                     lng: formData.lng,
-                }),
+                },
             });
 
-            if (!res.ok) {
-                const errorData = await res.json();
-                throw new Error(errorData.error?.message || errorData.error || 'Failed to update listing');
-            }
+            toast.success(t('listingUpdated') || 'Annonce mise à jour avec succès');
 
             // Upload new photos if any
             if (photos.length > 0) {
-                await uploadPhotos(listingId);
+                try {
+                    await uploadPhotos(listingId);
+                    toast.success(t('photosUploaded') || 'Photos téléchargées avec succès');
+                } catch (photoError) {
+                    toast.warning(t('photosUploadFailed') || 'Les photos n\'ont pas pu être téléchargées');
+                }
             }
 
             router.push(`/listings/${listingId}`);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'An error occurred');
+            const errorMessage = err instanceof Error ? err.message : t('updateFailed') || 'Échec de la mise à jour';
+            setError(errorMessage);
+            toast.error(errorMessage);
         } finally {
             setSaving(false);
         }
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen bg-white flex items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-600 border-t-transparent mx-auto mb-2"></div>
-                    <p className="text-sm text-gray-500">Loading listing...</p>
-                </div>
-            </div>
-        );
+        return <LoadingState fullScreen message={t('loadingListing') || 'Chargement...'} />;
     }
 
     return (
         <div className="min-h-screen bg-white">
             <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
                 <div className="mb-10">
-                    <h1 className="text-2xl font-bold text-gray-900">Edit Listing</h1>
-                    <p className="mt-1 text-sm text-gray-500">Update your listing details</p>
+                    <h1 className="text-2xl font-bold text-gray-900">{t('editListingTitle')}</h1>
+                    <p className="mt-1 text-sm text-gray-500">{t('updateListingDetails')}</p>
                 </div>
 
                 {error && (
@@ -259,7 +269,7 @@ export default function EditListingPage() {
                     <div className="space-y-4">
                         <div>
                             <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                Title <span className="text-red-500">*</span>
+                                {t('title')} <span className="text-red-500">{t('required')}</span>
                             </label>
                             <input
                                 id="title"
@@ -270,14 +280,14 @@ export default function EditListingPage() {
                                 value={formData.title}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-900 bg-white"
-                                placeholder="e.g. Spacious Luxury Apartment"
+                                placeholder={t('titlePlaceholder')}
                             />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Price (MRU) <span className="text-red-500">*</span>
+                                    {t('price')} <span className="text-red-500">{t('required')}</span>
                                 </label>
                                 <input
                                     id="price"
@@ -292,7 +302,7 @@ export default function EditListingPage() {
                             </div>
                             <div>
                                 <label htmlFor="op_type" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Type <span className="text-red-500">*</span>
+                                    {t('type')} <span className="text-red-500">{t('required')}</span>
                                 </label>
                                 <select
                                     id="op_type"
@@ -301,8 +311,8 @@ export default function EditListingPage() {
                                     onChange={handleChange}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-900 bg-white"
                                 >
-                                    <option value="rent">For Rent</option>
-                                    <option value="sell">For Sale</option>
+                                    <option value="rent">{t('forRent')}</option>
+                                    <option value="sell">{t('forSale')}</option>
                                 </select>
                             </div>
                         </div>
@@ -310,7 +320,7 @@ export default function EditListingPage() {
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label htmlFor="rooms" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Rooms
+                                    {t('rooms')}
                                 </label>
                                 <input
                                     id="rooms"
@@ -324,7 +334,7 @@ export default function EditListingPage() {
                             </div>
                             <div>
                                 <label htmlFor="surface" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Surface (m²)
+                                    {t('surface')}
                                 </label>
                                 <input
                                     id="surface"
@@ -340,7 +350,7 @@ export default function EditListingPage() {
 
                         <div>
                             <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                Description
+                                {t('description')}
                             </label>
                             <textarea
                                 id="description"
@@ -349,7 +359,7 @@ export default function EditListingPage() {
                                 value={formData.description}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-900 bg-white resize-none"
-                                placeholder="Describe your property..."
+                                placeholder={t('descriptionPlaceholder')}
                             />
                         </div>
 
@@ -357,7 +367,7 @@ export default function EditListingPage() {
                         {existingPhotos.length > 0 && (
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Current Photos
+                                    {t('currentPhotos')}
                                 </label>
                                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                                     {existingPhotos.map((photo) => (
@@ -365,7 +375,7 @@ export default function EditListingPage() {
                                             <img src={photo.url} alt="Listing photo" className="w-full h-full object-cover" />
                                             <button
                                                 type="button"
-                                                onClick={() => removeExistingPhoto(photo.id)}
+                                                onClick={() => handleRemovePhotoClick(photo.id)}
                                                 className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                                                 aria-label="Remove photo"
                                             >
@@ -382,7 +392,7 @@ export default function EditListingPage() {
                         {/* Photo Upload */}
                         <div>
                             <label htmlFor="photos" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                Add More Photos (Max 10)
+                                {t('addMorePhotos')}
                             </label>
                             <div
                                 className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6 hover:border-gray-400 transition-colors cursor-pointer"
@@ -394,9 +404,9 @@ export default function EditListingPage() {
                                     </svg>
                                     <div className="flex text-sm text-gray-600">
                                         <p className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500">
-                                            Upload a file
+                                            {t('uploadFile')}
                                         </p>
-                                        <p className="pl-1">or drag and drop</p>
+                                        <p className="pl-1">{t('orDragDrop')}</p>
                                     </div>
                                     <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                                 </div>
@@ -435,7 +445,7 @@ export default function EditListingPage() {
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            Location <span className="text-red-500">*</span>
+                            {t('location')} <span className="text-red-500">{t('required')}</span>
                         </label>
                         <LocationPicker
                             initialLat={formData.lat}
@@ -451,19 +461,31 @@ export default function EditListingPage() {
                                 onClick={() => router.back()}
                                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
-                                Cancel
+                                {t('cancel')}
                             </button>
                             <button
                                 type="submit"
                                 disabled={saving}
                                 className="px-6 py-2.5 text-sm font-semibold text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
-                                {saving ? 'Saving...' : 'Save Changes'}
+                                {saving ? t('saving') : t('saveChanges')}
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
+
+            {/* Delete Photo Confirmation Dialog */}
+            <ConfirmDialog
+                isOpen={!!deletePhotoConfirm}
+                onClose={() => setDeletePhotoConfirm(null)}
+                onConfirm={() => deletePhotoConfirm && removeExistingPhoto(deletePhotoConfirm)}
+                title={t('confirmRemovePhoto') || 'Confirmer la suppression'}
+                message={t('confirmRemovePhotoMessage') || 'Êtes-vous sûr de vouloir supprimer cette photo ? Cette action est irréversible.'}
+                confirmText={t('delete') || 'Supprimer'}
+                cancelText={t('cancel') || 'Annuler'}
+                confirmVariant="danger"
+            />
         </div>
     );
 }

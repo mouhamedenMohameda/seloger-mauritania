@@ -32,7 +32,9 @@ export async function POST(
     const { data, error } = await commitPhoto(supabase, listingId, storagePath)
 
     if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        const { logger } = await import('@/lib/logger')
+        logger.error('Photo commit error', error, { userId: user.id, listingId })
+        return NextResponse.json({ error: 'Failed to save photo' }, { status: 500 })
     }
 
     return NextResponse.json(data)

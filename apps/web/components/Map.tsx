@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 interface MapProps {
     onBoundsChange?: (bounds: [number, number, number, number]) => void;
@@ -12,6 +13,7 @@ interface MapProps {
 }
 
 export default function Map({ onBoundsChange, markers = [], onMarkerClick, onSearch }: MapProps) {
+    const { t } = useLanguage();
     const mapContainer = useRef<HTMLDivElement>(null);
     const map = useRef<maplibregl.Map | null>(null);
     const markersRef = useRef<maplibregl.Marker[]>([]);
@@ -72,6 +74,10 @@ export default function Map({ onBoundsChange, markers = [], onMarkerClick, onSea
             });
 
             map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+            // Add custom class to the control container to offset it
+            const ctrlContainer = map.current.getContainer().querySelector('.maplibregl-ctrl-top-right');
+            if (ctrlContainer) ctrlContainer.classList.add('custom-map-ctrl');
 
             map.current.on('load', () => {
                 setLoaded(true);
@@ -153,11 +159,10 @@ export default function Map({ onBoundsChange, markers = [], onMarkerClick, onSea
         // Add new markers
         markers.forEach(marker => {
             const el = document.createElement('div');
-            el.className = 'map-marker bg-white px-3 py-1.5 rounded-xl shadow-lg text-xs font-bold border-2 border-blue-500 cursor-pointer hover:bg-blue-50 hover:shadow-xl hover:scale-110 transition-all';
+            el.className = 'map-marker bg-indigo-600 text-white px-3 py-1.5 rounded-full shadow-2xl text-xs font-black border-2 border-white cursor-pointer hover:bg-indigo-700 hover:scale-110 active:scale-95 transition-all duration-200 z-10';
             el.style.width = 'auto';
             el.style.whiteSpace = 'nowrap';
-            el.style.color = '#1e40af';
-            el.innerText = `${marker.price.toLocaleString()} MRU`;
+            el.innerText = `${marker.price.toLocaleString()} ${t('mru')}`;
 
             el.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -166,7 +171,7 @@ export default function Map({ onBoundsChange, markers = [], onMarkerClick, onSea
                 }
             });
 
-            const mapMarker = new maplibregl.Marker({ 
+            const mapMarker = new maplibregl.Marker({
                 element: el,
                 anchor: 'bottom'
             })
@@ -208,7 +213,7 @@ export default function Map({ onBoundsChange, markers = [], onMarkerClick, onSea
                     <svg className="w-16 h-16 mx-auto mb-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
-                    <p className="text-gray-700 font-medium mb-2">Map Error</p>
+                    <p className="text-gray-700 font-bold mb-2">{t('mapError')}</p>
                     <p className="text-sm text-gray-500">{error}</p>
                 </div>
             </div>

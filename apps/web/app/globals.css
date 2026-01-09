@@ -62,8 +62,30 @@ body {
   display: block;
 }
 
-.maplibregl-ctrl-top-right {
-  z-index: 1;
+/* Offset controls to avoid the bottom toggle pill on mobile */
+@media (max-width: 767px) {
+  .maplibregl-ctrl-bottom-left {
+    bottom: 100px !important;
+    left: 12px !important;
+  }
+}
+
+.custom-map-ctrl {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: transparent !important;
+  border: none !important;
+}
+
+@media (max-width: 767px) {
+  .custom-map-ctrl {
+    margin-top: 140px !important;
+  }
+}
+
+.maplibregl-ctrl-group {
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.4) !important;
 }
 
 /* Hide scrollbar but keep functionality */
@@ -74,4 +96,15 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Mobile menu - only visible on mobile */
+.mobile-menu-wrapper {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .mobile-menu-wrapper {
+    display: none;
+  }
 }

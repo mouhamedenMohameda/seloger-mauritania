@@ -20,7 +20,9 @@ export async function POST(request: Request) {
     const { data, error } = await createReport(supabase, user.id, validation.data)
 
     if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        const { logger } = await import('@/lib/logger')
+        logger.error('Report creation error', error, { userId: user.id })
+        return NextResponse.json({ error: 'Failed to create report' }, { status: 500 })
     }
 
     return NextResponse.json(data)
