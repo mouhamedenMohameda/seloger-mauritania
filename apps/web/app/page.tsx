@@ -168,19 +168,27 @@ export default function Home() {
         {/* Responsive padding to avoid floating mobile search bar */}
         <div className="md:hidden h-24" />
 
-        <div className="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/80 backdrop-blur-md z-10">
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">raDar {t('myListings')}</h1>
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur-md z-10 shadow-sm">
+          <div className="flex flex-col">
+            <h1 className="text-2xl font-black text-gray-900 tracking-tight">raDar</h1>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t('listingsInView') || 'Annonces visibles'}</p>
+          </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2"
+              className="p-2.5 text-gray-600 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all border border-gray-200 active:scale-95"
+              aria-label={t('filters')}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
               </svg>
-              {t('filters') || 'Filtres'}
             </button>
-            <span className="text-sm font-black text-white bg-indigo-600 px-3 py-1 rounded-full shadow-lg shadow-indigo-200">{markers.length}</span>
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-primary/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+              <span className="relative flex items-center justify-center min-w-[32px] h-8 text-sm font-black text-white bg-primary rounded-full shadow-lg overflow-hidden">
+                {markers.length}
+              </span>
+            </div>
           </div>
         </div>
         <div className="divide-y divide-gray-100 pb-32">
@@ -195,67 +203,55 @@ export default function Home() {
             const priceColor = isForSale
               ? 'text-green-600'
               : isForRent
-                ? 'text-indigo-600'
+                ? 'text-primary'
                 : 'text-gray-600';
 
-            const badgeColor = isForSale
-              ? 'bg-green-100 text-green-700 border-green-200'
+            const badgeStyles = isForSale
+              ? 'bg-green-500 text-white shadow-green-200'
               : isForRent
-                ? 'bg-indigo-100 text-indigo-700 border-indigo-200'
-                : 'bg-gray-100 text-gray-700 border-gray-200';
-
-            const hoverBgColor = isForSale
-              ? 'hover:bg-green-50/50'
-              : isForRent
-                ? 'hover:bg-indigo-50/50'
-                : 'hover:bg-gray-50/50';
+                ? 'bg-primary text-white shadow-primary-200'
+                : 'bg-gray-500 text-white shadow-gray-200';
 
             const borderColor = isForSale
-              ? 'border-l-green-500'
+              ? 'bg-green-500'
               : isForRent
-                ? 'border-l-indigo-500'
-                : 'border-l-gray-300';
+                ? 'bg-primary'
+                : 'bg-gray-300';
 
             return (
               <div
                 key={m.id}
-                className={`p-5 ${hoverBgColor} cursor-pointer transition-all active:scale-[0.98] border-l-4 ${borderColor} bg-white shadow-sm hover:shadow-md rounded-r-lg`}
+                className="group p-5 bg-white hover:bg-gray-50/50 cursor-pointer transition-all duration-300 border-b border-gray-100 relative"
                 onClick={() => handleMarkerClick(m.id)}
               >
-                {/* Badge for operation type - Top right corner */}
-                <div className="flex items-start justify-between gap-3 mb-2.5">
+                {/* Visual indicator bar */}
+                <div className={`absolute left-0 top-0 bottom-0 w-1 ${borderColor} opacity-0 group-hover:opacity-100 transition-opacity`} />
+
+                <div className="flex justify-between items-start gap-4 mb-3">
                   <div className="flex-1 min-w-0">
-                    {/* Title - PRIMARY display (must be visible and prominent) */}
-                    <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-2 leading-snug min-h-[2.5rem]">
+                    <h3 className="text-base font-bold text-gray-900 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
                       {displayTitle}
                     </h3>
                   </div>
-                  {/* Badge aligned to top right */}
-                  <span className={`px-2.5 py-1 text-xs font-bold rounded-md border ${badgeColor} shadow-sm flex-shrink-0 whitespace-nowrap`}>
+                  <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg ${badgeStyles} flex-shrink-0`}>
                     {isForSale ? (t('forSale') || 'À vendre') : isForRent ? (t('forRent') || 'À louer') : (t('property') || 'Propriété')}
                   </span>
                 </div>
 
-                {/* Price - Secondary display with color coding */}
-                <div className={`text-xl font-black ${priceColor} tracking-tight mb-1 flex items-baseline gap-1.5 flex-wrap`}>
-                  <span className="text-2xl">{m.price.toLocaleString()}</span>
-                  <span className="text-base font-semibold">MRU</span>
-                  {isForRent && (
-                    <span className="text-sm font-normal text-gray-500">{t('month') || '/mois'}</span>
-                  )}
-                </div>
-                {/* Coordinates - Hidden in production, only shown in dev mode for debugging */}
-                {false && process.env.NODE_ENV === 'development' && (
-                  <div className="text-xs text-gray-400 mt-2 flex items-center gap-1.5 font-medium">
-                    <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </div>
-                    <span className="truncate">{m.lat.toFixed(4)}, {m.lng.toFixed(4)}</span>
+                <div className="flex items-end justify-between">
+                  <div className={`text-2xl font-black ${priceColor} tracking-tight flex items-baseline gap-1.5`}>
+                    <span>{m.price.toLocaleString()}</span>
+                    <span className="text-xs font-black opacity-80 uppercase tracking-widest">MRU</span>
+                    {isForRent && (
+                      <span className="text-xs font-bold text-gray-400 lowercase">{t('month') || '/mois'}</span>
+                    )}
                   </div>
-                )}
+                  <div className="p-2 rounded-full bg-gray-50 group-hover:bg-primary/10 group-hover:scale-110 transition-all">
+                    <svg className="w-4 h-4 text-gray-400 group-hover:text-primary font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             );
           })}
@@ -299,12 +295,10 @@ export default function Home() {
           </div>
         )}
 
-        {loading && (
-          <div className="absolute top-44 md:top-28 left-1/2 -translate-x-1/2 z-[1001] bg-white/95 backdrop-blur-xl px-6 py-3 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/50 flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
-            <div className="h-4 w-4 border-2 border-indigo-600 border-t-transparent animate-spin rounded-full"></div>
-            <span className="text-sm font-black text-gray-800 tracking-wide uppercase">{t('searching')}</span>
-          </div>
-        )}
+        <div className="absolute top-44 md:top-28 left-1/2 -translate-x-1/2 z-[1001] bg-white/95 backdrop-blur-xl px-6 py-3 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/50 flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="h-4 w-4 border-2 border-primary border-t-transparent animate-spin rounded-full"></div>
+          <span className="text-sm font-black text-gray-800 tracking-wide uppercase">{t('searching')}</span>
+        </div>
       </div>
       {/* Bottom Navigation for Mobile */}
       <BottomNav

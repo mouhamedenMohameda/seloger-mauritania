@@ -115,10 +115,10 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
             ref={searchRef}
             className="w-full pointer-events-auto group"
         >
-            <div className={`relative flex items-center transition-all duration-500 ease-out bg-white/95 backdrop-blur-xl rounded shadow-sm group-focus-within:shadow group-focus-within:shadow-indigo-200/50 border border-gray-200 ${loading ? 'opacity-90' : 'opacity-100'}`}>
+            <div className={`relative flex items-center transition-all duration-500 ease-out glass-effect rounded-xl overflow-hidden group-focus-within:ring-2 group-focus-within:ring-primary/20 group-focus-within:shadow-lg ${loading ? 'opacity-90' : 'opacity-100'}`}>
                 {/* Search Icon */}
-                <div className="absolute inset-y-0 start-1.5 flex items-center pointer-events-none transition-colors duration-300">
-                    <svg className={`w-2.5 h-2.5 ${loading ? 'text-indigo-600 animate-pulse' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute inset-y-0 start-4 flex items-center pointer-events-none transition-colors duration-300">
+                    <svg className={`w-4 h-4 ${loading ? 'text-primary animate-pulse' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
@@ -129,7 +129,7 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
                     onChange={handleInputChange}
                     onFocus={() => setShowResults(true)}
                     placeholder={t('searchPlaceholder')}
-                    className="block w-full ps-5.5 pe-4 py-0.5 bg-transparent border-none focus:ring-0 text-gray-900 text-[11px] font-normal placeholder:text-gray-400 placeholder:font-normal leading-tight"
+                    className="block w-full ps-12 pe-10 py-3 bg-transparent border-none focus:ring-0 text-gray-900 text-sm font-semibold placeholder:text-gray-400 placeholder:font-medium leading-tight selection:bg-primary/20"
                 />
 
                 {query && (
@@ -164,16 +164,16 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
                                 <button
                                     key={prop.id}
                                     onClick={() => handleSelectProperty(prop)}
-                                    className="w-full flex items-center gap-1.5 px-1.5 py-1.5 hover:bg-indigo-50/50 rounded transition-colors group text-start"
+                                    className="w-full flex items-center gap-1.5 px-1.5 py-1.5 hover:bg-primary/5 rounded transition-colors group text-start"
                                 >
-                                    <div className="w-6 h-6 rounded bg-indigo-100 flex items-center justify-center shrink-0 group-hover:bg-indigo-200 transition-colors">
-                                        <svg className="w-3 h-3 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                                        <svg className="w-3 h-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                         </svg>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-[11px] font-bold text-gray-900 truncate group-hover:text-indigo-600 transition-colors">{prop.title}</p>
-                                        <p className="text-[10px] font-semibold text-indigo-600">
+                                        <p className="text-[11px] font-bold text-gray-900 truncate group-hover:text-primary transition-colors">{prop.title}</p>
+                                        <p className="text-[10px] font-semibold text-primary">
                                             {prop.price.toLocaleString()} {t('mru')}
                                         </p>
                                     </div>
@@ -222,14 +222,14 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
 
             {/* Empty State */}
             {showResults && query && !loading && !hasResults && (
-                <div className="absolute bottom-full left-0 right-0 mb-1.5 bg-white/90 backdrop-blur-md rounded shadow-xl border border-gray-100 p-2 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <div className="w-6 h-6 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-1">
-                        <svg className="w-3 h-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute bottom-full left-0 right-0 mb-1.5 glass-effect rounded-2xl shadow-xl border-white/20 p-4 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-5 h-5 text-primary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
-                    <p className="text-[11px] font-semibold text-gray-900">{t('noListingsYet')}</p>
-                    <p className="text-[10px] text-gray-500 mt-0.5">{t('moveMapToFind')}</p>
+                    <p className="text-sm font-bold text-gray-900 tracking-tight">{t('noListingsYet')}</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{t('moveMapToFind')}</p>
                 </div>
             )}
         </div>
