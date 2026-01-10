@@ -10,6 +10,7 @@ import { createClient } from '@/lib/supabase/client'
 import LoadingState from '@/components/ui/LoadingState'
 import ErrorState from '@/components/ui/ErrorState'
 import FavoriteButton from '@/components/FavoriteButton'
+import { getPhotoUrls } from '@/lib/photo-utils'
 
 export default function ListingPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params)
@@ -28,16 +29,17 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
             try {
                 const { data: photos, error: photosError } = await supabase
                     .from('listing_photos')
-                    .select('*')
+                    .select('storage_path')
                     .eq('listing_id', id)
                     .order('rank', { ascending: true })
 
                 if (photos && !photosError) {
-                    const urls = photos.map(photo => {
-                        if (!photo.storage_path) return null
-                        const { data } = supabase.storage.from('listings').getPublicUrl(photo.storage_path)
-                        return data.publicUrl
-                    }).filter((url): url is string => !!url)
+                    // Extract storage paths and convert to URLs (handles both S3 URLs and Supabase Storage)
+                    const storagePaths = photos
+                        .map(photo => photo.storage_path)
+                        .filter((path): path is string => !!path && path.trim() !== '')
+                    
+                    const urls = getPhotoUrls(supabase, storagePaths)
                     setPhotoUrls(urls)
                 }
             } finally {
@@ -94,6 +96,36 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                             </h1>
                             <FavoriteButton listingId={listing.id} size="lg" />
                         </div>
+                        {/* Badges for category, region, etc. */}
+                        {(listing.category || listing.sub_category || listing.region || listing.visit_count) && (
+                            <div className="flex flex-wrap items-center gap-2 mb-4">
+                                {listing.region && (
+                                    <span className="px-3 py-1.5 text-sm font-semibold text-indigo-700 bg-indigo-50 rounded-lg">
+                                        📍 {listing.region}
+                                    </span>
+                                )}
+                                {listing.category && (
+                                    <span className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg">
+                                        {listing.category}
+                                    </span>
+                                )}
+                                {listing.sub_category && (
+                                    <span className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg">
+                                        {listing.sub_category}
+                                    </span>
+                                )}
+                                {listing.visit_count && listing.visit_count > 0 && (
+                                    <span className="px-3 py-1.5 text-sm font-medium text-gray-600 bg-gray-50 rounded-lg flex items-center gap-1.5">
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                        {listing.visit_count.toLocaleString()} {t('views') || 'vues'}
+                                    </span>
+                                )}
+                            </div>
+                        )}
+                        
                         <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-4">
                             {listing.rooms && (
                                 <span className="flex items-center gap-1.5">
@@ -125,11 +157,147 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                     {listing.description && (
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
                             <h2 className="text-xl font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200">
-                                {t('descriptionLabel')}
+                                {t('descriptionLabel') || 'Description'}
                             </h2>
                             <p className="text-gray-700 leading-relaxed whitespace-pre-line">
                                 {listing.description}
                             </p>
+                        </div>
+                    )}
+
+                    {/* Property Details Section - MongoDB fields */}
+                    {(listing.lotissement || listing.lot || listing.index || listing.ilot_size || 
+                      listing.polygone_area || listing.elevation || listing.sides_length) && (
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200">
+                                {t('propertyDetails') || 'Détails du bien'}
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {listing.lotissement && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('lotissement') || 'Lotissement'}
+                                        </span>
+                                        <span className="text-base font-medium text-gray-900">
+                                            {listing.lotissement}
+                                        </span>
+                                    </div>
+                                )}
+                                {listing.lot && listing.lot.length > 0 && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('lot') || 'Lot'}
+                                        </span>
+                                        <span className="text-base font-medium text-gray-900">
+                                            {listing.lot.join(', ')}
+                                        </span>
+                                    </div>
+                                )}
+                                {listing.index && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('index') || 'Index'}
+                                        </span>
+                                        <span className="text-base font-medium text-gray-900">
+                                            {listing.index}
+                                        </span>
+                                    </div>
+                                )}
+                                {listing.polygone_area && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('area') || 'Superficie'}
+                                        </span>
+                                        <span className="text-base font-medium text-gray-900">
+                                            {listing.polygone_area}
+                                        </span>
+                                    </div>
+                                )}
+                                {listing.ilot_size && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('ilotSize') || 'Taille de l\'îlot'}
+                                        </span>
+                                        <span className="text-base font-medium text-gray-900">
+                                            {listing.ilot_size} m²
+                                        </span>
+                                    </div>
+                                )}
+                                {listing.elevation && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('elevation') || 'Élévation'}
+                                        </span>
+                                        <span className="text-base font-medium text-gray-900">
+                                            {listing.elevation}
+                                        </span>
+                                    </div>
+                                )}
+                                {listing.sides_length && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('sidesLength') || 'Dimensions'}
+                                        </span>
+                                        <span className="text-base font-medium text-gray-900">
+                                            {listing.sides_length}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Client Information Section */}
+                    {(listing.client_name || listing.client_phone_number) && (
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200">
+                                {t('clientInfo') || 'Informations client'}
+                            </h2>
+                            <div className="space-y-3">
+                                {listing.client_name && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('clientName') || 'Nom du client'}
+                                        </span>
+                                        <span className="text-base font-medium text-gray-900">
+                                            {listing.client_name}
+                                        </span>
+                                    </div>
+                                )}
+                                {listing.client_phone_number && (
+                                    <div>
+                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                            {t('clientPhone') || 'Téléphone'}
+                                        </span>
+                                        <a 
+                                            href={`tel:${listing.client_phone_number}`}
+                                            className="text-base font-medium text-indigo-600 hover:text-indigo-700"
+                                        >
+                                            {listing.client_phone_number}
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Matterport Link */}
+                    {listing.matterport_link && (
+                        <div className="bg-white border border-gray-200 rounded-lg p-6">
+                            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200">
+                                {t('virtualTour') || 'Visite virtuelle'}
+                            </h2>
+                            <a
+                                href={listing.matterport_link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                                {t('viewVirtualTour') || 'Voir la visite virtuelle'}
+                            </a>
                         </div>
                     )}
 

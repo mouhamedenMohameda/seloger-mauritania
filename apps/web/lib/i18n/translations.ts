@@ -178,6 +178,22 @@ export const translations = {
         roomsLabel: 'Chambres',
         descriptionLabel: 'Description',
         contactLabel: 'Contact',
+        
+        // MongoDB fields translations
+        views: 'vues',
+        propertyDetails: 'Détails du bien',
+        lotissement: 'Lotissement',
+        lot: 'Lot',
+        index: 'Index',
+        area: 'Superficie',
+        ilotSize: 'Taille de l\'îlot',
+        elevation: 'Élévation',
+        sidesLength: 'Dimensions',
+        clientInfo: 'Informations client',
+        clientName: 'Nom du client',
+        clientPhone: 'Téléphone',
+        virtualTour: 'Visite virtuelle',
+        viewVirtualTour: 'Voir la visite virtuelle',
 
         // Login
         welcomeBack: 'Bon retour',
@@ -376,6 +392,22 @@ export const translations = {
         roomsLabel: 'غرف',
         descriptionLabel: 'الوصف',
         contactLabel: 'اتصال',
+        
+        // MongoDB fields translations (Arabic)
+        views: 'مشاهدات',
+        propertyDetails: 'تفاصيل العقار',
+        lotissement: 'التجمع السكني',
+        lot: 'القطعة',
+        index: 'الفهرس',
+        area: 'المساحة',
+        ilotSize: 'حجم الجزيرة',
+        elevation: 'الارتفاع',
+        sidesLength: 'الأبعاد',
+        clientInfo: 'معلومات العميل',
+        clientName: 'اسم العميل',
+        clientPhone: 'الهاتف',
+        virtualTour: 'جولة افتراضية',
+        viewVirtualTour: 'عرض الجولة الافتراضية',
 
         // Login
         welcomeBack: 'مرحباً بعودتك',

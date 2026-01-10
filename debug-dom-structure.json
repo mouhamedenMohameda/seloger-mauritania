@@ -1,0 +1,12 @@
+[
+  {
+    "selector": "[class*=\"item\"]",
+    "count": 94,
+    "sample": ""
+  },
+  {
+    "selector": "[class*=\"ad\"]",
+    "count": 52,
+    "sample": " elminassa.com "
+  }
+]

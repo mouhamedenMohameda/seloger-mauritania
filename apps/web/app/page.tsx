@@ -21,6 +21,10 @@ interface Marker {
   lat: number;
   lng: number;
   price: number;
+  title?: string | null; // Listing title
+  op_type?: 'rent' | 'sell' | null; // Operation type: rent (à louer) or sell (à vendre)
+  subPolygon?: number[][] | null; // Polygon coordinates [[lng, lat], [lng, lat], ...]
+  subPolygonColor?: string | null;
 }
 
 export default function Home() {
@@ -50,15 +54,80 @@ export default function Home() {
     sortBy: filters.sortBy,
   });
 
-  // Update markers when data changes
+  // Update markers when data changes - use subPolygon center if available
   useEffect(() => {
-    if (markersData?.data) {
-      setMarkers(markersData.data.map((m: any) => ({
+    if (markersData?.data && Array.isArray(markersData.data)) {
+      const mappedMarkers = markersData.data.map((m: any) => {
+        // If sub_polygon exists, calculate its center for the marker position
+        let lat = m.lat;
+        let lng = m.lng;
+        
+        // Validate coordinates
+        if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
+          console.warn(`Invalid coordinates for listing ${m.id}: lat=${lat}, lng=${lng}`);
+          return null; // Skip invalid listings
+        }
+        
+        if (m.sub_polygon && Array.isArray(m.sub_polygon) && m.sub_polygon.length >= 3) {
+          // Calculate center (centroid) of polygon
+          let sumLat = 0;
+          let sumLng = 0;
+          let validPoints = 0;
+          
+          for (const point of m.sub_polygon) {
+            if (Array.isArray(point) && point.length >= 2) {
+              const [pointLng, pointLat] = point;
+              if (typeof pointLat === 'number' && typeof pointLng === 'number' && 
+                  !isNaN(pointLat) && !isNaN(pointLng)) {
+                sumLat += pointLat;
+                sumLng += pointLng;
+                validPoints++;
+              }
+            }
+          }
+          
+          if (validPoints > 0) {
+            lat = sumLat / validPoints;
+            lng = sumLng / validPoints;
+          }
+        }
+        
+        return {
         id: m.id,
-        lat: m.lat,
-        lng: m.lng,
-        price: m.price,
-      })));
+          lat: lat,
+          lng: lng,
+          price: m.price || 0,
+          title: m.title || null, // Include title from API response
+          op_type: m.op_type || null, // Include operation type for coloring
+          subPolygon: m.sub_polygon || null,
+          subPolygonColor: m.sub_polygon_color || null,
+        };
+      }).filter((marker): marker is Marker => marker !== null); // Remove null entries
+      
+      setMarkers(mappedMarkers);
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Loaded ${mappedMarkers.length} markers from ${markersData.data.length} listings`);
+        if (mappedMarkers.length > 0) {
+          const sample = mappedMarkers[0];
+          const sampleRaw = markersData.data[0];
+          console.log('Sample marker data:', {
+            id: sample.id,
+            title: sample.title,
+            rawTitle: sampleRaw?.title,
+            price: sample.price,
+            hasTitle: !!sample.title,
+            titleLength: sample.title?.length || 0,
+          });
+          // Check all markers for title
+          const withoutTitle = mappedMarkers.filter(m => !m.title || m.title.trim() === '');
+          if (withoutTitle.length > 0) {
+            console.warn(`⚠️  ${withoutTitle.length} markers without title`);
+          }
+        }
+      }
+    } else {
+      setMarkers([]);
     }
   }, [markersData]);
 
@@ -112,19 +181,124 @@ export default function Home() {
           </div>
         </div>
         <div className="divide-y divide-gray-100 pb-32">
-          {markers.map(m => (
-            <div key={m.id} className="p-5 hover:bg-indigo-50/30 cursor-pointer transition-all active:scale-[0.98]" onClick={() => handleMarkerClick(m.id)}>
-              <div className="font-black text-indigo-600 text-xl tracking-tight">{m.price.toLocaleString()} {t('mru')}</div>
-              <div className="text-sm text-gray-500 mt-2 flex items-center gap-1.5 font-medium">
-                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  </svg>
+          {markers.map(m => {
+            // Clean title - remove price patterns and pagination info that might be in title
+            // IMPORTANT: Keep the original title if it's valid Arabic/French text, even if it contains numbers
+            let cleanTitle = m.title || '';
+            
+            // First, check if title exists and is a valid string (not just numbers/prices)
+            if (cleanTitle && typeof cleanTitle === 'string' && cleanTitle.trim()) {
+              // Only clean if title appears to be malformed (contains repeated prices)
+              // But preserve titles that are clearly valid (contain Arabic/French text)
+              const hasArabicText = /[\u0600-\u06FF]/.test(cleanTitle);
+              const hasLatinText = /[A-Za-zÀ-ÿ]/.test(cleanTitle);
+              
+              // If title has actual text content (Arabic or Latin), keep it mostly as-is
+              if (hasArabicText || hasLatinText) {
+                // Only remove obvious duplicate price patterns at the start
+                cleanTitle = cleanTitle
+                  .replace(/^(\d[\d\s,]*\s*MRU\s*){2,}/gi, '') // Remove repeated leading "prix MRU"
+                  .replace(/\d+\s*\/\s*\d+/g, '') // Remove pagination like "1 / 3"
+                  .replace(/\s+/g, ' ') // Normalize spaces
+                  .trim();
+              } else {
+                // If title is just numbers/prices with no text, clean more aggressively
+                cleanTitle = cleanTitle
+                  .replace(/(\d[\d\s]*\s*MRU\s*){2,}/gi, '')
+                  .replace(/\d+\s*\/\s*\d+/g, '')
+                  .replace(/^\d[\d\s]*\s*MRU\s*/gi, '')
+                  .replace(/\d+[\s,]*\d+[\s,]*\d+[\s,]*MRU/gi, '')
+                  .replace(/^[\d\s,]+(MRU|MRO)?\s*/i, '')
+                  .replace(/[\d\s,]+(MRU|MRO)\s*$/i, '')
+                  .replace(/\s+/g, ' ')
+                  .trim();
+              }
+              
+              // If after cleaning it's just numbers/prices with no meaningful text, consider it empty
+              if (cleanTitle.match(/^\d+$/) || (cleanTitle.match(/^[\d\s,MRU]*$/i) && !hasArabicText && !hasLatinText) || cleanTitle.length < 3) {
+                cleanTitle = '';
+              }
+            } else {
+              cleanTitle = '';
+            }
+            
+            // Use cleaned title if valid, otherwise fallback
+            const displayTitle = (cleanTitle && cleanTitle.length >= 3) 
+              ? cleanTitle 
+              : (m.title && m.title.trim() ? m.title.trim() : (t('untitledListing') || 'Annonce sans titre'));
+            
+            // Color scheme based on operation type
+            const isForSale = m.op_type === 'sell';
+            const isForRent = m.op_type === 'rent';
+            
+            // Colors: Green for sale (à vendre), Blue/Indigo for rent (à louer)
+            const priceColor = isForSale 
+              ? 'text-green-600' 
+              : isForRent 
+                ? 'text-indigo-600' 
+                : 'text-gray-600';
+            
+            const badgeColor = isForSale
+              ? 'bg-green-100 text-green-700 border-green-200'
+              : isForRent
+                ? 'bg-indigo-100 text-indigo-700 border-indigo-200'
+                : 'bg-gray-100 text-gray-700 border-gray-200';
+            
+            const hoverBgColor = isForSale
+              ? 'hover:bg-green-50/50'
+              : isForRent
+                ? 'hover:bg-indigo-50/50'
+                : 'hover:bg-gray-50/50';
+            
+            const borderColor = isForSale
+              ? 'border-l-green-500'
+              : isForRent
+                ? 'border-l-indigo-500'
+                : 'border-l-gray-300';
+            
+            return (
+              <div 
+                key={m.id} 
+                className={`p-5 ${hoverBgColor} cursor-pointer transition-all active:scale-[0.98] border-l-4 ${borderColor} bg-white shadow-sm hover:shadow-md rounded-r-lg`} 
+                onClick={() => handleMarkerClick(m.id)}
+              >
+                {/* Badge for operation type - Top right corner */}
+                <div className="flex items-start justify-between gap-3 mb-2.5">
+                  <div className="flex-1 min-w-0">
+                    {/* Title - PRIMARY display (must be visible and prominent) */}
+                    <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-2 leading-snug min-h-[2.5rem]">
+                      {displayTitle}
+                    </h3>
+                  </div>
+                  {/* Badge aligned to top right */}
+                  <span className={`px-2.5 py-1 text-xs font-bold rounded-md border ${badgeColor} shadow-sm flex-shrink-0 whitespace-nowrap`}>
+                    {isForSale ? (t('forSale') || 'À vendre') : isForRent ? (t('forRent') || 'À louer') : (t('property') || 'Propriété')}
+                  </span>
                 </div>
-                {m.lat.toFixed(4)}, {m.lng.toFixed(4)}
+                
+                {/* Price - Secondary display with color coding */}
+                <div className={`text-xl font-black ${priceColor} tracking-tight mb-1 flex items-baseline gap-1.5 flex-wrap`}>
+                  <span className="text-2xl">{m.price.toLocaleString()}</span>
+                  <span className="text-base font-semibold">MRU</span>
+                  {isForRent && (
+                    <span className="text-sm font-normal text-gray-500">{t('month') || '/mois'}</span>
+                  )}
+                </div>
+                {/* Coordinates - Hidden in production, only shown in dev mode for debugging */}
+                {false && process.env.NODE_ENV === 'development' && (
+                  <div className="text-xs text-gray-400 mt-2 flex items-center gap-1.5 font-medium">
+                    <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <span className="truncate">{m.lat.toFixed(4)}, {m.lng.toFixed(4)}</span>
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
           {loading ? (
             <LoadingState message={t('searching') || 'Recherche...'} />
           ) : markers.length === 0 ? (

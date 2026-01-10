@@ -26,6 +26,30 @@ export interface Listing {
     created_at: string;
     updated_at: string;
     owner_id: string;
+    // MongoDB fields
+    visit_count?: number;
+    sold?: boolean;
+    professional?: boolean;
+    is_real_location?: boolean;
+    client_name?: string | null;
+    client_phone_number?: string | null;
+    category?: string | null;
+    sub_category?: string | null;
+    region?: string | null;
+    lotissement?: string | null;
+    lot?: string[] | null;
+    index?: string | null;
+    ilot_size?: string | null;
+    polygone_area?: string | null;
+    elevation?: string | null;
+    sides_length?: string | null;
+    sub_polygon?: any | null;
+    sub_polygon_color?: string | null;
+    matterport_link?: string | null;
+    profiles?: {
+        full_name: string | null;
+        phone: string | null;
+    };
 }
 
 export interface SearchMarkersParams {

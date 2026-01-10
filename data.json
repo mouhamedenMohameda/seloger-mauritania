@@ -1,0 +1,1111 @@
+{
+    "collection": [
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2026-01-06_18-53-16-081_374.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2026-01-06_16-00-30-038_84.png",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2026-01-06_16-00-31-099_211.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 249,
+        "lot": [
+          "180"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "695d30815cc7633e4fbcdf66",
+        "clientName": "شريف موري عقار  ",
+        "clientPhoneNumber": "34351736",
+        "title": "قطعة أرضية للبيع في الحي الجامعي",
+        "description": "  للبيع قطعة أرض سكنية مميزة تقع في تفرغ زينة، خلف جامعة نواكشوط العصرية، بمساحة إجمالية قدرها 503 متر مربع.\nالموقع استراتيجي يقع في الركن وقريب من أهم المرافق والخدمات، مما يجعلها فرصة مثالية لبناء فيلا سكنية راقية أو مشروع استثماري مضمون.\n\n📍 الموقع: تفرغ زينة – وراء جامعة نواكشوط العصرية\n📐 المساحة: 503 م²\n",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.961222,
+            18.172608
+          ],
+          "_id": "695d30815cc7633e4fbcdf67"
+        },
+        "publicationDate": "2026-01-06T15:55:45.620Z",
+        "price": 3600000,
+        "lotissement": "Nord Campus Universitaire",
+        "index": "93",
+        "ilotSize": "246",
+        "polygoneArea": "502.75 m²",
+        "elevation": "+6 m",
+        "sidesLength": " 20m 25m 20m 25m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2026-01-06_18-56-42-594_448.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2026-01-06_15-46-18-248_76.png",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2026-01-06_15-46-19-177_416.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 100,
+        "lot": [
+          "142"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "695d1136dd39de3e5b0a9526",
+        "clientName": "cheriv mauri a9ar",
+        "clientPhoneNumber": "36173534",
+        "title": "قطعة أرض للبيع في الحي الجامعي",
+        "description": " للبيع قطعة أرض سكنية مميزة تقع في تفرغ زينة، خلف جامعة نواكشوط العصرية، بمساحة إجمالية قدرها 503 متر مربع.\nالموقع استراتيجي وقريب من أهم المرافق والخدمات، مما يجعلها فرصة مثالية لبناء فيلا سكنية راقية أو مشروع استثماري مضمون.\n\n📍 الموقع: تفرغ زينة – وراء جامعة نواكشوط العصرية\n📐 المساحة: 503 م²\n",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.958873,
+            18.171852
+          ],
+          "_id": "695d1136dd39de3e5b0a9527"
+        },
+        "publicationDate": "2026-01-06T13:42:14.745Z",
+        "price": 3600000,
+        "lotissement": "Nord Campus Universitaire",
+        "index": "93",
+        "ilotSize": "246",
+        "polygoneArea": "503.25 m²",
+        "elevation": "+5.59 m",
+        "sidesLength": " 20m 25m 20m 25m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "42036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2026-01-03_22-05-37-525_194.jpg"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 269,
+        "lot": [
+          "476"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [
+          [
+            -15.9957083,
+            18.14719585
+          ],
+          [
+            -15.99589735,
+            18.14719485
+          ],
+          [
+            -15.9958981,
+            18.1473304
+          ],
+          [
+            -15.9957091,
+            18.1473314
+          ],
+          [
+            -15.9957083,
+            18.14719585
+          ]
+        ],
+        "subPolygonColor": "magenta",
+        "_id": "6955944cdd39de3e5bff46f7",
+        "clientName": "lemtiyaz",
+        "clientPhoneNumber": "36353307",
+        "title": "قطعة أرض زاوية للبيع في تفرغ زينة قرب مستشفى القلب – 300م²",
+        "description": "jcjjj  c c c c c c c c c c c cقطعة أرض مميزة زاوية للبيع في تفرغ زينة، موقع استراتيجي وقريب جدًا من مستشفى القلب، بمساحة 300 متر مربع.\nالأرض مناسبة للسكن الراقي أو للاستثمار، تقع في حي هادئ ومخدوم، مع سهولة الوصول إلى الطرق الرئيسية والخدمات الأساسية.\nفرصة ممتازة لمن يبحث عن موقع مضمون وقيمة متصاعدة في واحدة من أفضل مناطق نواكشوط.",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.995792,
+            18.147251
+          ],
+          "_id": "6955944cdd39de3e5bff46f8"
+        },
+        "publicationDate": "2025-12-31T21:23:24.823Z",
+        "price": 3200000,
+        "lotissement": "Nord Centre emetteur (NCE) Secteur 1",
+        "index": "92",
+        "ilotSize": "888",
+        "polygoneArea": "603.54 m²",
+        "elevation": "+0.59 m",
+        "sidesLength": " 30m 20m 30m 20m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "42036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-31_07-05-42-323_230.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-31_07-05-42-621_274.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 164,
+        "lot": [
+          "292"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "6954c9a65cc7633e4faf7238",
+        "clientName": "Ely cheick lemtiyaz",
+        "clientPhoneNumber": "36353307",
+        "title": "قطعة أرض للبيع في تفرغ زينة قرب مستشفى القلب – مساحة 704 م²",
+        "description": "للبيع قطعة أرض مميزة في تفرغ زينة، بموقع استراتيجي وقريب جدًا من مستشفى القلب، في منطقة راقية ومرغوبة للسكن أو الاستثمار.\nتبلغ مساحة القطعة 704 متر مربع، مناسبة لبناء فيلا فاخرة أو مشروع استثماري، مع سهولة الوصول إلى الطرق الرئيسية والخدمات الأساسية.\nفرصة نادرة للراغبين في الاستثمار أو السكن في واحدة من أفضل مناطق نواكشوط.",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.999913,
+            18.147112
+          ],
+          "_id": "6954c9a65cc7633e4faf7239"
+        },
+        "publicationDate": "2025-12-31T06:58:46.633Z",
+        "price": 3200000,
+        "lotissement": "Nord Centre emetteur (NCE) Secteur 1",
+        "index": "92",
+        "ilotSize": "888",
+        "polygoneArea": "704.31 m²",
+        "elevation": "-0.25 m",
+        "sidesLength": " 20m 35m 20m 35m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-24_21-58-30-530_75.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-24_17-37-45-826_76.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 394,
+        "lot": [
+          "174"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "694c24475cc7633e4f9fd829",
+        "clientName": " ely cheeick wekalt lemtiyaz",
+        "clientPhoneNumber": "36353307",
+        "title": "قطعة أرض للبيع في تفرغ زينة قرب منتجع صباح – 603م²",
+        "description": "للبيع قطعة أرض مميزة في تفرغ زينة، تقع في موقع حيوي قريب من منتجع صباح، بمساحة 603 متر مربع.\nتتميز الأرض بموقع استراتيجي في منطقة راقية وهادئة، مع سهولة الوصول إلى الطرق الرئيسية وقربها من مختلف الخدمات، مما يجعلها خيارًا مثاليًا للسكن الفاخر أو للاستثمار العقاري المضمون.\n\n📍 الموقع: تفرغ زينة – قرب منتجع صباح\n📐 المساحة: 603م²\n\nفرصة ممتازة لامتلاك أرض في واحدة من أفضل مناطق نواكشوط.\n",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.016033,
+            18.109793
+          ],
+          "_id": "694c24475cc7633e4f9fd82a"
+        },
+        "publicationDate": "2025-12-24T17:35:03.804Z",
+        "price": 3700000,
+        "lotissement": "NOT_EXT_MOD_M_EXT",
+        "index": "90",
+        "ilotSize": "714",
+        "polygoneArea": "603.79 m²",
+        "elevation": "+0.75 m",
+        "sidesLength": " 20m 15m 15m 20m 30m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "42036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-24_06-58-38-425_72.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-24_06-58-38-560_336.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 533,
+        "lot": [
+          "75"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "694b8e79dd39de3e5bebc953",
+        "clientName": "Mohamed",
+        "clientPhoneNumber": "36930096",
+        "title": "قطعة أرض مميزة للبيع في تفرغ زينة قرب جامعة نواكشوط العصرية – 603م²",
+        "description": "فرصة استثمارية نادرة في قلب تفرغ زينة ✨\nقطعة أرض للبيع بمساحة 603 متر مربع، تقع في موقع استراتيجي قريب من جامعة نواكشوط العصرية، في منطقة حيوية تشهد طلبًا متزايدًا على السكن والاستثمار.\n\nتتميز الأرض بسهولة الوصول، وقربها من الخدمات الأساسية، مما يجعلها خيارًا مثاليًا لبناء سكن راقٍ أو مشروع استثماري مضمون.\n📍 الموقع: تفرغ زينة\n📐 المساحة: 603م²\n\nللمهتمين، فرصة لا تُعوّض في واحدة من أفضل مناطق نواكشوط.\n\nإذا حاب، أقدر أعدّل النص ليكون أقصر للسوشيال ميديا أو أكثر رسمية حسب المنصة التي ستنشر فيها الإعلان.",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.964263,
+            18.162603
+          ],
+          "_id": "694b8e79dd39de3e5bebc954"
+        },
+        "publicationDate": "2025-12-24T06:55:53.907Z",
+        "price": 4200000,
+        "lotissement": "CAPMUS UNIVERSITE SECTEUR 1",
+        "index": "6",
+        "ilotSize": "725",
+        "polygoneArea": "603.59 m²",
+        "elevation": "+6.25 m",
+        "sidesLength": " 20m 30m 20m 30m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-58-861_436.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-58-944_431.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-59-104_348.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-59-106_38.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-59-111_452.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-59-181_742.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-59-187_236.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-59-191_713.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-59-264_752.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-14-59-270_751.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-323_309.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-481_839.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-560_595.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-564_221.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-643_288.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-722_577.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-726_210.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-727_994.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-802_851.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-802_326.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-803_877.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-15-48-807_176.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-16-16-825_696.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-16-16-982_575.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-16-17-066_451.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-16-17-153_868.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_13-16-17-154_6.jpg"
+        ],
+        "videos": [
+          "https://sidimedsbucket.s3.amazonaws.com/compressed_video_2025-12-22_13-16-38-446_429.mp4"
+        ],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 5456,
+        "lot": [],
+        "isRealLocation": false,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "6949440ddd39de3e5be664f6",
+        "clientName": "محمد أحمد",
+        "clientPhoneNumber": "24107817034",
+        "title": "ديبلوكس فاخر للبيع في تفرغ زينة قرب كلية الطب – 250م²",
+        "description": "فرصة مميزة لامتلاك ديبلوكس أنيق للبيع في تفرغ زينة بموقع استراتيجي قريب من كلية الطب، على مساحة 250 متر مربع، مصمم بعناية ليجمع بين الراحة والفخامة.\n\nمواصفات العقار:\n\n🔹 الخارج:\n • كراج للسيارات\n • بيت مستقل للعامل مع حمام خاص\n\n🔹 الطابق الأرضي:\n • جلسة واسعة مخصصة للضيوف\n • صالة كبيرة للضيوف\n • غرفة متعددة الاستعمالات (مكتب / غرفة إضافية)\n • مطبخ عملي مع مخزن صغير\n • حمام\n\n🔹 الطابق الأول:\n • ثلاث غرف نوم\n • حمامان خاصان لغرفتين\n • جلسة مفتوحة عائلية\n • إطلالة جميلة على السقف (بلكون)\n\n🏡 الديبلوكس مناسب للسكن العائلي الراقي أو للاستثمار في واحدة من أفضل أحياء نواكشوط.\n\n📞 للاستفسار والمعاينة يرجى التواصل على الخاص.\n",
+        "category": "realEstate",
+        "subCategory": "house",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.992506249691404,
+            18.142696893175646
+          ],
+          "_id": "6949440ddd39de3e5be664f7"
+        },
+        "publicationDate": "2025-12-22T13:13:49.382Z",
+        "price": 7500000,
+        "realLatitude": 18.14348238937767,
+        "realLongitude": -15.990417909943508,
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_10-00-29-826_701.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-22_10-00-30-083_828.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 320,
+        "lot": [
+          "1573"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "69490c18dd39de3e5be5ccd0",
+        "clientName": " ely cheeick wekalt lemtiyaz",
+        "clientPhoneNumber": "36353307",
+        "title": "قطعة أرض للبيع في تفرغ زينة – Secteur 5 | مساحة 603م²",
+        "description": "فرصة مميزة للاستثمار أو السكن في أحد أرقى أحياء نواكشوط.\nقطعة أرض للبيع في تفرغ زينة – القطاع 5، بمساحة 603 متر مربع، تقع في موقع استراتيجي هادئ وقريب من أهم الطرق والخدمات.\n\n✔️ حي راقٍ ومطلوب\n✔️ مناسبة لبناء فيلا فاخرة أو مشروع استثماري\n✔️ سهولة الوصول وقيمة مستقبلية عالية\n\n📞 للمزيد من المعلومات أو المعاينة، يرجى التواصل معنا مباشرة.\n\n",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.964744,
+            18.144387
+          ],
+          "_id": "69490c18dd39de3e5be5ccd1"
+        },
+        "publicationDate": "2025-12-22T09:15:04.818Z",
+        "price": 8400000,
+        "lotissement": "Ext FNORD Secteur 5",
+        "index": "34",
+        "ilotSize": "1681",
+        "polygoneArea": "603.36 m²",
+        "elevation": "+0.37 m",
+        "sidesLength": " 20m 30m 20m 30m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "42036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-20_22-23-29-646_626.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-20_22-23-30-552_335.jpg"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 317,
+        "lot": [
+          "627"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "69471fc0e0fbb573ee1222a0",
+        "clientName": "Ely cheick lemtiyaz",
+        "clientPhoneNumber": "36353307",
+        "title": "قطعة أرض مميزة للبيع في تفرغ زينة قرب مستشفى القلب – 704م²",
+        "description": "فرصة استثمارية نادرة في أحد أفضل أحياء تفرغ زينة ✨\nقطعة أرض للبيع تقع قرب مستشفى القلب، في منطقة راقية وهادئة، مناسبة لبناء سكن فاخر أو مشروع استثماري.\n\n🔹 المساحة: 704 متر مربع\n🔹 الموقع: تفرغ زينة – قرب مستشفى القلب\n�",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.998471,
+            18.15135
+          ],
+          "_id": "69471fc0e0fbb573ee1222a1"
+        },
+        "publicationDate": "2025-12-20T22:14:24.376Z",
+        "price": 3300000,
+        "lotissement": "Nord Centre emetteur (NCE) Secteur 1",
+        "index": "92",
+        "ilotSize": "888",
+        "polygoneArea": "704.40 m²",
+        "elevation": "+0.7 m",
+        "sidesLength": " 35m 20m 35m 20m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-19_10-39-58-470_934.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-19_10-39-58-740_169.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 728,
+        "lot": [
+          "322"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "69452a54e0fbb573ee0d8710",
+        "clientName": "Saadbooh Samsar",
+        "clientPhoneNumber": "36251791",
+        "title": "قطعة أرض للبيع في تفرغ زينة قرب فندق فلوريدا – 317م²",
+        "description": "للبيع قطعة أرضية بمساحة 317 متر مربع، تقع في تفرغ زينة قرب فندق فلوريدا، في موقع مميز يجمع بين الهدوء والقرب من أهم المرافق والخدمات.\n\nالقطعة مناسبة لبناء منزل سكني أو مشروع استثماري صغير، وتُعد فرصة ممتازة في منطقة تعرف بطلبها المرتفع وقيمتها المتزايدة.\n\n📍 الموقع: تفرغ زينة – قرب فندق فلوريدا\n📐 المساحة: 317 م²\n",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.014847,
+            18.1156
+          ],
+          "_id": "69452a54e0fbb573ee0d8711"
+        },
+        "publicationDate": "2025-12-19T10:35:00.333Z",
+        "price": 3500000,
+        "lotissement": "Module_M_ANAT",
+        "ilot": "Phase 3",
+        "index": "81",
+        "ilotSize": "907",
+        "polygoneArea": "317.49 m²",
+        "elevation": "+0.75 m",
+        "sidesLength": " 16m 20m 16m 20m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-19_10-32-08-077_326.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-19_10-32-08-533_463.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 2369,
+        "lot": [
+          "996"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "694529a908fa2b73e17ccef9",
+        "clientName": "Saadbooh Samsar",
+        "clientPhoneNumber": "36251791",
+        "title": "قطعة أرض للبيع في تفرغ زينة – فيراج أوكار | 603م²",
+        "description": "للبيع قطعة أرضية مميزة بمساحة 603 متر مربع، تقع في تفرغ زينة تحديدًا في فيراج أوكار، أحد أكثر المواقع حيوية وطلبًا في المنطقة.\nتتميز القطعة بموقع استراتيجي قريب من الطرق الرئيسية والخدمات، ما يجعلها مناسبة لبناء منزل فاخر أو مشروع استثماري ناجح.\n\nفرصة نادرة في موقع مرغوب وقيمة عقارية متزايدة.\n\n📍 الموقع: تفرغ زينة – فيراج أوكار\n📐 المساحة: 603 م²",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.00771,
+            18.119368
+          ],
+          "_id": "694529a908fa2b73e17ccefa"
+        },
+        "publicationDate": "2025-12-19T10:32:09.394Z",
+        "price": 4200000,
+        "lotissement": "Extension N.O.T Module M",
+        "index": "53",
+        "ilotSize": "1096",
+        "polygoneArea": "603.53 m²",
+        "elevation": "+0.5 m",
+        "sidesLength": " 20m 30m 20m 15m 15m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-15_13-55-56-982_418.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-15_13-55-57-068_0.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 3960,
+        "lot": [
+          "NP-CSNAP1077"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "694011c0e0fbb573ee02ee1a",
+        "clientName": "kb",
+        "clientPhoneNumber": "42117648",
+        "title": "قطعة أرض مميزة للبيع في تفرغ زينة – قرب طب القلب | 439 م²",
+        "description": "فرصة استثمارية ممتازة في واحدة من أرقى مناطق نواكشوط 🌆\nقطعة أرض للبيع في تفرغ زينة، تقع في الزاوية وقريبة جدًا من مركز طب القلب، بمساحة 439 مترًا مربعًا، موقع استراتيجي مناسب للسكن الراقي أو الاستثمار العقاري.\n\nالمنطقة هادئة، مخدومة، وقريبة من الطرق الرئيسية وجميع المرافق الضرورية، مما يجعلها خيارًا مثاليًا لبناء فيلا أو مشروع سكني مميز.\n\n📐 المساحة: 439 م²\n📍 الموقع: تفرغ زينة – قرب طب القلب (زاوية)\n\n📞 للمزيد من التفاصيل والتواصل الجاد، يرجى الاتصال",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.99604,
+            18.142554
+          ],
+          "_id": "694011c0e0fbb573ee02ee1b"
+        },
+        "publicationDate": "2025-12-15T13:48:48.807Z",
+        "price": 3000000,
+        "lotissement": "Concession_2",
+        "index": "16",
+        "ilotSize": "90",
+        "polygoneArea": "439.43 m²",
+        "elevation": "+3.28 m",
+        "sidesLength": " 16m 20m 16m 8m 20m 1m 3m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-05_13-06-19-912_767.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-05_13-06-20-008_905.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 864,
+        "lot": [
+          "411"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "6932d8cce0fbb573eee9ddc6",
+        "clientName": "Diallo",
+        "clientPhoneNumber": "26789149",
+        "title": "أرض للبيع 301م² قرب منتجع صباح – تفرغ زينة",
+        "description": "فرصة ممتازة لاقتناء أرض سكنية في واحدة من أرقى مناطق تفرغ زينة، قرب منتجع صباح مباشرة.\nالموقع هادئ ومثالي لبناء منزل راقٍ أو مشروع استثماري صغير.\nالوثائق سليمة والمكان معروف بقربه من أهم المرافق والخدمات.\n",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.016273,
+            18.11746
+          ],
+          "_id": "6932d8cce0fbb573eee9ddc7"
+        },
+        "publicationDate": "2025-12-05T13:06:20.414Z",
+        "price": 2700000,
+        "lotissement": "Module_M_ANAT",
+        "ilot": "Phase 4",
+        "index": "81",
+        "ilotSize": "907",
+        "polygoneArea": "301.78 m²",
+        "elevation": "+0.75 m",
+        "sidesLength": " 15m 20m 15m 20m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-05_13-20-34-978_613.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-05_13-20-35-077_276.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 508,
+        "lot": [
+          "876"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "6932dbd508fa2b73e1596093",
+        "clientName": "Diallo Samsar",
+        "clientPhoneNumber": "26789149",
+        "title": "قطعة أرض للبيع 603م² في تفرغ زينة – Module M",
+        "description": "أرض ممتازة للبيع بمساحة 603 متر مربع في منطقة Module M الراقية.\nالموقع يعد من أفضل المناطق للاستثمار العقاري، بقربه من مرافق مهمة وحيّ سكني هادئ.\nالمساحة مناسبة لبناء منزل فاخر أو مشروع إيجاري مربح.\nالوثائق جاهزة للتحويل.\n",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.013067,
+            18.115379
+          ],
+          "_id": "6932dbd508fa2b73e1596094"
+        },
+        "publicationDate": "2025-12-05T00:19:17.663Z",
+        "price": 7500000,
+        "lotissement": "Extension N.O.T Module M",
+        "index": "53",
+        "ilotSize": "1096",
+        "polygoneArea": "603.73 m²",
+        "elevation": "+0.8 m",
+        "sidesLength": " 15m 15m 20m 30m 20m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-06_21-28-41-583_383.jpg"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 413,
+        "lot": [
+          "400"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "6932da8208fa2b73e15957c2",
+        "clientName": "Diallo Samsar",
+        "clientPhoneNumber": "26789149",
+        "title": "أرض للبيع 704م² قرب فيراج أوكار – موقع راقٍ ومميز ",
+        "description": "للبيع قطعة أرض كبيرة بمساحة 704 متر مربع في منطقة راقية قرب فيراج أوكار.\nتصلح لبناء فيلا واسعة أو مشروع سكني حديث.\nالموقع يوفر قيمة مضافة بفضل قربه من أهم المحاور والخدمات في تفرغ زينة.\nالوثائق قانونية وكاملة.\n\n",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.01661,
+            18.114463
+          ],
+          "_id": "6932da8208fa2b73e15957c3"
+        },
+        "publicationDate": "2025-12-05T00:13:38.578Z",
+        "price": 4800000,
+        "lotissement": "NOT_EXT_MOD_M_EXT",
+        "index": "90",
+        "ilotSize": "714",
+        "polygoneArea": "704.84 m²",
+        "elevation": "+0.75 m",
+        "sidesLength": " 20m 15m 20m 20m 35m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_13-15-48-519_774.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_13-15-48-602_860.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 629,
+        "lot": [
+          "116"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "692ee62ae0fbb573eee26f11",
+        "clientName": " ely cheeick wekalt lemtiyaz",
+        "clientPhoneNumber": "36353307",
+        "title": "قطعة أرض للبيع في تفرغ زينة قرب كرفور البراد — مساحة 603م²",
+        "description": "للبيع قطعة أرض مميزة في تفرغ زينة، تقع قرب كرفور البراد في واحد من أفضل وأرقى المواقع الحيوية في العاصمة.\nتبلغ مساحة الأرض 603 متر مربع، وتتميز بموقع استراتيجي مناسب لبناء فيلا فاخرة، مشروع سكني، أو مبنى تجاري.\n\nمميزات الأرض:\n • موقع ممتاز قريب من جميع الخدمات\n • حي راقٍ وهادئ\n • مناسبة للاستثمار أو للبناء الشخصي\n • مساحة مثالية 603م² تسمح بتصميم مرن ومريح\n\n📍 فرصة نادرة في أحد أقوى مناطق تفرغ زينة",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.00178,
+            18.164116
+          ],
+          "_id": "692ee62ae0fbb573eee26f12"
+        },
+        "publicationDate": "2025-12-04T13:14:18.083Z",
+        "price": 3800000,
+        "lotissement": "Nord Centre emetteur (NCE) Secteur 3",
+        "index": "94",
+        "ilotSize": "577",
+        "polygoneArea": "603.42 m²",
+        "elevation": "-0.68 m",
+        "sidesLength": " 20m 30m 20m 30m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_13-18-30-568_201.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_13-18-30-656_832.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 397,
+        "lot": [
+          "237"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "692ee6dd08fa2b73e15185f2",
+        "clientName": " ely cheeick wekalt lemtiyaz",
+        "clientPhoneNumber": "36353307",
+        "title": "قطعة أرض للبيع في تفرغ زينة قرب École d’État Major — مساحة 694م²",
+        "description": "للبيع قطعة أرض مميزة في تفرغ زينة، تقع قرب École d’État Major، في واحد من أكثر المواقع هدوءًا ورقيًا داخل العاصمة.\nتبلغ مساحة الأرض 694 متر مربع، مما يجعلها خيارًا ممتازًا لبناء فيلا فاخرة أو مشروع استثماري راقٍ.\n\nمميزات الأرض:\n • موقع استراتيجي وقريب من جميع الخدمات\n • منطقة آمنة وراقية\n • مناسبة للبناء الشخصي أو للاستثمار العقاري\n • مساحة كبيرة 694م² تسمح بتصميمات واسعة ومرفهة\n\n📍 فرصة مميزة في قلب تفرغ زينة — موقع ممتاز ومساحة مثالية",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.998626,
+            18.167457
+          ],
+          "_id": "692ee6dd08fa2b73e15185f3"
+        },
+        "publicationDate": "2025-12-02T13:17:17.979Z",
+        "price": 4200000,
+        "lotissement": "Nord Centre emetteur (NCE) Secteur 3",
+        "index": "94",
+        "ilotSize": "577",
+        "polygoneArea": "694.12 m²",
+        "elevation": "+1.7 m",
+        "sidesLength": " 30m 23m 30m 23m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-273_419.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-513_755.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-675_666.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-682_600.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-759_130.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-774_684.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-775_850.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-779_696.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-785_396.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-15-17-854_967.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-18-381_511.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-18-964_434.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-19-217_514.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-19-563_90.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-19-724_73.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-19-900_765.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-20-130_567.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-20-309_574.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-20-538_78.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-17-20-687_722.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-19-38-502_882.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-19-38-676_417.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-19-38-845_474.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-19-38-917_151.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-19-38-929_666.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-19-38-942_493.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-19-39-001_897.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-19-39-019_933.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-21-18-246_245.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-12-02_10-21-19-336_951.jpg"
+        ],
+        "videos": [
+          "https://sidimedsbucket.s3.amazonaws.com/compressed_video_2025-12-02_12-22-57-853_416.mp4"
+        ],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 554,
+        "lot": [],
+        "isRealLocation": false,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "692ebb76e0fbb573eee1dfcb",
+        "clientName": "JAY MN 6REV MEMIN",
+        "clientPhoneNumber": "48036802",
+        "title": "منزل فاخر مفروش للبيع في F_Nord Secteur 1 — مساحة 519م² على الزاوية",
+        "description": "للبيع منزل فاخر مفروش بالكامل ومجهز بأحدث التجهيزات، يقع في F_Nord Secteur 1 على الزاوية، بمساحة 519 متر مربع، وبمواصفات تجعل منه خيارًا مثاليًا للباحثين عن الراحة والفخامة في قلب تفرغ زينة.\n\nالطابق الأرضي:\n • مطبخ مفتوح عصري + مطبخ داخلي منفصل\n • جلستان مفتوحتان بتصاميم راقية\n • غرفة نوم مع حمام داخلي\n • صالة واسعة لاستقبال الضيوف\n • حمام عام\n • مخزن للطعام + مخزن للأغراض المنزلية\n\nالطابق الأول:\n • غرفة نوم رئيسية كبيرة مع:\n • حمام خاص\n • غرفة تبديل الملابس\n • جلسة مطلة على الخارج\n • غرفة نوم صغيرة مع حمام\n • غرفة مخصصة للمكتب والمذاكرة\n • غرفة إضافية حسب الاستخدام\n\nمميزات إضافية:\n • طاقة شمسية تغطي احتياجات المنزل\n • كاميرات مراقبة في جميع زوايا المنزل\n • مكيفات في كل الغرف\n • الأثاث كامل وجاهز للسكن\n\nالساحة الخارجية:\n • غرفتان للعمال مع حمام\n • مساحة خضراء واسعة بعشب طبيعي وأشجار\n • خصوصية عالية وموقع ممتاز على الزاوية\n\n📍 موقع مميز – تجهيز فاخر – جاهز للسكن فورًا",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -15.9672013,
+            18.1160934
+          ],
+          "_id": "692ebb76e0fbb573eee1dfcc"
+        },
+        "publicationDate": "2025-12-02T10:12:06.273Z",
+        "price": 18000000,
+        "realLatitude": 18.115199707685544,
+        "realLongitude": -15.971117749149983,
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-11-27_11-39-47-435_459.jpg",
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-11-27_11-39-47-521_853.png"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 533,
+        "lot": [
+          "434"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "692837a708fa2b73e1472956",
+        "clientName": " ely cheeick wekalt lemtiyaz",
+        "clientPhoneNumber": "36353307",
+        "title": "أرض مميزة للبيع في تفرغ زينة – قرب طريق نواذيبو (H Suite)المساحة: 815 متر مربع",
+        "description": "للبيع قطعة أرض مميزة في قلب تفرغ زينة، بالتحديد في H Suite بالقرب من طريق نواذيبو، تتمتع بموقع استراتيجي مناسب للسكن الراقي أو مشروع استثماري.\n\n📏 المساحة: 815 متر مربع\n📍 الموقع: تفرغ زينة – قرب طريق نواذيبو، H Suite\n✔️ المواصفات:\n • منطقة راقية وهادئة\n • قريبة من الخدمات والطرق الرئيسية\n • مناسبة لبناء فيلا أو مشروع عقاري استثماري",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.011644,
+            18.154914
+          ],
+          "_id": "692837a708fa2b73e1472957"
+        },
+        "publicationDate": "2025-11-28T11:36:07.967Z",
+        "price": 4700000,
+        "lotissement": "Extension N.O.T Module H Suite",
+        "index": "43",
+        "ilotSize": "654",
+        "polygoneArea": "815.86 m²",
+        "elevation": "+0.75 m",
+        "sidesLength": " 20m 20m 20m 20m 20m 20m",
+        "matterportLink": "undefined",
+        "__v": 0
+      },
+      {
+        "publisher": {
+          "userId": "675f287438571636a23ff3e5",
+          "name": "elminassa.com",
+          "phoneNumber": "48036802",
+          "email": null
+        },
+        "photos": [
+          "https://sidimedsbucket.s3.amazonaws.com/photo_2025-11-21_18-56-50-104_521.jpg"
+        ],
+        "videos": [],
+        "sold": false,
+        "deleted": false,
+        "tobedeleted": false,
+        "visible": true,
+        "visitCount": 966,
+        "lot": [
+          "275"
+        ],
+        "isRealLocation": true,
+        "subPolygon": [],
+        "subPolygonColor": "",
+        "_id": "691f55ba08fa2b73e135ea3a",
+        "clientName": "Nanou",
+        "clientPhoneNumber": "36076807",
+        "title": "أرض للبيع في تفرغ زينة قرب فيراج أوكار – مساحة 704م²",
+        "description": "فرصة استثمارية مميزة!\nتُعرض للبيع قطعة أرض تقع قرب فيراج أوكار في تفرغ زينة، واحدة من أكثر المناطق قيمةً وطلبًا في العاصمة.\nتبلغ مساحة الأرض 704 متر مربع، وتتميز بموقع استراتيجي قريب من الطرق الحيوية والخدمات الأساسية.\n\nمناسبة لبناء سكن راقٍ أو إنشاء مشروع استثماري ناجح",
+        "category": "realEstate",
+        "subCategory": "land",
+        "region": "tevragh-zeina",
+        "contractType": "sale",
+        "professional": false,
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -16.014533,
+            18.11296
+          ],
+          "_id": "691f55ba08fa2b73e135ea3b"
+        },
+        "publicationDate": "2025-11-27T17:54:02.791Z",
+        "price": 3400000,
+        "lotissement": "NOT_EXT_MOD_M_EXT",
+        "index": "90",
+        "ilotSize": "714",
+        "polygoneArea": "704.09 m²",
+        "elevation": "+0.75 m",
+        "sidesLength": " 20m 15m 20m 20m 35m",
+        "matterportLink": "undefined",
+        "__v": 0
+      }
+    ]
+  }

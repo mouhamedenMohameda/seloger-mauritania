@@ -81,7 +81,7 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                         className={`absolute inset-0 transition-opacity duration-500 ${index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
                             }`}
                     >
-                        {/* Use next/image for remote URLs, regular img for blob URLs */}
+                        {/* Use next/image for remote URLs, regular img for blob/data URLs */}
                         {url.startsWith('blob:') || url.startsWith('data:') ? (
                             <img
                                 src={url}
@@ -102,7 +102,8 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                                 className="object-cover"
                                 priority={index === 0}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
-                                unoptimized={url.includes('supabase.co')} // Supabase URLs may need unoptimized
+                                // Unoptimized for external URLs (S3) and Supabase Storage URLs
+                                unoptimized={url.includes('supabase.co') || url.includes('s3.amazonaws.com') || url.includes('s3.')}
                                 onError={(e) => {
                                     console.error(`Failed to load photo ${index + 1}:`, url);
                                 }}

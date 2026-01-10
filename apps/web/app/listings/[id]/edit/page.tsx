@@ -9,6 +9,7 @@ import ConfirmDialog from '@/components/ui/ConfirmDialog';
 import LoadingState from '@/components/ui/LoadingState';
 import { useToast } from '@/lib/toast';
 import { useUpdateListing } from '@/lib/hooks/use-listings';
+import { getPhotoUrl } from '@/lib/photo-utils';
 
 const LocationPicker = dynamic(() => import('@/components/LocationPicker'), {
     ssr: false,
@@ -102,8 +103,8 @@ export default function EditListingPage() {
                 if (photosData) {
                     const photoUrls = photosData.map(photo => {
                         if (!photo.storage_path) return null;
-                        const { data } = supabase.storage.from('listings').getPublicUrl(photo.storage_path);
-                        return { id: photo.id, url: data.publicUrl };
+                        const url = getPhotoUrl(supabase, photo.storage_path);
+                        return { id: photo.id, url };
                     }).filter(Boolean) as Array<{ id: string; url: string }>;
                     setExistingPhotos(photoUrls);
                 }
