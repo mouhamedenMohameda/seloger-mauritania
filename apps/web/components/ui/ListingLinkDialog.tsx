@@ -63,7 +63,7 @@ export default function ListingLinkDialog({ isOpen, onClose, listingId, listingT
                             onClick={handleCopy}
                             className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${copied
                                     ? 'bg-green-600 text-white'
-                                    : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                                    : 'bg-primary text-white hover:bg-primary/90'
                                 }`}
                         >
                             {copied ? (t('copied') || 'Copié !') : (t('copy') || 'Copier')}

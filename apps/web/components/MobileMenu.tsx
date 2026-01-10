@@ -116,7 +116,7 @@ export default function MobileMenu({ user, isOpen: controlledIsOpen, onOpenChang
                         <Link
                             href="/post"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-3 w-full px-4 py-3.5 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-lg active:scale-95 text-center justify-center mb-6"
+                            className="flex items-center gap-3 w-full px-4 py-3.5 text-sm font-bold text-white bg-primary rounded-xl hover:bg-primary/90 transition-all shadow-lg active:scale-95 text-center justify-center mb-6"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -133,9 +133,9 @@ export default function MobileMenu({ user, isOpen: controlledIsOpen, onOpenChang
                                     <Link
                                         href="/favorites"
                                         onClick={() => setIsOpen(false)}
-                                        className="flex items-center gap-4 px-4 py-4 text-base font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all rounded-2xl group"
+                                        className="flex items-center gap-4 px-4 py-4 text-base font-semibold text-gray-700 hover:bg-primary/5 hover:text-primary/90 transition-all rounded-2xl group"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-100 transition-colors">
+                                        <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
                                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                             </svg>
@@ -145,9 +145,9 @@ export default function MobileMenu({ user, isOpen: controlledIsOpen, onOpenChang
                                     <Link
                                         href="/my-listings"
                                         onClick={() => setIsOpen(false)}
-                                        className="flex items-center gap-4 px-4 py-4 text-base font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all rounded-2xl group"
+                                        className="flex items-center gap-4 px-4 py-4 text-base font-semibold text-gray-700 hover:bg-primary/5 hover:text-primary/90 transition-all rounded-2xl group"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-100 transition-colors">
+                                        <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
                                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                             </svg>
@@ -157,9 +157,9 @@ export default function MobileMenu({ user, isOpen: controlledIsOpen, onOpenChang
                                     <Link
                                         href="/account"
                                         onClick={() => setIsOpen(false)}
-                                        className="flex items-center gap-4 px-4 py-4 text-base font-semibold text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all rounded-2xl group"
+                                        className="flex items-center gap-4 px-4 py-4 text-base font-semibold text-gray-700 hover:bg-primary/5 hover:text-primary/90 transition-all rounded-2xl group"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-100 transition-colors">
+                                        <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
                                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                             </svg>

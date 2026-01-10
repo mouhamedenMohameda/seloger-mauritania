@@ -52,7 +52,7 @@ export default function NeighborhoodSuggestions({ onSelect, onClose }: Neighborh
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t('searchNeighborhoods') || 'Rechercher un quartier...'}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent mb-3"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/50 focus:border-transparent mb-3"
             />
 
             <div className="max-h-64 overflow-y-auto space-y-1">
@@ -68,17 +68,17 @@ export default function NeighborhoodSuggestions({ onSelect, onClose }: Neighborh
                                 onSelect(neighborhood.lat, neighborhood.lng, neighborhood.displayName);
                                 if (onClose) onClose();
                             }}
-                            className="w-full text-left px-3 py-2 hover:bg-indigo-50 rounded-md transition-colors group"
+                            className="w-full text-left px-3 py-2 hover:bg-primary/5 rounded-md transition-colors group"
                         >
                             <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center shrink-0 group-hover:bg-indigo-200 transition-colors">
-                                    <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                                    <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-gray-900 truncate group-hover:text-indigo-600 transition-colors">
+                                    <p className="text-sm font-semibold text-gray-900 truncate group-hover:text-primary transition-colors">
                                         {neighborhood.name}
                                     </p>
                                     <p className="text-xs text-gray-500 truncate">

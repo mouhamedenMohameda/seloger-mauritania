@@ -61,7 +61,7 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
                 </div>
                 <div className="absolute top-4 left-4 z-10">
                     <span className={`px-3 py-1.5 rounded-md text-sm font-semibold ${listingType === 'rent'
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-primary text-white'
                         : 'bg-green-600 text-white'
                         }`}>
                         {listingType === 'rent' ? t('forRent') : t('forSale')}
@@ -116,7 +116,7 @@ export default function PhotoCarousel({ photos, listingType, title }: PhotoCarou
             {/* Badge */}
             <div className="absolute top-4 left-4 z-20">
                 <span className={`px-3 py-1.5 rounded-md text-sm font-semibold ${listingType === 'rent'
-                    ? 'bg-indigo-600 text-white'
+                    ? 'bg-primary text-white'
                     : 'bg-green-600 text-white'
                     }`}>
                     {listingType === 'rent' ? t('forRent') : t('forSale')}

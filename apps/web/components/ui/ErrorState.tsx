@@ -35,7 +35,7 @@ export default function ErrorState({ title, message, icon, action, onRetry }: Er
                 {onRetry && (
                     <button
                         onClick={onRetry}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-sm font-medium"
+                        className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors text-sm font-medium"
                     >
                         {t('retry') || 'Réessayer'}
                     </button>

@@ -11,7 +11,7 @@ export default function LanguageSwitcher() {
                 onClick={() => setLang('fr')}
                 className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
                     lang === 'fr'
-                        ? 'bg-white text-indigo-600 shadow-sm'
+                        ? 'bg-white text-primary shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
                 }`}
             >
@@ -21,7 +21,7 @@ export default function LanguageSwitcher() {
                 onClick={() => setLang('ar')}
                 className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
                     lang === 'ar'
-                        ? 'bg-white text-indigo-600 shadow-sm'
+                        ? 'bg-white text-primary shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
                 }`}
             >

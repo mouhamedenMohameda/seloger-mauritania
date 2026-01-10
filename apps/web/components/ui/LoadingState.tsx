@@ -12,7 +12,7 @@ export default function LoadingState({ message, fullScreen = false }: LoadingSta
 
     const content = (
         <div className="flex flex-col items-center justify-center p-8">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent mb-4"></div>
             <p className="text-sm font-medium text-gray-700">{message || t('loading') || 'Chargement...'}</p>
         </div>
     );

@@ -56,7 +56,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                     {hasActiveFilters && (
                         <button
                             onClick={handleReset}
-                            className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+                            className="text-sm text-primary hover:text-primary/90 font-medium"
                         >
                             {t('reset') || 'Réinitialiser'}
                         </button>
@@ -86,7 +86,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                             onClick={() => handleChange('opType', localFilters.opType === 'rent' ? undefined : 'rent')}
                             className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                                 localFilters.opType === 'rent'
-                                    ? 'bg-indigo-600 text-white'
+                                    ? 'bg-primary text-white'
                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                         >
@@ -117,7 +117,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                                 placeholder={t('min') || 'Min'}
                                 value={localFilters.minPrice || ''}
                                 onChange={(e) => handleChange('minPrice', e.target.value ? parseFloat(e.target.value) : undefined)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/50 focus:border-transparent"
                                 min="0"
                             />
                         </div>
@@ -127,7 +127,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                                 placeholder={t('max') || 'Max'}
                                 value={localFilters.maxPrice || ''}
                                 onChange={(e) => handleChange('maxPrice', e.target.value ? parseFloat(e.target.value) : undefined)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/50 focus:border-transparent"
                                 min="0"
                             />
                         </div>
@@ -146,7 +146,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                                 placeholder={t('min') || 'Min'}
                                 value={localFilters.minRooms || ''}
                                 onChange={(e) => handleChange('minRooms', e.target.value ? parseInt(e.target.value) : undefined)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/50 focus:border-transparent"
                                 min="0"
                             />
                         </div>
@@ -156,7 +156,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                                 placeholder={t('max') || 'Max'}
                                 value={localFilters.maxRooms || ''}
                                 onChange={(e) => handleChange('maxRooms', e.target.value ? parseInt(e.target.value) : undefined)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/50 focus:border-transparent"
                                 min="0"
                             />
                         </div>
@@ -175,7 +175,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                                 placeholder={t('min') || 'Min'}
                                 value={localFilters.minSurface || ''}
                                 onChange={(e) => handleChange('minSurface', e.target.value ? parseFloat(e.target.value) : undefined)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/50 focus:border-transparent"
                                 min="0"
                             />
                         </div>
@@ -185,7 +185,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                                 placeholder={t('max') || 'Max'}
                                 value={localFilters.maxSurface || ''}
                                 onChange={(e) => handleChange('maxSurface', e.target.value ? parseFloat(e.target.value) : undefined)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/50 focus:border-transparent"
                                 min="0"
                             />
                         </div>
@@ -200,7 +200,7 @@ export default function SearchFilters({ filters, onChange, onClose }: SearchFilt
                     <select
                         value={localFilters.sortBy}
                         onChange={(e) => handleChange('sortBy', e.target.value as SearchFiltersState['sortBy'])}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/50 focus:border-transparent"
                     >
                         <option value="date_desc">{t('newest') || 'Plus récent'}</option>
                         <option value="date_asc">{t('oldest') || 'Plus ancien'}</option>

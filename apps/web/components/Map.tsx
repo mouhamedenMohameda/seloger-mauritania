@@ -297,7 +297,7 @@ export default function Map({ onBoundsChange, markers = [], onMarkerClick, onSea
             const markerBgColor = isForSale 
                 ? 'bg-green-600 hover:bg-green-700' 
                 : isForRent 
-                    ? 'bg-indigo-600 hover:bg-indigo-700' 
+                    ? 'bg-primary hover:bg-primary/90' 
                     : 'bg-gray-600 hover:bg-gray-700';
             
             el.className = `map-marker ${markerBgColor} text-white px-3 py-1.5 rounded-full shadow-2xl text-xs font-black border-2 border-white cursor-pointer hover:scale-110 active:scale-95 transition-all duration-200 z-10`;
