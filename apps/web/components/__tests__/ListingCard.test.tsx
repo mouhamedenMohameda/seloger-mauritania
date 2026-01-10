@@ -11,7 +11,7 @@ vi.mock('../../lib/supabase/client', () => ({
                 eq: () => ({
                     order: () => ({
                         limit: () => ({
-                            single: () => Promise.resolve({ data: null, error: null })
+                            maybeSingle: () => Promise.resolve({ data: null, error: null })
                         })
                     })
                 })

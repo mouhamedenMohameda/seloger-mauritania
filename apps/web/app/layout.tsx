@@ -4,6 +4,7 @@ import './globals.css'
 import NavBar from '@/components/NavBar'
 import Providers from '@/components/Providers'
 import { ToastContainer } from '@/lib/toast'
+import WhatsAppSupport from '@/components/WhatsAppSupport'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           </main>
           <ToastContainer />
         </Providers>
+        <WhatsAppSupport />
       </body>
     </html>
   )
