@@ -132,6 +132,12 @@ export const translations = {
         view: 'Voir',
         edit: 'Modifier',
         delete: 'Supprimer',
+        listingLinkDescription: 'Partagez le lien de votre annonce :',
+        copy: 'Copier',
+        copied: 'Copié !',
+        copyFailed: 'Échec de la copie',
+        viewListing: 'Voir l\'annonce',
+        close: 'Fermer',
         confirmDelete: 'Êtes-vous sûr de vouloir supprimer cette annonce ?',
         untitledListing: 'Annonce sans titre',
         published: 'publiée',
@@ -183,7 +189,7 @@ export const translations = {
         roomsLabel: 'Chambres',
         descriptionLabel: 'Description',
         contactLabel: 'Contact',
-        
+
         // MongoDB fields translations
         views: 'vues',
         propertyDetails: 'Détails du bien',
@@ -351,6 +357,12 @@ export const translations = {
         view: 'عرض',
         edit: 'تعديل',
         delete: 'حذف',
+        listingLinkDescription: 'شارك رابط إعلانك:',
+        copy: 'نسخ',
+        copied: 'تم النسخ!',
+        copyFailed: 'فشل النسخ',
+        viewListing: 'عرض الإعلان',
+        close: 'إغلاق',
         confirmDelete: 'هل أنت متأكد من حذف هذا الإعلان؟',
         untitledListing: 'إعلان بدون عنوان',
         published: 'منشور',
@@ -402,7 +414,7 @@ export const translations = {
         roomsLabel: 'غرف',
         descriptionLabel: 'الوصف',
         contactLabel: 'اتصال',
-        
+
         // MongoDB fields translations (Arabic)
         views: 'مشاهدات',
         propertyDetails: 'تفاصيل العقار',

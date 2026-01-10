@@ -8,6 +8,7 @@ import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { validateFiles, retryWithBackoff } from '@/lib/file-validation';
 import { useToast } from '@/lib/toast';
 import { useCreateListing } from '@/lib/hooks/use-listings';
+import ListingLinkDialog from '@/components/ui/ListingLinkDialog';
 
 const LocationPicker = dynamic(() => import('@/components/LocationPicker'), {
     ssr: false,
@@ -37,6 +38,9 @@ export default function PostListingPage() {
         lat: 18.0735,
         lng: -15.9582,
     });
+    const [createdListingId, setCreatedListingId] = useState<string | null>(null);
+    const [createdListingTitle, setCreatedListingTitle] = useState<string | null>(null);
+    const [showLinkDialog, setShowLinkDialog] = useState(false);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -71,7 +75,7 @@ export default function PostListingPage() {
 
         // Validate files before adding
         const validation = validateFiles(files);
-        
+
         if (!validation.valid) {
             setError(validation.error || 'Erreur de validation des fichiers');
             e.target.value = ''; // Reset input
@@ -127,7 +131,7 @@ export default function PostListingPage() {
                 // Upload with retry logic
                 const uploadData = await retryWithBackoff(async () => {
                     setUploadProgress(prev => ({ ...prev, [index]: 50 }));
-                    
+
                     const { data: uploadData, error: uploadError } = await supabase.storage
                         .from('listings')
                         .upload(filePath, file, {
@@ -229,15 +233,17 @@ export default function PostListingPage() {
                 }
             }
 
-            router.push(`/listings/${listing.id}`);
+            setCreatedListingId(listing.id);
+            setCreatedListingTitle(listing.title);
+            setShowLinkDialog(true);
 
         } catch (err) {
             let errorMessage = err instanceof Error ? err.message : t('createFailed') || 'Échec de la création';
-            
+
             // Check if it's the RPC function not found error
             if (errorMessage.includes('not found') || errorMessage.includes('Could not find') || errorMessage.includes('create_listing_with_location')) {
                 errorMessage = 'Fonction de base de données non trouvée. Veuillez appliquer la migration RPC.\n\nConsultez le fichier APPLY_RPC_NOW.md pour les instructions détaillées.';
-                
+
                 // Show detailed error in development
                 if (process.env.NODE_ENV === 'development') {
                     console.error('RPC Function not found. Please apply migration:', {
@@ -246,7 +252,7 @@ export default function PostListingPage() {
                     });
                 }
             }
-            
+
             setError(errorMessage);
             toast.error(errorMessage);
         }
@@ -407,15 +413,14 @@ export default function PostListingPage() {
                                             const progress = uploadProgress[index];
                                             const hasError = progress === -1;
                                             const isUploading = uploadingPhotos && progress !== undefined && progress !== 100 && !hasError;
-                                            
+
                                             return (
                                                 <div key={index} className="relative group">
                                                     <img
                                                         src={preview}
                                                         alt={`Preview ${index + 1}`}
-                                                        className={`w-full h-24 object-cover rounded-lg border ${
-                                                            hasError ? 'border-red-500' : 'border-gray-200'
-                                                        }`}
+                                                        className={`w-full h-24 object-cover rounded-lg border ${hasError ? 'border-red-500' : 'border-gray-200'
+                                                            }`}
                                                     />
                                                     {/* Upload Progress Overlay */}
                                                     {isUploading && (
@@ -499,6 +504,19 @@ export default function PostListingPage() {
                     </div>
                 </form>
             </div>
+            {/* Listing Link Dialog */}
+            {createdListingId && (
+                <ListingLinkDialog
+                    isOpen={showLinkDialog}
+                    onClose={() => {
+                        setShowLinkDialog(false);
+                        setCreatedListingId(null);
+                        setCreatedListingTitle(null);
+                    }}
+                    listingId={createdListingId}
+                    listingTitle={createdListingTitle || undefined}
+                />
+            )}
         </div>
     );
 }

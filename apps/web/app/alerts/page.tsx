@@ -18,7 +18,7 @@ export default function AlertsPage() {
     const toast = useToast();
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
     const [activeOnly, setActiveOnly] = useState(true);
-    
+
     const { data, isLoading, error } = useAlerts(activeOnly);
     const deleteAlert = useDeleteAlert();
     const updateAlert = useUpdateAlert();
@@ -64,7 +64,7 @@ export default function AlertsPage() {
 
     const formatAlertCriteria = (alert: SearchAlert) => {
         const criteria: string[] = [];
-        
+
         if (alert.min_price || alert.max_price) {
             const priceRange = [
                 alert.min_price ? `${alert.min_price.toLocaleString()} MRU` : '',
@@ -120,8 +120,8 @@ export default function AlertsPage() {
             <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
                 <div className="mb-8 flex items-center justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">{t('myAlerts') || 'Mes Alertes'}</h1>
-                        <p className="mt-1 text-sm text-gray-500">{t('alertsDescription') || 'Recevez des notifications pour les nouvelles annonces correspondant à vos critères'}</p>
+                        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">{t('myAlerts') || 'Mes Alertes'}</h1>
+                        <p className="mt-2 text-gray-500">{t('alertsDescription')}</p>
                     </div>
                     <Link
                         href="/alerts/new"
@@ -135,21 +135,19 @@ export default function AlertsPage() {
                 <div className="mb-6 flex gap-2 bg-white p-1 rounded-lg border border-gray-200 shadow-sm">
                     <button
                         onClick={() => setActiveOnly(true)}
-                        className={`flex-1 px-4 py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
-                            activeOnly
+                        className={`flex-1 px-4 py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${activeOnly
                                 ? 'bg-indigo-600 text-white shadow-md'
                                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                        }`}
+                            }`}
                     >
                         {t('active') || 'Actives'} ({alerts.filter(a => a.active).length})
                     </button>
                     <button
                         onClick={() => setActiveOnly(false)}
-                        className={`flex-1 px-4 py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
-                            !activeOnly
+                        className={`flex-1 px-4 py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${!activeOnly
                                 ? 'bg-indigo-600 text-white shadow-md'
                                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                        }`}
+                            }`}
                     >
                         {t('all') || 'Toutes'} ({alerts.length})
                     </button>
@@ -173,19 +171,17 @@ export default function AlertsPage() {
                         {alerts.map((alert) => (
                             <div
                                 key={alert.id}
-                                className={`bg-white rounded-xl shadow-sm border-2 p-6 transition-all duration-200 hover:shadow-md ${
-                                    alert.active ? 'border-indigo-200 bg-gradient-to-br from-white to-indigo-50/30' : 'border-gray-200 opacity-75'
-                                }`}
+                                className={`bg-white rounded-xl shadow-sm border-2 p-6 transition-all duration-200 hover:shadow-md ${alert.active ? 'border-indigo-200 bg-gradient-to-br from-white to-indigo-50/30' : 'border-gray-200 opacity-75'
+                                    }`}
                             >
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-3 mb-3">
                                             <h3 className="text-lg font-bold text-gray-900 truncate">{alert.name}</h3>
-                                            <span className={`px-2.5 py-1 text-xs font-bold rounded-md shadow-sm flex-shrink-0 ${
-                                                alert.active
+                                            <span className={`px-2.5 py-1 text-xs font-bold rounded-md shadow-sm flex-shrink-0 ${alert.active
                                                     ? 'bg-green-500 text-white'
                                                     : 'bg-gray-400 text-white'
-                                            }`}>
+                                                }`}>
                                                 {alert.active ? t('active') || 'Active' : t('inactive') || 'Inactive'}
                                             </span>
                                         </div>
@@ -211,11 +207,10 @@ export default function AlertsPage() {
                                     <div className="flex items-center gap-2 flex-shrink-0">
                                         <button
                                             onClick={() => handleToggleActive(alert)}
-                                            className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm ${
-                                                alert.active
+                                            className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm ${alert.active
                                                     ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                                     : 'bg-indigo-600 text-white hover:bg-indigo-700'
-                                            }`}
+                                                }`}
                                         >
                                             {alert.active ? t('deactivate') || 'Désactiver' : t('activate') || 'Activer'}
                                         </button>
