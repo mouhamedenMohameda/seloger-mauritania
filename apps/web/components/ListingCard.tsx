@@ -28,10 +28,11 @@ interface ListingCardProps {
     };
     showFavorite?: boolean;
     showStatus?: boolean;
+    hideActionButton?: boolean;
     className?: string;
 }
 
-export default function ListingCard({ listing, showFavorite = true, showStatus = false, className = '' }: ListingCardProps) {
+export default function ListingCard({ listing, showFavorite = true, showStatus = false, hideActionButton = false, className = '' }: ListingCardProps) {
     const { t, lang } = useLanguage();
     const [photoUrl, setPhotoUrl] = useState<string | null>(null);
     const supabase = createClient();
@@ -111,21 +112,21 @@ export default function ListingCard({ listing, showFavorite = true, showStatus =
             </Link>
 
             {/* Content Section */}
-            <div className="p-5">
+            <div className="p-4 sm:p-5">
                 {/* Title */}
                 <Link href={`/listings/${listing.id}`}>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
                         {listing.title || t('untitledListing')}
                     </h3>
                 </Link>
 
                 {/* Price */}
                 <div className="mb-3">
-                    <div className="text-2xl font-black text-indigo-600 flex items-baseline gap-1.5" dir="ltr">
+                    <div className="text-xl sm:text-2xl font-black text-indigo-600 flex items-baseline gap-1.5 flex-wrap" dir="ltr">
                         <span>{listing.price ? listing.price.toLocaleString() : 'N/A'}</span>
-                        <span className="text-base font-bold">MRU</span>
+                        <span className="text-sm sm:text-base font-bold">MRU</span>
                         {listing.op_type === 'rent' && (
-                            <span className="text-sm font-normal text-gray-500">{t('month')}</span>
+                            <span className="text-xs sm:text-sm font-normal text-gray-500">{t('month')}</span>
                         )}
                     </div>
                 </div>
@@ -133,7 +134,7 @@ export default function ListingCard({ listing, showFavorite = true, showStatus =
                 {/* Details */}
                 <div className="space-y-2 mb-4">
                     {/* Main details */}
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-sm text-gray-600">
                         {listing.rooms && (
                             <span className="flex items-center gap-1.5">
                                 <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,13 +186,15 @@ export default function ListingCard({ listing, showFavorite = true, showStatus =
                     )}
                 </div>
 
-                {/* Action Button */}
-                <Link
-                    href={`/listings/${listing.id}`}
-                    className="block w-full px-4 py-2.5 text-sm font-semibold text-center text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm"
-                >
-                    {t('view') || 'Voir les détails'}
-                </Link>
+                {/* Action Button - Hidden when hideActionButton is true (e.g., in my-listings page) */}
+                {!hideActionButton && (
+                    <Link
+                        href={`/listings/${listing.id}`}
+                        className="block w-full px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-center text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm"
+                    >
+                        {t('view') || 'Voir les détails'}
+                    </Link>
+                )}
             </div>
         </div>
     );

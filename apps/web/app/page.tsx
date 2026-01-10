@@ -320,8 +320,8 @@ export default function Home() {
         />
 
         {/* Desktop Search Bar - Floating at bottom */}
-        <div className="hidden md:block absolute bottom-6 inset-x-0 z-[1000] px-4 pointer-events-none">
-          <div className="pointer-events-auto">
+        <div className="hidden md:block absolute bottom-2.5 inset-x-0 z-[1000] px-4 pointer-events-none">
+          <div className="pointer-events-auto max-w-[240px] mx-auto">
             <MapSearch onQueryChange={setSearchQuery} />
           </div>
         </div>

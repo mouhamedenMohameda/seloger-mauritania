@@ -60,15 +60,15 @@ export default function MyListingsPage() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-                <div className="mb-8 flex items-center justify-between">
+            <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8 lg:py-12 sm:px-6 lg:px-8">
+                <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">{t('myListingsTitle')}</h1>
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('myListingsTitle')}</h1>
                         <p className="mt-1 text-sm text-gray-500">{t('manageListings')}</p>
                     </div>
                     <Link
                         href="/post"
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-sm font-semibold"
+                        className="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-sm font-semibold w-full sm:w-auto"
                     >
                         {t('newListing')}
                     </Link>
@@ -95,16 +95,17 @@ export default function MyListingsPage() {
                         }
                     />
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         {listings.map((listing) => (
-                            <div key={listing.id} className="group relative">
+                            <div key={listing.id} className="group relative flex flex-col">
                                 <ListingCard
                                     listing={listing}
                                     showFavorite={false}
                                     showStatus={true}
+                                    hideActionButton={true}
                                 />
                                 {/* Action buttons - positioned below card */}
-                                <div className="mt-3 flex items-center gap-2">
+                                <div className="mt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                                     <Link
                                         href={`/listings/${listing.id}`}
                                         className="flex-1 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-center"
@@ -119,7 +120,7 @@ export default function MyListingsPage() {
                                     </Link>
                                     <button
                                         onClick={() => handleDeleteClick(listing.id, listing.title || t('untitledListing') || 'Annonce')}
-                                        className="px-3 py-2 text-sm font-semibold text-red-700 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors"
+                                        className="w-full sm:w-auto px-3 py-2 text-sm font-semibold text-red-700 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors"
                                     >
                                         {t('delete')}
                                     </button>
@@ -131,23 +132,23 @@ export default function MyListingsPage() {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="mt-8 flex items-center justify-center gap-2">
+                    <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-2">
                         <button
                             onClick={() => setPage(p => Math.max(0, p - 1))}
                             disabled={page === 0}
-                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            Précédent
+                            {t('previous') || 'Précédent'}
                         </button>
-                        <span className="px-4 py-2 text-sm text-gray-700">
-                            Page {page + 1} sur {totalPages}
+                        <span className="px-3 sm:px-4 py-2 text-sm text-gray-700 whitespace-nowrap">
+                            {t('page') || 'Page'} {page + 1} {t('of') || 'sur'} {totalPages}
                         </span>
                         <button
                             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
                             disabled={page >= totalPages - 1}
-                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            Suivant
+                            {t('next') || 'Suivant'}
                         </button>
                     </div>
                 )}
