@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import NavBarClient from './NavBarClient'
-import NavBarContainer from './NavBarContainer'
 
 export default async function NavBar() {
     let user = null
@@ -15,21 +14,21 @@ export default async function NavBar() {
     }
 
     return (
-        <NavBarContainer>
-            <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-200">
+            <div className="mx-auto flex h-24 md:h-28 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <Link href="/" className="flex items-center gap-2">
                     <Image
                         src="/logo.png"
                         alt="raDar"
                         width={540}
                         height={180}
-                        className="h-16 sm:h-20 md:h-22 lg:h-24 w-auto object-contain transition-all duration-500"
+                        className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto object-contain"
                         priority
                     />
                 </Link>
 
                 <NavBarClient user={user ? { id: user.id, email: user.email || '' } : null} />
             </div>
-        </NavBarContainer>
+        </nav>
     )
 }

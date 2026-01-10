@@ -48,76 +48,62 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center p-6 bg-slate-50 relative overflow-hidden">
-            {/* Background Decorative Elements */}
-            <div className="absolute top-0 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-0 -right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-
-            <div className="w-full max-w-md glass-effect rounded-3xl shadow-2xl overflow-hidden animate-fade-in-up border-white/40">
-                <div className="flex p-2 bg-gray-100/50 backdrop-blur-sm m-6 rounded-2xl">
+        <div className="flex min-h-screen flex-col items-center justify-center p-4 bg-gray-50">
+            <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="flex border-b">
                     <button
-                        className={`flex-1 py-3 text-center text-sm font-black uppercase tracking-widest rounded-xl transition-all duration-300 ${isLogin ? 'bg-white text-primary shadow-lg' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`flex-1 py-4 text-center font-medium ${isLogin ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
                         onClick={() => { setIsLogin(true); setMessage(''); }}
                     >
                         {t('signIn')}
                     </button>
                     <button
-                        className={`flex-1 py-3 text-center text-sm font-black uppercase tracking-widest rounded-xl transition-all duration-300 ${!isLogin ? 'bg-white text-primary shadow-lg' : 'text-gray-500 hover:text-gray-700'}`}
+                        className={`flex-1 py-4 text-center font-medium ${!isLogin ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
                         onClick={() => { setIsLogin(false); setMessage(''); }}
                     >
                         {t('signUp')}
                     </button>
                 </div>
 
-                <div className="px-8 pb-10">
-                    <div className="text-center mb-10">
-                        <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-2">
-                            {isLogin ? t('welcomeBack') : t('createAccount')}
-                        </h2>
-                        <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">
-                            {isLogin ? 'raDar account' : 'Join raDar'}
-                        </p>
-                    </div>
+                <div className="p-8">
+                    <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
+                        {isLogin ? t('welcomeBack') : t('createAccount')}
+                    </h2>
 
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
-                            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">{t('email')}</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('email')}</label>
                             <input
                                 type="email"
                                 required
-                                className="block w-full rounded-2xl border-gray-200 bg-white/50 px-4 py-3.5 text-sm font-bold text-gray-900 shadow-inner focus:border-primary focus:ring-primary/20 transition-all"
+                                className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@example.com"
                             />
                         </div>
                         <div>
-                            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">{t('password')}</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('password')}</label>
                             <input
                                 type="password"
                                 required
                                 minLength={6}
-                                className="block w-full rounded-2xl border-gray-200 bg-white/50 px-4 py-3.5 text-sm font-bold text-gray-900 shadow-inner focus:border-primary focus:ring-primary/20 transition-all"
+                                className="block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
                             />
                         </div>
 
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group relative w-full flex justify-center py-4 px-4 border border-transparent rounded-2xl shadow-xl text-sm font-black uppercase tracking-widest text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 transition-all active:scale-95 overflow-hidden"
+                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                         >
-                            <span className="relative z-10">{loading ? (isLogin ? t('signingIn') : t('signingUp')) : (isLogin ? t('signIn') : t('signUp'))}</span>
-                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            {loading ? (isLogin ? t('signingIn') : t('signingUp')) : (isLogin ? t('signIn') : t('signUp'))}
                         </button>
                     </form>
 
                     {message && (
-                        <div className={`mt-6 p-4 rounded-2xl text-xs font-bold text-center animate-fade-in-up ${message.includes(t('checkEmail')) || message.includes(t('loggedIn'))
-                            ? 'bg-green-50 text-green-600 border border-green-100'
-                            : 'bg-red-50 text-red-600 border border-red-100'}`}>
+                        <div className={`mt-4 p-3 rounded text-sm text-center ${message.includes(t('checkEmail')) || message.includes(t('loggedIn')) ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                             {message}
                         </div>
                     )}

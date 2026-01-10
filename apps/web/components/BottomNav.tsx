@@ -60,17 +60,17 @@ export default function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                         <button
                             key={tab.id}
                             onClick={() => !tab.disabled && onTabChange(tab.id)}
-                            className={`flex flex-col items-center justify-center flex-1 h-full transition-all relative ${isActive ? 'text-primary' : 'text-gray-400'
-                                } ${tab.disabled ? 'opacity-30 cursor-not-allowed' : 'active:scale-95'}`}
+                            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${isActive ? 'text-indigo-600' : 'text-gray-400'
+                                } ${tab.disabled ? 'opacity-50 cursor-not-allowed' : 'active:scale-95 transition-transform'}`}
                         >
-                            <div className={`${isActive ? 'scale-110 -translate-y-1' : 'scale-100'} transition-all duration-300`}>
+                            <div className={`${isActive ? 'scale-110' : 'scale-100'} transition-transform`}>
                                 {tab.icon}
                             </div>
-                            <span className={`text-[10px] font-bold mt-1 uppercase tracking-wider transition-all ${isActive ? 'opacity-100' : 'opacity-70'}`}>
+                            <span className="text-[10px] font-bold mt-1 uppercase tracking-wider">
                                 {tab.label}
                             </span>
                             {isActive && (
-                                <div className="absolute top-0 w-10 h-1 bg-primary rounded-b-full shadow-[0_2px_10px_rgba(var(--primary),0.5)] animate-fade-in-up" />
+                                <div className="absolute top-0 w-8 h-1 bg-indigo-600 rounded-b-full shadow-[0_0_8px_rgba(79,70,229,0.5)]" />
                             )}
                         </button>
                     );
