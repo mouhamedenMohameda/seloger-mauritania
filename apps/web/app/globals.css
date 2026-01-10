@@ -1,28 +1,104 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Modern Palette - HSL for easy manipulation */
+  --primary: 221 70% 50%;
+  /* Electric Blue */
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --accent: 262 83% 58%;
+  /* Modern Indigo/Purple */
+  --accent-foreground: 210 40% 98%;
+
+  --success: 142 70% 45%;
+  /* WhatsApp/Success Green */
+  --warning: 38 92% 50%;
+  --destructive: 0 84% 60%;
+
+  --background: 210 40% 98%;
+  /* Very light slate */
+  --foreground: 222.2 47.4% 11.2%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 11.2%;
+
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221 70% 50%;
+
+  /* Premium Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 10px 10px 10px -5px rgb(0 0 0 / 0.04);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+
+  /* Animation Tokens */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-accent: hsl(var(--accent));
+  --color-success: hsl(var(--success));
+  --shadow-glass: var(--shadow-glass);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --border: 217.2 32.6% 17.5%;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glass-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s var(--ease-out-expo) forwards;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow-glass);
 }
 
 /* Map marker styles */
@@ -102,7 +178,8 @@ body {
 .mobile-menu-wrapper {
   display: block;
   position: relative;
-  z-index: 50; /* Base z-index for the hamburger button */
+  z-index: 50;
+  /* Base z-index for the hamburger button */
 }
 
 @media (min-width: 768px) {
@@ -113,38 +190,41 @@ body {
 
 /* Ensure map container doesn't overlap mobile menu on mobile */
 @media (max-width: 767px) {
+
   /* Map should be below mobile menu - force low z-index */
   .maplibregl-map {
     z-index: 0 !important;
     position: relative !important;
-    isolation: isolate; /* Create stacking context to contain map elements */
+    isolation: isolate;
+    /* Create stacking context to contain map elements */
   }
-  
+
   .maplibregl-canvas-container {
     z-index: 0 !important;
     position: absolute !important;
   }
-  
+
   .maplibregl-canvas {
     z-index: 0 !important;
   }
-  
+
   /* Mobile menu is now rendered via portal to body, so it's at root level */
   /* Ensure any menu overlay rendered via portal stays on top */
-  body > div[style*="zIndex: 9999"],
-  body > div[style*="z-index: 9999"] {
+  body>div[style*="zIndex: 9999"],
+  body>div[style*="z-index: 9999"] {
     z-index: 9999 !important;
     position: fixed !important;
   }
-  
+
   /* Ensure NavBar doesn't interfere - keep it at 50 */
   nav[class*="fixed"][class*="z-50"] {
     z-index: 50 !important;
   }
-  
+
   /* Mobile menu wrapper (just the button) */
   .mobile-menu-wrapper {
     position: relative;
-    z-index: 50; /* Same as NavBar */
+    z-index: 50;
+    /* Same as NavBar */
   }
 }
