@@ -311,7 +311,8 @@ export default function Home() {
       </div>
 
       {/* Map View */}
-      <div className={`flex-1 relative ${showMap ? 'block' : 'hidden md:block'}`}>
+      {/* IMPORTANT: z-index must be lower than mobile menu (z-[5000]) on mobile */}
+      <div className={`flex-1 relative ${showMap ? 'block' : 'hidden md:block'}`} style={{ zIndex: 0 }}>
         <Map
           onBoundsChange={handleBoundsChange}
           markers={markers}

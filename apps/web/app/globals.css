@@ -101,10 +101,50 @@ body {
 /* Mobile menu - only visible on mobile */
 .mobile-menu-wrapper {
   display: block;
+  position: relative;
+  z-index: 50; /* Base z-index for the hamburger button */
 }
 
 @media (min-width: 768px) {
   .mobile-menu-wrapper {
     display: none;
+  }
+}
+
+/* Ensure map container doesn't overlap mobile menu on mobile */
+@media (max-width: 767px) {
+  /* Map should be below mobile menu - force low z-index */
+  .maplibregl-map {
+    z-index: 0 !important;
+    position: relative !important;
+    isolation: isolate; /* Create stacking context to contain map elements */
+  }
+  
+  .maplibregl-canvas-container {
+    z-index: 0 !important;
+    position: absolute !important;
+  }
+  
+  .maplibregl-canvas {
+    z-index: 0 !important;
+  }
+  
+  /* Mobile menu is now rendered via portal to body, so it's at root level */
+  /* Ensure any menu overlay rendered via portal stays on top */
+  body > div[style*="zIndex: 9999"],
+  body > div[style*="z-index: 9999"] {
+    z-index: 9999 !important;
+    position: fixed !important;
+  }
+  
+  /* Ensure NavBar doesn't interfere - keep it at 50 */
+  nav[class*="fixed"][class*="z-50"] {
+    z-index: 50 !important;
+  }
+  
+  /* Mobile menu wrapper (just the button) */
+  .mobile-menu-wrapper {
+    position: relative;
+    z-index: 50; /* Same as NavBar */
   }
 }

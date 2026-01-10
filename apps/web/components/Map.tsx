@@ -362,6 +362,10 @@ export default function Map({ onBoundsChange, markers = [], onMarkerClick, onSea
     }
 
     return (
-        <div ref={mapContainer} className="w-full h-full min-h-[400px]" />
+        <div 
+            ref={mapContainer} 
+            className="w-full h-full min-h-[400px]" 
+            style={{ position: 'relative', zIndex: 0 }}
+        />
     );
 }
