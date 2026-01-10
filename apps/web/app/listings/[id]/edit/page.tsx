@@ -9,6 +9,7 @@ import ConfirmDialog from '@/components/ui/ConfirmDialog';
 import LoadingState from '@/components/ui/LoadingState';
 import { useToast } from '@/lib/toast';
 import { useUpdateListing } from '@/lib/hooks/use-listings';
+import { useProfile } from '@/lib/hooks/use-profile';
 import { getPhotoUrl } from '@/lib/photo-utils';
 
 const LocationPicker = dynamic(() => import('@/components/LocationPicker'), {
@@ -64,8 +65,17 @@ export default function EditListingPage() {
                 }
                 const listing = await res.json();
 
-                // Verify ownership
-                if (listing.owner_id !== user.id) {
+                // Verify ownership or admin role
+                const profileRes = await fetch('/api/me');
+                if (!profileRes.ok) {
+                    router.push('/login?redirect=/listings/' + listingId + '/edit');
+                    return;
+                }
+                const profileData = await profileRes.json();
+                const isOwner = listing.owner_id === user.id;
+                const isAdmin = profileData.profile?.role === 'admin';
+
+                if (!isOwner && !isAdmin) {
                     router.push('/my-listings');
                     return;
                 }

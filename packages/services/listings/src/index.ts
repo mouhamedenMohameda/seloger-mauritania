@@ -108,15 +108,37 @@ export async function updateListing(
     userId: string,
     input: UpdateListingInput
 ) {
-    // Verify ownership
-    const { data: listing } = await client
+    // Check if user is admin
+    const { data: profile } = await client
+        .from('profiles')
+        .select('role')
+        .eq('id', userId)
+        .single();
+
+    const isAdmin = profile?.role === 'admin';
+
+    // If not admin, verify ownership
+    if (!isAdmin) {
+        const { data: listing } = await client
+            .from('listings')
+            .select('owner_id')
+            .eq('id', listingId)
+            .single();
+
+        if (!listing || listing.owner_id !== userId) {
+            return { data: null, error: { message: 'Forbidden' } };
+        }
+    }
+
+    // Check if listing exists
+    const { data: existingListing } = await client
         .from('listings')
-        .select('owner_id')
+        .select('id')
         .eq('id', listingId)
         .single();
 
-    if (!listing || listing.owner_id !== userId) {
-        return { data: null, error: { message: 'Forbidden' } };
+    if (!existingListing) {
+        return { data: null, error: { message: 'Listing not found' } };
     }
 
     const updateData: any = { ...input };
@@ -136,6 +158,9 @@ export async function updateListing(
         delete updateData.lng;
     }
 
+    // RLS will handle permissions:
+    // - Admins can update any listing (via "Admins can update any listing" policy)
+    // - Owners can update their own listings (via "Owners can update their own listings" policy)
     return client
         .from('listings')
         .update({ ...updateData, updated_at: new Date().toISOString() })

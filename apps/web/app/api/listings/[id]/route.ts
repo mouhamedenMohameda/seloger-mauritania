@@ -131,30 +131,54 @@ export async function DELETE(
         async (req, userId) => {
             const supabase = await createClient()
 
-            // Verify ownership before delete
+            // Check if user is admin
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', userId)
+                .single()
+
+            const isAdmin = profile?.role === 'admin'
+
+            // If not admin, verify ownership
+            if (!isAdmin) {
+                const { data: listing } = await supabase
+                    .from('listings')
+                    .select('owner_id')
+                    .eq('id', id)
+                    .single()
+
+                if (!listing || listing.owner_id !== userId) {
+                    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+                }
+            }
+
+            // Check if listing exists
             const { data: listing } = await supabase
                 .from('listings')
-                .select('owner_id')
+                .select('id')
                 .eq('id', id)
                 .single()
 
-            if (!listing || listing.owner_id !== userId) {
-                return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+            if (!listing) {
+                return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
             }
 
-            // Soft delete: set deleted_at instead of actual delete
+            // Delete the listing (RLS will handle permissions)
+            // For admins: RLS policy allows deletion
+            // For owners: RLS policy allows deletion of their own listings
             const { error } = await supabase
                 .from('listings')
-                .update({ deleted_at: new Date().toISOString() })
+                .delete()
                 .eq('id', id)
 
             if (error) {
                 const { logger } = await import('@/lib/logger')
-                logger.error('Delete listing error', error, { userId, listingId: id })
+                logger.error('Delete listing error', error, { userId, listingId: id, isAdmin })
                 return NextResponse.json({ error: 'Failed to delete listing' }, { status: 500 })
             }
 
-            return NextResponse.json({ success: true })
+            return NextResponse.json({ success: true, deleted: true })
         }
     )
 }

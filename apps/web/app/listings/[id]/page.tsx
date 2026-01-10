@@ -5,20 +5,36 @@ import Link from 'next/link'
 import PhotoCarousel from '@/components/PhotoCarousel'
 import { useState, useEffect, use } from 'react'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
-import { useListing } from '@/lib/hooks/use-listings'
+import { useListing, useDeleteListing } from '@/lib/hooks/use-listings'
+import { useProfile } from '@/lib/hooks/use-profile'
 import { createClient } from '@/lib/supabase/client'
 import LoadingState from '@/components/ui/LoadingState'
 import ErrorState from '@/components/ui/ErrorState'
 import FavoriteButton from '@/components/FavoriteButton'
 import { getPhotoUrls } from '@/lib/photo-utils'
+import { useRouter } from 'next/navigation'
+import { useToast } from '@/lib/toast'
+import ConfirmDialog from '@/components/ui/ConfirmDialog'
 
 export default function ListingPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params)
     const { t, lang } = useLanguage()
+    const router = useRouter()
+    const toast = useToast()
     const { data: listing, isLoading, error } = useListing(id)
+    const { data: profileData } = useProfile()
+    const deleteListing = useDeleteListing()
     const [photoUrls, setPhotoUrls] = useState<string[]>([])
     const [photosLoading, setPhotosLoading] = useState(false)
+    const [deleteConfirm, setDeleteConfirm] = useState(false)
+    const [deleting, setDeleting] = useState(false)
     const supabase = createClient()
+
+    // Check if user can edit/delete this listing (owner or admin)
+    const canEdit = !!(listing && profileData && (
+        listing.owner_id === profileData.user.id || 
+        profileData.profile.role === 'admin'
+    ))
 
     // Fetch photos when listing is loaded
     useEffect(() => {
@@ -49,6 +65,22 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
 
         fetchPhotos()
     }, [listing, id, supabase])
+
+    const handleDelete = async () => {
+        if (!listing) return
+
+        setDeleting(true)
+        try {
+            await deleteListing.mutateAsync(listing.id)
+            toast.success(t('listingDeleted') || 'Annonce supprimée avec succès')
+            router.push('/')
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : t('deleteFailed') || 'Échec de la suppression')
+        } finally {
+            setDeleting(false)
+            setDeleteConfirm(false)
+        }
+    }
 
     if (isLoading) {
         return <LoadingState fullScreen message={t('loadingListing') || 'Chargement...'} />
@@ -94,7 +126,34 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                             <h1 className="text-3xl font-bold text-gray-900">
                                 {listing.title || t('untitledProperty')}
                             </h1>
-                            <FavoriteButton listingId={listing.id} size="lg" />
+                            <div className="flex items-center gap-2">
+                                <FavoriteButton listingId={listing.id} size="lg" />
+                                {canEdit && (
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => router.push(`/listings/${id}/edit`)}
+                                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition-colors"
+                                            aria-label={t('edit') || 'Modifier'}
+                                        >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                            {t('edit') || 'Modifier'}
+                                        </button>
+                                        <button
+                                            onClick={() => setDeleteConfirm(true)}
+                                            disabled={deleting}
+                                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                            aria-label={t('delete') || 'Supprimer'}
+                                        >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                            {deleting ? (t('saving') || 'Suppression...') : (t('delete') || 'Supprimer')}
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         {/* Badges for category, region, etc. */}
                         {(listing.category || listing.sub_category || listing.region || listing.visit_count) && (
@@ -338,6 +397,18 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                     </div>
                 </div>
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmDialog
+                isOpen={deleteConfirm}
+                onClose={() => setDeleteConfirm(false)}
+                onConfirm={handleDelete}
+                title={t('confirmDelete') || 'Confirmer la suppression'}
+                message={t('confirmDeleteMessage') || 'Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?'}
+                confirmText={t('delete') || 'Supprimer'}
+                cancelText={t('cancel') || 'Annuler'}
+                confirmVariant="danger"
+            />
         </div>
     )
 }
