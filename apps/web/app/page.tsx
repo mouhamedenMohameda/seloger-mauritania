@@ -8,6 +8,7 @@ import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { cleanListingTitle } from '@/lib/listing-utils';
 import MobileMenu from '@/components/MobileMenu';
 import MobileMapControls from '@/components/MobileMapControls';
+import BottomNav from '@/components/BottomNav';
 import { useSearchMarkers } from '@/lib/hooks/use-listings';
 import EmptyState from '@/components/ui/EmptyState';
 import LoadingState from '@/components/ui/LoadingState';
@@ -150,7 +151,7 @@ export default function Home() {
   return (
     <div className="flex h-[calc(100vh-3.5rem)] flex-col md:flex-row relative overflow-hidden bg-white">
 
-      {/* PERSISTENT MOBILE CONTROLS (Grouped) */}
+      {/* PERSISTENT MOBILE SEARCH (Grouped) */}
       <div className="md:hidden fixed top-20 inset-x-0 z-[1000] px-4 animate-in fade-in slide-in-from-top-4 duration-500">
         <MobileMapControls
           showMap={showMap}
@@ -158,6 +159,7 @@ export default function Home() {
           onSearchClick={() => {
             // Future: open search modal or focus search
           }}
+          hideToggle={true}
         />
       </div>
 
@@ -304,6 +306,16 @@ export default function Home() {
           </div>
         )}
       </div>
+      {/* Bottom Navigation for Mobile */}
+      <BottomNav
+        activeTab={showMap ? 'map' : 'list'}
+        onTabChange={(tab) => {
+          if (tab === 'map') setShowMap(true);
+          if (tab === 'list') setShowMap(false);
+          if (tab === 'profile') window.location.href = '/account';
+          // messages not implemented yet
+        }}
+      />
     </div>
   );
 }

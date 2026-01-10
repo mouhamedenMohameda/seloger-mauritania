@@ -7,6 +7,7 @@ export const translations = {
         login: 'Connexion',
         signOut: 'Déconnexion',
         navigation: 'Menu',
+        messages: 'Messages',
 
         // Home page
         listingsInView: 'Annonces visibles',
@@ -232,6 +233,7 @@ export const translations = {
         login: 'تسجيل الدخول',
         signOut: 'تسجيل الخروج',
         navigation: 'القائمة',
+        messages: 'الرسائل',
 
         // Home page
         listingsInView: 'الإعلانات المرئية',

@@ -8,13 +8,15 @@ interface MobileMapControlsProps {
     onToggleView: () => void;
     onSearchClick: () => void;
     query?: string;
+    hideToggle?: boolean;
 }
 
 export default function MobileMapControls({
     showMap,
     onToggleView,
     onSearchClick,
-    query
+    query,
+    hideToggle = false
 }: MobileMapControlsProps) {
     const { t } = useLanguage();
 
@@ -38,30 +40,32 @@ export default function MobileMapControls({
                 </div>
             </button>
 
-            {/* Divider */}
-            <div className="w-px h-10 bg-gray-100 self-center" />
-
-            {/* Toggle View Section */}
-            <button
-                onClick={onToggleView}
-                className="flex flex-col items-center justify-center px-6 py-4 bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95 transition-all gap-1"
-            >
-                {showMap ? (
-                    <>
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        <span className="text-[10px] font-black uppercase tracking-tighter">{t('viewList')}</span>
-                    </>
-                ) : (
-                    <>
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 20l-5.447-2.724A2 2 0 013 15.488V5.105a2 2 0 011.106-1.789l5.447-2.724a2 2 0 011.894 0l5.447 2.724A2 2 0 0118 5.105v10.383a2 2 0 01-1.106 1.789L11.447 19.83a2 2 0 01-1.894 0z" />
-                        </svg>
-                        <span className="text-[10px] font-black uppercase tracking-tighter">{t('viewMap')}</span>
-                    </>
-                )}
-            </button>
+            {/* Divider and Toggle View Section */}
+            {!hideToggle && (
+                <>
+                    <div className="w-px h-10 bg-gray-100 self-center" />
+                    <button
+                        onClick={onToggleView}
+                        className="flex flex-col items-center justify-center px-6 py-4 bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95 transition-all gap-1"
+                    >
+                        {showMap ? (
+                            <>
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                                <span className="text-[10px] font-black uppercase tracking-tighter">{t('viewList')}</span>
+                            </>
+                        ) : (
+                            <>
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 20l-5.447-2.724A2 2 0 013 15.488V5.105a2 2 0 011.106-1.789l5.447-2.724a2 2 0 011.894 0l5.447 2.724A2 2 0 0118 5.105v10.383a2 2 0 01-1.106 1.789L11.447 19.83a2 2 0 01-1.894 0z" />
+                                </svg>
+                                <span className="text-[10px] font-black uppercase tracking-tighter">{t('viewMap')}</span>
+                            </>
+                        )}
+                    </button>
+                </>
+            )}
         </div>
     );
 }
