@@ -21,10 +21,10 @@ interface Marker {
   lat: number;
   lng: number;
   price: number;
-  title?: string | null; // Listing title
-  op_type?: 'rent' | 'sell' | null; // Operation type: rent (à louer) or sell (à vendre)
-  subPolygon?: number[][] | null; // Polygon coordinates [[lng, lat], [lng, lat], ...]
-  subPolygonColor?: string | null;
+  title: string | null; // Listing title
+  op_type: 'rent' | 'sell' | null; // Operation type: rent (à louer) or sell (à vendre)
+  subPolygon: number[][] | null; // Polygon coordinates [[lng, lat], [lng, lat], ...]
+  subPolygonColor: string | null;
 }
 
 export default function Home() {
@@ -61,39 +61,39 @@ export default function Home() {
         // If sub_polygon exists, calculate its center for the marker position
         let lat = m.lat;
         let lng = m.lng;
-        
+
         // Validate coordinates
         if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
           console.warn(`Invalid coordinates for listing ${m.id}: lat=${lat}, lng=${lng}`);
           return null; // Skip invalid listings
         }
-        
+
         if (m.sub_polygon && Array.isArray(m.sub_polygon) && m.sub_polygon.length >= 3) {
           // Calculate center (centroid) of polygon
           let sumLat = 0;
           let sumLng = 0;
           let validPoints = 0;
-          
+
           for (const point of m.sub_polygon) {
             if (Array.isArray(point) && point.length >= 2) {
               const [pointLng, pointLat] = point;
-              if (typeof pointLat === 'number' && typeof pointLng === 'number' && 
-                  !isNaN(pointLat) && !isNaN(pointLng)) {
+              if (typeof pointLat === 'number' && typeof pointLng === 'number' &&
+                !isNaN(pointLat) && !isNaN(pointLng)) {
                 sumLat += pointLat;
                 sumLng += pointLng;
                 validPoints++;
               }
             }
           }
-          
+
           if (validPoints > 0) {
             lat = sumLat / validPoints;
             lng = sumLng / validPoints;
           }
         }
-        
+
         return {
-        id: m.id,
+          id: m.id,
           lat: lat,
           lng: lng,
           price: m.price || 0,
@@ -103,9 +103,9 @@ export default function Home() {
           subPolygonColor: m.sub_polygon_color || null,
         };
       }).filter((marker): marker is Marker => marker !== null); // Remove null entries
-      
+
       setMarkers(mappedMarkers);
-      
+
       if (process.env.NODE_ENV === 'development') {
         console.log(`Loaded ${mappedMarkers.length} markers from ${markersData.data.length} listings`);
         if (mappedMarkers.length > 0) {
@@ -185,14 +185,14 @@ export default function Home() {
             // Clean title - remove price patterns and pagination info that might be in title
             // IMPORTANT: Keep the original title if it's valid Arabic/French text, even if it contains numbers
             let cleanTitle = m.title || '';
-            
+
             // First, check if title exists and is a valid string (not just numbers/prices)
             if (cleanTitle && typeof cleanTitle === 'string' && cleanTitle.trim()) {
               // Only clean if title appears to be malformed (contains repeated prices)
               // But preserve titles that are clearly valid (contain Arabic/French text)
               const hasArabicText = /[\u0600-\u06FF]/.test(cleanTitle);
               const hasLatinText = /[A-Za-zÀ-ÿ]/.test(cleanTitle);
-              
+
               // If title has actual text content (Arabic or Latin), keep it mostly as-is
               if (hasArabicText || hasLatinText) {
                 // Only remove obvious duplicate price patterns at the start
@@ -213,7 +213,7 @@ export default function Home() {
                   .replace(/\s+/g, ' ')
                   .trim();
               }
-              
+
               // If after cleaning it's just numbers/prices with no meaningful text, consider it empty
               if (cleanTitle.match(/^\d+$/) || (cleanTitle.match(/^[\d\s,MRU]*$/i) && !hasArabicText && !hasLatinText) || cleanTitle.length < 3) {
                 cleanTitle = '';
@@ -221,45 +221,45 @@ export default function Home() {
             } else {
               cleanTitle = '';
             }
-            
+
             // Use cleaned title if valid, otherwise fallback
-            const displayTitle = (cleanTitle && cleanTitle.length >= 3) 
-              ? cleanTitle 
+            const displayTitle = (cleanTitle && cleanTitle.length >= 3)
+              ? cleanTitle
               : (m.title && m.title.trim() ? m.title.trim() : (t('untitledListing') || 'Annonce sans titre'));
-            
+
             // Color scheme based on operation type
             const isForSale = m.op_type === 'sell';
             const isForRent = m.op_type === 'rent';
-            
+
             // Colors: Green for sale (à vendre), Blue/Indigo for rent (à louer)
-            const priceColor = isForSale 
-              ? 'text-green-600' 
-              : isForRent 
-                ? 'text-indigo-600' 
+            const priceColor = isForSale
+              ? 'text-green-600'
+              : isForRent
+                ? 'text-indigo-600'
                 : 'text-gray-600';
-            
+
             const badgeColor = isForSale
               ? 'bg-green-100 text-green-700 border-green-200'
               : isForRent
                 ? 'bg-indigo-100 text-indigo-700 border-indigo-200'
                 : 'bg-gray-100 text-gray-700 border-gray-200';
-            
+
             const hoverBgColor = isForSale
               ? 'hover:bg-green-50/50'
               : isForRent
                 ? 'hover:bg-indigo-50/50'
                 : 'hover:bg-gray-50/50';
-            
+
             const borderColor = isForSale
               ? 'border-l-green-500'
               : isForRent
                 ? 'border-l-indigo-500'
                 : 'border-l-gray-300';
-            
+
             return (
-              <div 
-                key={m.id} 
-                className={`p-5 ${hoverBgColor} cursor-pointer transition-all active:scale-[0.98] border-l-4 ${borderColor} bg-white shadow-sm hover:shadow-md rounded-r-lg`} 
+              <div
+                key={m.id}
+                className={`p-5 ${hoverBgColor} cursor-pointer transition-all active:scale-[0.98] border-l-4 ${borderColor} bg-white shadow-sm hover:shadow-md rounded-r-lg`}
                 onClick={() => handleMarkerClick(m.id)}
               >
                 {/* Badge for operation type - Top right corner */}
@@ -275,7 +275,7 @@ export default function Home() {
                     {isForSale ? (t('forSale') || 'À vendre') : isForRent ? (t('forRent') || 'À louer') : (t('property') || 'Propriété')}
                   </span>
                 </div>
-                
+
                 {/* Price - Secondary display with color coding */}
                 <div className={`text-xl font-black ${priceColor} tracking-tight mb-1 flex items-baseline gap-1.5 flex-wrap`}>
                   <span className="text-2xl">{m.price.toLocaleString()}</span>
