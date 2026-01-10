@@ -15,6 +15,8 @@
         "test:phase2-3": "tsx scripts/test-phase2-3.ts",
         "test:phase3-1": "tsx scripts/test-phase3-1.ts",
         "check:migration-phase2-1": "tsx scripts/check-migration-phase2-1.ts",
+        "import:mongodb": "tsx scripts/import-mongodb-data.ts",
+        "import:json": "tsx scripts/import-listings-json.ts",
         "lint": "pnpm -r lint",
         "format": "prettier --write ."
     },

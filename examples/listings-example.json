@@ -1,0 +1,33 @@
+{
+  "listings": [
+    {
+      "title": "Appartement à louer à Tevragh Zeina",
+      "price": 50000,
+      "op_type": "rent",
+      "lat": 18.0735,
+      "lng": -15.9582,
+      "rooms": 2,
+      "surface": 80,
+      "description": "Bel appartement moderne dans un quartier calme, proche des commerces et des écoles."
+    },
+    {
+      "title": "Villa à vendre à Arafat",
+      "price": 15000000,
+      "op_type": "sell",
+      "lat": 18.0800,
+      "lng": -15.9500,
+      "rooms": 4,
+      "surface": 200,
+      "description": "Magnifique villa avec jardin et parking, dans un lotissement sécurisé."
+    },
+    {
+      "title": "Terrain à vendre au Ksar",
+      "price": 5000000,
+      "op_type": "sell",
+      "lat": 18.1000,
+      "lng": -15.9700,
+      "surface": 300,
+      "description": "Terrain constructible avec titre foncier, proche du centre-ville."
+    }
+  ]
+}

@@ -156,6 +156,11 @@ export const translations = {
         quickLinks: 'Liens rapides',
         postNewListing: 'Publier une nouvelle annonce',
         accountActions: 'Actions du compte',
+        userType: 'Type d\'utilisateur',
+        userTypeSimple: 'Utilisateur simple',
+        userTypeAdmin: 'Administrateur',
+        userTypeAgency: 'Agence immobilière',
+        userTypeCantChange: 'Le type d\'utilisateur ne peut pas être modifié',
 
         // Listing detail
         perMonth: '/mois',
@@ -367,6 +372,11 @@ export const translations = {
         phone: 'رقم الهاتف',
         phonePlaceholder: 'مثال: +222 12 34 56 78',
         profileUpdated: 'تم تحديث الملف الشخصي بنجاح!',
+        userType: 'نوع المستخدم',
+        userTypeSimple: 'مستخدم عادي',
+        userTypeAdmin: 'مدير',
+        userTypeAgency: 'وكالة عقارية',
+        userTypeCantChange: 'لا يمكن تعديل نوع المستخدم',
         quickLinks: 'روابط سريعة',
         postNewListing: 'نشر إعلان جديد',
         accountActions: 'إجراءات الحساب',

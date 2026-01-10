@@ -172,8 +172,19 @@ export function useCreateListing() {
             });
 
             if (!res.ok) {
-                const error = await res.json();
-                throw new Error(error.error || 'Failed to create listing');
+                const errorData = await res.json().catch(() => ({ error: 'Failed to create listing' }));
+                
+                // Handle validation errors
+                if (errorData.errors && Array.isArray(errorData.errors)) {
+                    const validationMessages = errorData.errors
+                        .map((e: any) => `${e.field}: ${e.message}`)
+                        .join(', ');
+                    throw new Error(`Validation failed: ${validationMessages}`);
+                }
+                
+                // Return detailed error message if available
+                const errorMessage = errorData.details || errorData.error || 'Failed to create listing';
+                throw new Error(errorMessage);
             }
 
             return res.json();

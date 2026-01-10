@@ -5,12 +5,12 @@ CREATE OR REPLACE FUNCTION create_listing_with_location(
     p_title text,
     p_op_type text,
     p_price numeric,
-    p_rooms integer DEFAULT NULL,
-    p_surface numeric DEFAULT NULL,
-    p_description text DEFAULT NULL,
     p_lat double precision,
     p_lng double precision,
     p_owner_id uuid,
+    p_rooms integer DEFAULT NULL,
+    p_surface numeric DEFAULT NULL,
+    p_description text DEFAULT NULL,
     p_status text DEFAULT 'published'
 )
 RETURNS TABLE (
@@ -45,14 +45,14 @@ BEGIN
         status
     ) VALUES (
         p_title,
-        p_op_type,
+        p_op_type::listing_op_type,
         p_price,
         p_rooms,
         p_surface,
         p_description,
         ST_SetSRID(ST_MakePoint(p_lng, p_lat), 4326)::geography,
         p_owner_id,
-        p_status
+        p_status::listing_status
     )
     RETURNING
         listings.id,

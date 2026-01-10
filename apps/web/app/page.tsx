@@ -319,8 +319,8 @@ export default function Home() {
           onMarkerClick={handleMarkerClick}
         />
 
-        {/* Desktop Search Bar */}
-        <div className="hidden md:block absolute top-6 inset-x-0 md:start-6 md:inset-x-auto z-[1000] px-4 pointer-events-none">
+        {/* Desktop Search Bar - Floating at bottom */}
+        <div className="hidden md:block absolute bottom-6 inset-x-0 z-[1000] px-4 pointer-events-none">
           <div className="pointer-events-auto">
             <MapSearch onQueryChange={setSearchQuery} />
           </div>

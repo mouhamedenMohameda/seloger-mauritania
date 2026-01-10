@@ -1,8 +1,10 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 
+export type UserRole = 'user' | 'admin' | 'agence';
+
 export interface Profile {
     id: string;
-    role: 'user' | 'admin';
+    role: UserRole;
     full_name: string | null;
     phone: string | null;
     created_at: string;

@@ -114,8 +114,8 @@ export async function POST(request: Request) {
             // Extract lat/lng from sanitized data (they're not part of the DB schema)
             const { lat, lng, ...dbData } = sanitizedData
 
-            // Insert listing with location using PostGIS function
-            const { data, error } = await supabase.rpc('create_listing_with_location', {
+            // Insert listing with location using PostGIS RPC function
+            const { data: rpcData, error: rpcError } = await supabase.rpc('create_listing_with_location', {
                 p_title: dbData.title,
                 p_op_type: dbData.op_type,
                 p_price: dbData.price,
@@ -128,17 +128,54 @@ export async function POST(request: Request) {
                 p_status: 'published'
             })
 
-            if (error) {
-                // Don't expose internal error messages
+            if (rpcError) {
                 const { logger } = await import('@/lib/logger')
-                logger.error('Database error creating listing', error, { userId })
+                logger.error('Database error creating listing', rpcError, { userId })
+                
+                // Check if the error is because the RPC function doesn't exist
+                const isRpcNotFound = rpcError.message?.includes('not found') || 
+                                     rpcError.message?.includes('Could not find') ||
+                                     rpcError.message?.includes('does not exist')
+                
+                const isDev = process.env.NODE_ENV === 'development'
+                
+                if (isRpcNotFound) {
+                    return NextResponse.json(
+                        { 
+                            error: 'Database function not found. Please apply the migration through Supabase Dashboard.',
+                            migrationFile: 'supabase/migrations/20240101000010_create_listing_rpc.sql',
+                            instructions: [
+                                '1. Go to Supabase Dashboard > SQL Editor',
+                                '2. Open the file: supabase/migrations/20240101000010_create_listing_rpc.sql',
+                                '3. Copy and paste the entire content into SQL Editor',
+                                '4. Click Run to execute the migration'
+                            ],
+                            details: isDev ? rpcError.message : undefined
+                        },
+                        { status: 500 }
+                    )
+                }
+                
                 return NextResponse.json(
-                    { error: 'Failed to create listing' },
+                    { 
+                        error: 'Failed to create listing',
+                        details: isDev ? rpcError.message : undefined
+                    },
                     { status: 500 }
                 )
             }
 
-            return NextResponse.json(data)
+            // RPC function returns TABLE, which is an array - extract first element
+            if (!rpcData || !Array.isArray(rpcData) || rpcData.length === 0) {
+                const { logger } = await import('@/lib/logger')
+                logger.error('RPC returned empty result', { userId, data: rpcData })
+                return NextResponse.json(
+                    { error: 'Failed to create listing - no data returned' },
+                    { status: 500 }
+                )
+            }
+
+            return NextResponse.json(rpcData[0])
         }
     )
 }

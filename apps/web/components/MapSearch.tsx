@@ -113,12 +113,12 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
     return (
         <div
             ref={searchRef}
-            className="w-full max-w-2xl mx-auto px-4 pointer-events-auto group"
+            className="w-full max-w-md mx-auto px-4 pointer-events-auto group"
         >
-            <div className={`relative flex items-center transition-all duration-500 ease-out bg-white/95 backdrop-blur-2xl rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] group-focus-within:shadow-[0_25px_60px_-15px_rgba(79,70,229,0.2)] border border-gray-200 ps-2 ${loading ? 'opacity-90' : 'opacity-100'}`}>
+            <div className={`relative flex items-center transition-all duration-500 ease-out bg-white/95 backdrop-blur-xl rounded-xl shadow-lg group-focus-within:shadow-xl group-focus-within:shadow-indigo-200/50 border border-gray-200 ps-2 ${loading ? 'opacity-90' : 'opacity-100'}`}>
                 {/* Search Icon */}
-                <div className="absolute inset-y-0 start-4 flex items-center pointer-events-none transition-colors duration-300">
-                    <svg className={`w-6 h-6 ${loading ? 'text-indigo-600 animate-pulse' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute inset-y-0 start-3 flex items-center pointer-events-none transition-colors duration-300">
+                    <svg className={`w-4 h-4 ${loading ? 'text-indigo-600 animate-pulse' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
@@ -129,7 +129,7 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
                     onChange={handleInputChange}
                     onFocus={() => setShowResults(true)}
                     placeholder={t('searchPlaceholder')}
-                    className="block w-full ps-12 pe-12 py-4 md:py-5 bg-transparent border-none focus:ring-0 text-gray-900 text-base md:text-lg font-bold placeholder:text-gray-400 placeholder:font-medium"
+                    className="block w-full ps-9 pe-10 py-2.5 bg-transparent border-none focus:ring-0 text-gray-900 text-sm font-medium placeholder:text-gray-400 placeholder:font-normal"
                 />
 
                 {query && (
@@ -141,10 +141,10 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
                             setShowResults(false);
                             if (onQueryChange) onQueryChange('');
                         }}
-                        className="absolute end-3 top-1/2 -translate-y-1/2 p-2 rounded-xl hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600"
+                        className="absolute end-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600"
                         aria-label="Clear search"
                     >
-                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
@@ -153,7 +153,7 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
 
             {/* Results Dropdown */}
             {showResults && hasResults && (
-                <div className="absolute top-full inset-x-4 mt-3 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden max-h-[70vh] overflow-y-auto z-[1000] animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="absolute bottom-full inset-x-4 mb-3 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden max-h-[60vh] overflow-y-auto z-[1000] animate-in fade-in slide-in-from-bottom-2 duration-300">
                     {/* Properties Section */}
                     {properties.length > 0 && (
                         <div className="p-2">
@@ -222,14 +222,14 @@ export function MapSearch({ onLocationSelect, onMenuClick, onQueryChange }: MapS
 
             {/* Empty State */}
             {showResults && query && !loading && !hasResults && (
-                <div className="absolute top-full inset-x-4 mt-3 bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 p-8 text-center animate-in fade-in slide-in-from-top-2 duration-300">
-                    <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="absolute bottom-full inset-x-4 mb-3 bg-white/90 backdrop-blur-md rounded-xl shadow-xl border border-gray-100 p-6 text-center animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="w-12 h-12 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg className="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
-                    <p className="text-base font-bold text-gray-900">{t('noListingsYet')}</p>
-                    <p className="text-sm text-gray-500 mt-1">{t('moveMapToFind')}</p>
+                    <p className="text-sm font-semibold text-gray-900">{t('noListingsYet')}</p>
+                    <p className="text-xs text-gray-500 mt-1">{t('moveMapToFind')}</p>
                 </div>
             )}
         </div>

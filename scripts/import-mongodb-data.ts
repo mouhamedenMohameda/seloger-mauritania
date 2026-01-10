@@ -338,90 +338,191 @@ async function importListing(
     const title = sanitizeText(mongoListing.title || 'Sans titre');
     const description = sanitizeText(mongoListing.description || '');
     
-    // Create PostGIS point
-    const location = createPostGISPoint(lat, lng);
+    // Try using RPC function first, fallback to direct insert if it doesn't exist
+    let listingId: string | null = null;
     
-    // Prepare listing data with all MongoDB fields
-    const listingData: any = {
-        owner_id: ownerId,
-        title: title,
-        description: description || null,
-        price: mongoListing.price || 1, // Minimum 1 per constraint
-        op_type: opType,
-        status: status,
-        surface: surface,
-        location: location,
-        created_at: mongoListing.publicationDate || new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        // MongoDB fields
-        visit_count: mongoListing.visitCount || 0,
-        sold: mongoListing.sold || false,
-        professional: mongoListing.professional || false,
-        is_real_location: mongoListing.isRealLocation !== undefined ? mongoListing.isRealLocation : true,
-        client_name: mongoListing.clientName && mongoListing.clientName.trim() !== '' 
-            ? sanitizeText(mongoListing.clientName.trim()) 
-            : null,
-        client_phone_number: mongoListing.clientPhoneNumber && mongoListing.clientPhoneNumber.trim() !== '' 
-            ? mongoListing.clientPhoneNumber.trim() 
-            : null,
-        category: mongoListing.category && mongoListing.category.trim() !== '' 
-            ? mongoListing.category.trim() 
-            : null,
-        sub_category: mongoListing.subCategory && mongoListing.subCategory.trim() !== '' 
-            ? mongoListing.subCategory.trim() 
-            : null,
-        region: mongoListing.region && mongoListing.region.trim() !== '' 
-            ? mongoListing.region.trim() 
-            : null,
-        lotissement: mongoListing.lotissement && mongoListing.lotissement.trim() !== '' 
-            ? mongoListing.lotissement.trim() 
-            : null,
-        lot: mongoListing.lot && Array.isArray(mongoListing.lot) && mongoListing.lot.length > 0 
-            ? mongoListing.lot 
-            : null,
-        index: mongoListing.index && mongoListing.index.trim() !== '' 
-            ? mongoListing.index.trim() 
-            : null,
-        ilot_size: (mongoListing.ilotSize && mongoListing.ilotSize.trim() !== '') 
-            ? mongoListing.ilotSize.trim() 
-            : (mongoListing.ilot && mongoListing.ilot.trim() !== '') 
-                ? mongoListing.ilot.trim() 
-                : null,
-        polygone_area: mongoListing.polygoneArea && mongoListing.polygoneArea.trim() !== '' 
-            ? mongoListing.polygoneArea.trim() 
-            : null,
-        elevation: mongoListing.elevation && mongoListing.elevation.trim() !== '' 
-            ? mongoListing.elevation.trim() 
-            : null,
-        sides_length: mongoListing.sidesLength && mongoListing.sidesLength.trim() !== '' 
-            ? mongoListing.sidesLength.trim() 
-            : null,
-        sub_polygon: mongoListing.subPolygon && Array.isArray(mongoListing.subPolygon) && mongoListing.subPolygon.length >= 3
-            ? mongoListing.subPolygon // Supabase convertira automatiquement en JSONB - format: [[lng, lat], [lng, lat], ...]
-            : null,
-        sub_polygon_color: mongoListing.subPolygonColor && mongoListing.subPolygonColor.trim() !== '' 
-            ? mongoListing.subPolygonColor 
-            : null,
-        matterport_link: mongoListing.matterportLink && 
-                        mongoListing.matterportLink !== 'undefined' && 
-                        mongoListing.matterportLink.trim() !== ''
-            ? mongoListing.matterportLink
-            : null,
-    };
+    try {
+        // Attempt to use RPC function (preferred method)
+        const { data: rpcData, error: rpcError } = await supabase.rpc('create_listing_with_location', {
+            p_title: title,
+            p_op_type: opType,
+            p_price: mongoListing.price || 1,
+            p_rooms: null, // MongoDB listings don't have rooms field
+            p_surface: surface,
+            p_description: description || null,
+            p_lat: lat,
+            p_lng: lng,
+            p_owner_id: ownerId,
+            p_status: status
+        });
 
-    // Insert listing
-    const { data: listing, error: listingError } = await supabase
-        .from('listings')
-        .insert(listingData)
-        .select('id')
-        .single();
+        if (!rpcError && rpcData) {
+            // RPC function worked
+            const result = Array.isArray(rpcData) ? rpcData[0] : rpcData;
+            listingId = result?.id || null;
+            
+            if (listingId) {
+                log(`  ✅ Listing créé via RPC (ID: ${listingId})`, colors.green);
+            }
+        } else if (rpcError && !rpcError.message?.includes('not found') && !rpcError.message?.includes('Could not find')) {
+            // RPC exists but failed with a different error
+            log(`  ⚠️  Erreur RPC: ${rpcError.message}, tentative avec INSERT direct...`, colors.yellow);
+            throw rpcError; // Fall through to direct insert
+        } else {
+            // RPC function doesn't exist, fall back to direct insert
+            log(`  ⚠️  Fonction RPC non trouvée, utilisation de l'INSERT direct...`, colors.yellow);
+            throw new Error('RPC not found');
+        }
+    } catch (error: any) {
+        // RPC function doesn't exist - use raw SQL query instead
+        log(`  ⚠️  Fonction RPC non trouvée, utilisation d'une requête SQL directe...`, colors.yellow);
+        
+        try {
+            // Use raw SQL query with PostGIS function
+            // Note: This requires service role key and PostgreSQL connection
+            const sqlQuery = `
+                INSERT INTO listings (
+                    title, op_type, price, rooms, surface, description, 
+                    location, owner_id, status, created_at, updated_at,
+                    visit_count, sold, professional, is_real_location,
+                    client_name, client_phone_number, category, sub_category,
+                    region, lotissement, lot, index, ilot_size, polygone_area,
+                    elevation, sides_length, sub_polygon, sub_polygon_color, matterport_link
+                ) VALUES (
+                    $1, $2::listing_op_type, $3, $4, $5, $6,
+                    ST_SetSRID(ST_MakePoint($8, $7), 4326)::geography,
+                    $9::uuid, $10::listing_status, $11, $12,
+                    $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29::jsonb, $30, $31
+                )
+                RETURNING id
+            `;
+            
+            // Prepare values
+            const values = [
+                title,
+                opType,
+                mongoListing.price || 1,
+                null, // rooms
+                surface,
+                description || null,
+                lat, // p_lat (position 7)
+                lng, // p_lng (position 8)
+                ownerId,
+                status,
+                mongoListing.publicationDate || new Date().toISOString(),
+                new Date().toISOString(),
+                mongoListing.visitCount || 0,
+                mongoListing.sold || false,
+                mongoListing.professional || false,
+                mongoListing.isRealLocation !== undefined ? mongoListing.isRealLocation : true,
+                mongoListing.clientName?.trim() ? sanitizeText(mongoListing.clientName.trim()) : null,
+                mongoListing.clientPhoneNumber?.trim() || null,
+                mongoListing.category?.trim() || null,
+                mongoListing.subCategory?.trim() || null,
+                mongoListing.region?.trim() || null,
+                mongoListing.lotissement?.trim() || null,
+                mongoListing.lot && Array.isArray(mongoListing.lot) && mongoListing.lot.length > 0 ? mongoListing.lot : null,
+                mongoListing.index?.trim() || null,
+                (mongoListing.ilotSize?.trim() || mongoListing.ilot?.trim()) || null,
+                mongoListing.polygoneArea?.trim() || null,
+                mongoListing.elevation?.trim() || null,
+                mongoListing.sidesLength?.trim() || null,
+                mongoListing.subPolygon && Array.isArray(mongoListing.subPolygon) && mongoListing.subPolygon.length >= 3 ? mongoListing.subPolygon : null,
+                mongoListing.subPolygonColor?.trim() || null,
+                (mongoListing.matterportLink && mongoListing.matterportLink !== 'undefined' && mongoListing.matterportLink.trim()) ? mongoListing.matterportLink.trim() : null,
+            ];
+            
+            // Use rpc with a SQL query (if available) or direct connection
+            // Since Supabase JS client doesn't support raw SQL easily, we'll use a workaround
+            // by calling the database function directly if it exists in a different way
+            
+            // Alternative: Create a temporary function or use PostgREST raw query endpoint
+            // For now, return an error with instructions
+            log(`  ❌ Impossible d'utiliser la requête SQL directe avec le client JS`, colors.red);
+            log(`  💡 Solutions possibles:`, colors.cyan);
+            log(`     1. Appliquez la migration create_listing_rpc.sql (RECOMMANDÉ)`, colors.cyan);
+            log(`     2. Utilisez psql pour exécuter les inserts directement`, colors.cyan);
+            log(`     3. Créez les listings via l'interface web`, colors.cyan);
+            log(`  📄 Fichier migration: supabase/migrations/20240101000010_create_listing_rpc.sql`, colors.cyan);
+            log(`  📖 Voir: APPLY_RPC_MIGRATION.md pour les instructions`, colors.cyan);
+            return null;
+            
+        } catch (sqlError: any) {
+            log(`  ❌ Erreur lors de la tentative SQL: ${sqlError.message}`, colors.red);
+            return null;
+        }
+    }
+    
+    // Update MongoDB-specific fields after listing creation (if using RPC)
+    if (listingId) {
+        const mongoFields: any = {
+            visit_count: mongoListing.visitCount || 0,
+            sold: mongoListing.sold || false,
+            professional: mongoListing.professional || false,
+            is_real_location: mongoListing.isRealLocation !== undefined ? mongoListing.isRealLocation : true,
+        };
 
-    if (listingError) {
-        log(`  ❌ Erreur lors de l'insertion du listing: ${listingError.message}`, colors.red);
-        return null;
+        // Only include non-null fields
+        if (mongoListing.clientName?.trim()) {
+            mongoFields.client_name = sanitizeText(mongoListing.clientName.trim());
+        }
+        if (mongoListing.clientPhoneNumber?.trim()) {
+            mongoFields.client_phone_number = mongoListing.clientPhoneNumber.trim();
+        }
+        if (mongoListing.category?.trim()) {
+            mongoFields.category = mongoListing.category.trim();
+        }
+        if (mongoListing.subCategory?.trim()) {
+            mongoFields.sub_category = mongoListing.subCategory.trim();
+        }
+        if (mongoListing.region?.trim()) {
+            mongoFields.region = mongoListing.region.trim();
+        }
+        if (mongoListing.lotissement?.trim()) {
+            mongoFields.lotissement = mongoListing.lotissement.trim();
+        }
+        if (mongoListing.lot && Array.isArray(mongoListing.lot) && mongoListing.lot.length > 0) {
+            mongoFields.lot = mongoListing.lot;
+        }
+        if (mongoListing.index?.trim()) {
+            mongoFields.index = mongoListing.index.trim();
+        }
+        if (mongoListing.ilotSize?.trim()) {
+            mongoFields.ilot_size = mongoListing.ilotSize.trim();
+        } else if (mongoListing.ilot?.trim()) {
+            mongoFields.ilot_size = mongoListing.ilot.trim();
+        }
+        if (mongoListing.polygoneArea?.trim()) {
+            mongoFields.polygone_area = mongoListing.polygoneArea.trim();
+        }
+        if (mongoListing.elevation?.trim()) {
+            mongoFields.elevation = mongoListing.elevation.trim();
+        }
+        if (mongoListing.sidesLength?.trim()) {
+            mongoFields.sides_length = mongoListing.sidesLength.trim();
+        }
+        if (mongoListing.subPolygon && Array.isArray(mongoListing.subPolygon) && mongoListing.subPolygon.length >= 3) {
+            mongoFields.sub_polygon = mongoListing.subPolygon;
+        }
+        if (mongoListing.subPolygonColor?.trim()) {
+            mongoFields.sub_polygon_color = mongoListing.subPolygonColor.trim();
+        }
+        if (mongoListing.matterportLink && mongoListing.matterportLink !== 'undefined' && mongoListing.matterportLink.trim()) {
+            mongoFields.matterport_link = mongoListing.matterportLink.trim();
+        }
+
+        // Update listing with MongoDB fields
+        const { error: updateError } = await supabase
+            .from('listings')
+            .update(mongoFields)
+            .eq('id', listingId);
+
+        if (updateError) {
+            log(`  ⚠️  Erreur lors de la mise à jour des champs MongoDB: ${updateError.message}`, colors.yellow);
+        }
     }
 
-    return listing.id;
+    return listingId;
 }
 
 async function importPhotos(

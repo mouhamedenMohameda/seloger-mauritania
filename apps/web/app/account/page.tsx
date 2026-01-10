@@ -6,9 +6,11 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 
+type UserRole = 'user' | 'admin' | 'agence';
+
 interface Profile {
     id: string;
-    role: 'user' | 'admin';
+    role: UserRole;
     full_name: string | null;
     phone: string | null;
     created_at: string;
@@ -183,6 +185,27 @@ export default function AccountPage() {
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-900 bg-white"
                                     placeholder={t('phonePlaceholder')}
                                 />
+                            </div>
+
+                            {/* User Role Display (Read-only) */}
+                            <div>
+                                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1.5">
+                                    {t('userType') || 'Type d\'utilisateur'}
+                                </label>
+                                <input
+                                    id="role"
+                                    type="text"
+                                    value={profile?.role === 'user' 
+                                        ? (t('userTypeSimple') || 'Utilisateur simple')
+                                        : profile?.role === 'admin'
+                                        ? (t('userTypeAdmin') || 'Administrateur')
+                                        : profile?.role === 'agence'
+                                        ? (t('userTypeAgency') || 'Agence')
+                                        : '-'}
+                                    disabled
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-700 text-sm cursor-not-allowed"
+                                />
+                                <p className="mt-1 text-xs text-gray-500">{t('userTypeCantChange') || 'Le type d\'utilisateur ne peut pas être modifié.'}</p>
                             </div>
 
                             <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">

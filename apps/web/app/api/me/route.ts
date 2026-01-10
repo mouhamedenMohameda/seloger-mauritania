@@ -30,6 +30,11 @@ export async function PATCH(request: Request) {
     }
 
     const updates = await request.json()
+    
+    // Prevent users from changing their own role (only admins can do this)
+    if (updates.role) {
+        delete updates.role;
+    }
 
     const { data, error } = await updateProfile(supabase, user.id, updates)
 

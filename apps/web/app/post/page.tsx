@@ -187,16 +187,35 @@ export default function PostListingPage() {
         setError(null);
 
         try {
-            const listing = await createListing.mutateAsync({
-                title: formData.title,
+            // Prepare data with proper type conversions
+            const submitData: any = {
+                title: formData.title.trim(),
                 price: Number(formData.price),
-                rooms: formData.rooms ? Number(formData.rooms) : undefined,
-                surface: formData.surface ? Number(formData.surface) : undefined,
                 op_type: formData.op_type,
-                description: formData.description,
                 lat: formData.lat,
                 lng: formData.lng,
-            });
+            };
+
+            // Only include optional fields if they have values
+            if (formData.rooms && formData.rooms.trim() !== '') {
+                const roomsNum = Number(formData.rooms);
+                if (!isNaN(roomsNum) && roomsNum >= 0) {
+                    submitData.rooms = roomsNum;
+                }
+            }
+
+            if (formData.surface && formData.surface.trim() !== '') {
+                const surfaceNum = Number(formData.surface);
+                if (!isNaN(surfaceNum) && surfaceNum > 0) {
+                    submitData.surface = surfaceNum;
+                }
+            }
+
+            if (formData.description && formData.description.trim() !== '') {
+                submitData.description = formData.description.trim();
+            }
+
+            const listing = await createListing.mutateAsync(submitData);
 
             toast.success(t('listingCreated') || 'Annonce créée avec succès');
 
@@ -213,7 +232,21 @@ export default function PostListingPage() {
             router.push(`/listings/${listing.id}`);
 
         } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : t('createFailed') || 'Échec de la création';
+            let errorMessage = err instanceof Error ? err.message : t('createFailed') || 'Échec de la création';
+            
+            // Check if it's the RPC function not found error
+            if (errorMessage.includes('not found') || errorMessage.includes('Could not find') || errorMessage.includes('create_listing_with_location')) {
+                errorMessage = 'Fonction de base de données non trouvée. Veuillez appliquer la migration RPC.\n\nConsultez le fichier APPLY_RPC_NOW.md pour les instructions détaillées.';
+                
+                // Show detailed error in development
+                if (process.env.NODE_ENV === 'development') {
+                    console.error('RPC Function not found. Please apply migration:', {
+                        file: 'supabase/migrations/20240101000010_create_listing_rpc.sql',
+                        guide: 'APPLY_RPC_NOW.md'
+                    });
+                }
+            }
+            
             setError(errorMessage);
             toast.error(errorMessage);
         }
