@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <NavBar />
-          <main className="pt-14 min-h-screen bg-gray-50">
+          <main className="pt-24 md:pt-28 min-h-screen bg-gray-50">
             {children}
           </main>
           <ToastContainer />

@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { MapSearch } from '@/components/MapSearch';
 import SearchFilters, { SearchFiltersState } from '@/components/SearchFilters';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
+import { cleanListingTitle } from '@/lib/listing-utils';
 import MobileMenu from '@/components/MobileMenu';
 import MobileMapControls from '@/components/MobileMapControls';
 import { useSearchMarkers } from '@/lib/hooks/use-listings';
@@ -182,50 +183,7 @@ export default function Home() {
         </div>
         <div className="divide-y divide-gray-100 pb-32">
           {markers.map(m => {
-            // Clean title - remove price patterns and pagination info that might be in title
-            // IMPORTANT: Keep the original title if it's valid Arabic/French text, even if it contains numbers
-            let cleanTitle = m.title || '';
-
-            // First, check if title exists and is a valid string (not just numbers/prices)
-            if (cleanTitle && typeof cleanTitle === 'string' && cleanTitle.trim()) {
-              // Only clean if title appears to be malformed (contains repeated prices)
-              // But preserve titles that are clearly valid (contain Arabic/French text)
-              const hasArabicText = /[\u0600-\u06FF]/.test(cleanTitle);
-              const hasLatinText = /[A-Za-zÀ-ÿ]/.test(cleanTitle);
-
-              // If title has actual text content (Arabic or Latin), keep it mostly as-is
-              if (hasArabicText || hasLatinText) {
-                // Only remove obvious duplicate price patterns at the start
-                cleanTitle = cleanTitle
-                  .replace(/^(\d[\d\s,]*\s*MRU\s*){2,}/gi, '') // Remove repeated leading "prix MRU"
-                  .replace(/\d+\s*\/\s*\d+/g, '') // Remove pagination like "1 / 3"
-                  .replace(/\s+/g, ' ') // Normalize spaces
-                  .trim();
-              } else {
-                // If title is just numbers/prices with no text, clean more aggressively
-                cleanTitle = cleanTitle
-                  .replace(/(\d[\d\s]*\s*MRU\s*){2,}/gi, '')
-                  .replace(/\d+\s*\/\s*\d+/g, '')
-                  .replace(/^\d[\d\s]*\s*MRU\s*/gi, '')
-                  .replace(/\d+[\s,]*\d+[\s,]*\d+[\s,]*MRU/gi, '')
-                  .replace(/^[\d\s,]+(MRU|MRO)?\s*/i, '')
-                  .replace(/[\d\s,]+(MRU|MRO)\s*$/i, '')
-                  .replace(/\s+/g, ' ')
-                  .trim();
-              }
-
-              // If after cleaning it's just numbers/prices with no meaningful text, consider it empty
-              if (cleanTitle.match(/^\d+$/) || (cleanTitle.match(/^[\d\s,MRU]*$/i) && !hasArabicText && !hasLatinText) || cleanTitle.length < 3) {
-                cleanTitle = '';
-              }
-            } else {
-              cleanTitle = '';
-            }
-
-            // Use cleaned title if valid, otherwise fallback
-            const displayTitle = (cleanTitle && cleanTitle.length >= 3)
-              ? cleanTitle
-              : (m.title && m.title.trim() ? m.title.trim() : (t('untitledListing') || 'Annonce sans titre'));
+            const displayTitle = cleanListingTitle(m.title, t('untitledListing') || 'Annonce sans titre');
 
             // Color scheme based on operation type
             const isForSale = m.op_type === 'sell';

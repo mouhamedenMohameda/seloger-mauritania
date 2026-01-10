@@ -99,9 +99,9 @@ export default function MobileMenu({ user, isOpen: controlledIsOpen, onOpenChang
                         <Image
                             src="/logo.png"
                             alt="raDar"
-                            width={100}
-                            height={32}
-                            className="h-7 w-auto object-contain"
+                            width={450}
+                            height={150}
+                            className="h-20 md:h-24 lg:h-28 w-auto object-contain"
                         />
                     </div>
 

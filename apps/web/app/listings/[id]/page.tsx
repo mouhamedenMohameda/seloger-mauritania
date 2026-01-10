@@ -32,7 +32,7 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
 
     // Check if user can edit/delete this listing (owner or admin)
     const canEdit = !!(listing && profileData && (
-        listing.owner_id === profileData.user.id || 
+        listing.owner_id === profileData.user.id ||
         profileData.profile.role === 'admin'
     ))
 
@@ -54,7 +54,7 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                     const storagePaths = photos
                         .map(photo => photo.storage_path)
                         .filter((path): path is string => !!path && path.trim() !== '')
-                    
+
                     const urls = getPhotoUrls(supabase, storagePaths)
                     setPhotoUrls(urls)
                 }
@@ -100,8 +100,8 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
     }
 
     return (
-        <div className="min-h-screen bg-white">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="min-h-screen bg-gray-50">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
                 <Link href="/" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-6 rtl:flex-row-reverse">
                     <svg className="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -122,17 +122,17 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                 <div className="space-y-8">
                     {/* Title and Price Section */}
                     <div className="bg-white border border-gray-200 rounded-lg p-6">
-                        <div className="flex items-start justify-between gap-4 mb-3">
-                            <h1 className="text-3xl font-bold text-gray-900">
+                        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
                                 {listing.title || t('untitledProperty')}
                             </h1>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
                                 <FavoriteButton listingId={listing.id} size="lg" />
                                 {canEdit && (
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 flex-1 sm:flex-none">
                                         <button
                                             onClick={() => router.push(`/listings/${id}/edit`)}
-                                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition-colors"
+                                            className="flex-1 sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition-colors"
                                             aria-label={t('edit') || 'Modifier'}
                                         >
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,7 +143,7 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                                         <button
                                             onClick={() => setDeleteConfirm(true)}
                                             disabled={deleting}
-                                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="flex-1 sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                             aria-label={t('delete') || 'Supprimer'}
                                         >
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,7 +184,7 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                                 )}
                             </div>
                         )}
-                        
+
                         <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-4">
                             {listing.rooms && (
                                 <span className="flex items-center gap-1.5">
@@ -225,86 +225,86 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                     )}
 
                     {/* Property Details Section - MongoDB fields */}
-                    {(listing.lotissement || listing.lot || listing.index || listing.ilot_size || 
-                      listing.polygone_area || listing.elevation || listing.sides_length) && (
-                        <div className="bg-white border border-gray-200 rounded-lg p-6">
-                            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200">
-                                {t('propertyDetails') || 'Détails du bien'}
-                            </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {listing.lotissement && (
-                                    <div>
-                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
-                                            {t('lotissement') || 'Lotissement'}
-                                        </span>
-                                        <span className="text-base font-medium text-gray-900">
-                                            {listing.lotissement}
-                                        </span>
-                                    </div>
-                                )}
-                                {listing.lot && listing.lot.length > 0 && (
-                                    <div>
-                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
-                                            {t('lot') || 'Lot'}
-                                        </span>
-                                        <span className="text-base font-medium text-gray-900">
-                                            {listing.lot.join(', ')}
-                                        </span>
-                                    </div>
-                                )}
-                                {listing.index && (
-                                    <div>
-                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
-                                            {t('index') || 'Index'}
-                                        </span>
-                                        <span className="text-base font-medium text-gray-900">
-                                            {listing.index}
-                                        </span>
-                                    </div>
-                                )}
-                                {listing.polygone_area && (
-                                    <div>
-                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
-                                            {t('area') || 'Superficie'}
-                                        </span>
-                                        <span className="text-base font-medium text-gray-900">
-                                            {listing.polygone_area}
-                                        </span>
-                                    </div>
-                                )}
-                                {listing.ilot_size && (
-                                    <div>
-                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
-                                            {t('ilotSize') || 'Taille de l\'îlot'}
-                                        </span>
-                                        <span className="text-base font-medium text-gray-900">
-                                            {listing.ilot_size} m²
-                                        </span>
-                                    </div>
-                                )}
-                                {listing.elevation && (
-                                    <div>
-                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
-                                            {t('elevation') || 'Élévation'}
-                                        </span>
-                                        <span className="text-base font-medium text-gray-900">
-                                            {listing.elevation}
-                                        </span>
-                                    </div>
-                                )}
-                                {listing.sides_length && (
-                                    <div>
-                                        <span className="text-sm font-semibold text-gray-500 block mb-1">
-                                            {t('sidesLength') || 'Dimensions'}
-                                        </span>
-                                        <span className="text-base font-medium text-gray-900">
-                                            {listing.sides_length}
-                                        </span>
-                                    </div>
-                                )}
+                    {(listing.lotissement || listing.lot || listing.index || listing.ilot_size ||
+                        listing.polygone_area || listing.elevation || listing.sides_length) && (
+                            <div className="bg-white border border-gray-200 rounded-lg p-6">
+                                <h2 className="text-xl font-bold text-gray-900 mb-4 pb-3 border-b border-gray-200">
+                                    {t('propertyDetails') || 'Détails du bien'}
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {listing.lotissement && (
+                                        <div>
+                                            <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                                {t('lotissement') || 'Lotissement'}
+                                            </span>
+                                            <span className="text-base font-medium text-gray-900">
+                                                {listing.lotissement}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {listing.lot && listing.lot.length > 0 && (
+                                        <div>
+                                            <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                                {t('lot') || 'Lot'}
+                                            </span>
+                                            <span className="text-base font-medium text-gray-900">
+                                                {listing.lot.join(', ')}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {listing.index && (
+                                        <div>
+                                            <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                                {t('index') || 'Index'}
+                                            </span>
+                                            <span className="text-base font-medium text-gray-900">
+                                                {listing.index}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {listing.polygone_area && (
+                                        <div>
+                                            <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                                {t('area') || 'Superficie'}
+                                            </span>
+                                            <span className="text-base font-medium text-gray-900">
+                                                {listing.polygone_area}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {listing.ilot_size && (
+                                        <div>
+                                            <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                                {t('ilotSize') || 'Taille de l\'îlot'}
+                                            </span>
+                                            <span className="text-base font-medium text-gray-900">
+                                                {listing.ilot_size} m²
+                                            </span>
+                                        </div>
+                                    )}
+                                    {listing.elevation && (
+                                        <div>
+                                            <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                                {t('elevation') || 'Élévation'}
+                                            </span>
+                                            <span className="text-base font-medium text-gray-900">
+                                                {listing.elevation}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {listing.sides_length && (
+                                        <div>
+                                            <span className="text-sm font-semibold text-gray-500 block mb-1">
+                                                {t('sidesLength') || 'Dimensions'}
+                                            </span>
+                                            <span className="text-base font-medium text-gray-900">
+                                                {listing.sides_length}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
                     {/* Client Information Section */}
                     {(listing.client_name || listing.client_phone_number) && (
@@ -328,7 +328,7 @@ export default function ListingPage({ params }: { params: Promise<{ id: string }
                                         <span className="text-sm font-semibold text-gray-500 block mb-1">
                                             {t('clientPhone') || 'Téléphone'}
                                         </span>
-                                        <a 
+                                        <a
                                             href={`tel:${listing.client_phone_number}`}
                                             className="text-base font-medium text-indigo-600 hover:text-indigo-700"
                                         >
